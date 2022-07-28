@@ -1,4 +1,5 @@
 import gspread
+import getpass
 from google.oauth2.service_account import Credentials
 
 # constant variables for google spreadsheet api
@@ -19,6 +20,13 @@ def create_staff():
     """
     new_name = input("Enter a name for a new member of staff:\n")
     print(f"Hi, {new_name}!")
+    password = getpass.getpass("Create a password:")
+    contact = input("Awesome! Enter your contact number:\n")
+    new_staff = [new_name, password, contact]
+    return new_staff
+
+
+create_staff()
 
 
 def get_staff():
@@ -64,5 +72,5 @@ def staff_login():
             print("If you want to create a new user, enter 'new'\n")
 
 
-staff_login()
-print("Move on")
+# staff_login()
+# print("Move on")
