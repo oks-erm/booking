@@ -19,10 +19,10 @@ def write_new_staff_data(new_staff):
     Writes the new user's data to the speadsheet
     """
     try:
-        SHEET.worksheet('staff').append_row(new_staff)
+        SHEET.worksheet('staf').append_row(new_staff)
     except gspread.exceptions.WorksheetNotFound:
         print(
-            f"Database is not available, I couldn't save user {new_staff[0]}"
+            f"\nDatabase is not available, I couldn't save user {new_staff[0]}"
             )
         print("You can continue, but you will need to create this user again")
 
@@ -34,13 +34,10 @@ def create_staff():
     new_name = input("Enter a name for a new member of staff:\n")
     print(f"Hi, {new_name}!")
     password = getpass.getpass("Create a password:")
-    contact = input("Awesome! Enter your contact number:\n")
+    contact = input("Awesome! Enter your contact number:")
     new_staff = [new_name, password, contact]
     write_new_staff_data(new_staff)
     return new_staff
-
-
-create_staff()
 
 
 def get_staff():
@@ -49,33 +46,47 @@ def get_staff():
     """
     try:
         staff_data = SHEET.worksheet('staff').get_all_values()
-        staff = [x[0] for x in staff_data[1:]]
-        return staff
+        return staff_data[1:]
     except gspread.exceptions.WorksheetNotFound:
         print("Sorry, something went wrong accessing database")
         yes_or_no = input("press 1 - Try again?\npress 2 - Enter as new\n")
         if yes_or_no == "1":
             get_staff()
         else:
-            create_staff()      
+            create_staff()
 
 
-def validate_user(name):
-    return True
+def authorise(name):
+    """
+    Checks user's password
+    """
+    for item in staff:
+        if name in item:
+            user = item
+
+    while True:
+        password = getpass.getpass("Password:")
+        if user[0] == name and user[1] == password:
+            print("All good!")
+            return True
+        else:
+            print("The password is not correct! Try again!")
+            continue
+        break
 
 
 def staff_login():
     """
     Logs in a member of staff
     """
-    staff = get_staff()
+    staff_names = [x[0] for x in staff]
     print("\n\n\t\tWelcome to Your Booking System!\n")
     while True:
         entered_name = input(
             "Enter your name or enter 'new' if you are a new member of staff: "
         )
-        if entered_name in staff:
-            if validate_user(entered_name):
+        if entered_name in staff_names:
+            if authorise(entered_name):
                 print(f"Hi, {entered_name}!")
                 break
         elif entered_name.lower() == "new":
@@ -86,5 +97,6 @@ def staff_login():
             print("If you want to create a new user, enter 'new'\n")
 
 
-# staff_login()
-# print("Move on")
+staff = get_staff()
+staff_login()
+print("Move on")
