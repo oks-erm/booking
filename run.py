@@ -14,6 +14,19 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CRED)
 SHEET = GSPREAD_CLIENT.open('My_booking')
 
 
+def write_new_staff_data(new_staff):
+    """
+    Writes the new user's data to the speadsheet
+    """
+    try:
+        SHEET.worksheet('staff').append_row(new_staff)
+    except gspread.exceptions.WorksheetNotFound:
+        print(
+            f"Database is not available, I couldn't save user {new_staff[0]}"
+            )
+        print("You can continue, but you will need to create this user again")
+
+
 def create_staff():
     """
     Creates a new member of Staff
@@ -23,6 +36,7 @@ def create_staff():
     password = getpass.getpass("Create a password:")
     contact = input("Awesome! Enter your contact number:\n")
     new_staff = [new_name, password, contact]
+    write_new_staff_data(new_staff)
     return new_staff
 
 
