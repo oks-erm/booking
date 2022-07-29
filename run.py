@@ -100,7 +100,6 @@ def staff_login():
     """
     Logs in a member of staff
     """
-    staff_names = [x[0] for x in staff]
     print("\n\n\t\tWelcome to Your Booking System!\n")
     while True:
         entered_name = input(
@@ -123,6 +122,24 @@ def staff_login():
     return current_user
 
 
+def staff_info():
+    """
+    Prints info about members of staff: search by name of a full list.
+    """
+    while True:
+        print("\nEnter 'all' to see the full list")
+        request = input("Or enter name to search by name: ")
+        if request == "all":
+            for member in staff:
+                print(f"\n{member[0]} : {member[2]}")
+            break
+        elif request in staff_names:
+            i = staff_names.index(request)
+            print(f"\n{staff[i][0]} : {staff[i][2]}")
+            break
+        print("Nothing found, try again or view the full list")
+
+
 def start_menu(user):
     """
     Displays start menu after the user is logged in
@@ -141,13 +158,13 @@ def start_menu(user):
             print("Customers")
             break
         elif choose == "3":
-            for member in staff:
-                print(f"\n{member[0]} : {member[2]}")
+            staff_info()
             break
-        else:
-            print("Incorrect input. Please, choose 1,2 or 3\n")
+        
+        print("Incorrect input. Please, choose 1,2 or 3\n")
 
 
 staff = get_staff()
+staff_names = [x[0] for x in staff]
 the_user = staff_login()
 start_menu(the_user)
