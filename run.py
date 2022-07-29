@@ -128,7 +128,7 @@ def staff_menu():
             staff_info()
             break
         if user_inp == "2":
-            # edit_staff(user)
+            edit_staff(the_user)
             break
         if user_inp == "x":
             start_menu(the_user)
@@ -151,7 +151,43 @@ def staff_info():
             print(f"\n{staff[0][i]} : {staff[2][i]}")
             break
         print("Nothing found, try again or view the full list")
-    start_menu(the_user)
+    staff_menu()
+
+
+def edit_staff(user):
+    """
+    Edits instance of the current user. If the user wants
+    to change a password or contact"
+    """
+    while True:
+        user_inp = input("\t\tpress 1 - Change password\n\
+                press 2 - Change contact\n\
+                press x - <==\n\t\t")
+        if user_inp == "1" or user_inp == "2":
+            if user_inp == "2":
+                attr = "CONTACT"
+                new_value = input("\nEnter new contact: ")
+            if user_inp == "1":
+                attr = "PASSWORD"
+                new_value = getpass.getpass("\nNew password: ")
+            change_staff_attr(user, attr, new_value)
+            break
+        if user_inp == "x":
+            staff_menu()
+            break
+
+
+def change_staff_attr(user, attr, value):
+    """
+    Updates attributes of instance of Staff and
+    writes updates to spreadsheet. Takes three
+    arguments: (object to update, attribute to update,
+    new value)).
+    """
+    setattr(user, attr, value)
+    row = SHEET.worksheet('staff').find(user.name).row
+    col = SHEET.worksheet('staff').find(attr).col
+    SHEET.worksheet('staff').update_cell(row, col, ("'"+value))
 
 
 def bookings_menu():
@@ -162,7 +198,7 @@ def bookings_menu():
         user_inp = input(
             "\n\tpress 1 - View bookings\n\
         press 2 - Add a booking\n\
-        press 3 - Edit a booking\
+        press 3 - Edit a booking\n\
         press x - <==\n\t")
         if user_inp == "1":
             # view_bookings()
