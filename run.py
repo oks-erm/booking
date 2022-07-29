@@ -112,8 +112,27 @@ def staff_login():
         print(f"Sorry, there is no user '{entered_name}'.")
         print("If you want to create a new user, enter 'new'\n")
 
-    print(current_user)
     return current_user
+
+
+def staff_menu():
+    """
+    Displays staff menu
+    """
+    while True:
+        user_inp = input(
+            "\n\tpress 1 - Staff info\n\
+        press 2 - Edit your info\n\
+        press x - <==\n\t")
+        if user_inp == "1":
+            staff_info()
+            break
+        if user_inp == "2":
+            # edit_staff(user)
+            break
+        if user_inp == "x":
+            start_menu(the_user)
+            break
 
 
 def staff_info():
@@ -163,22 +182,22 @@ def start_menu(user):
     """
     Displays start menu after the user is logged in
     """
-    print(f"What do you want to do, {user.name}?")
+    print(f"\nWhat do you want to do, {user.name}?")
     while True:
-        choose = input(
+        user_inp = input(
             "press 1 - Bookings\npress 2 - Customers\npress 3 - Staff info\n"
             )
-        if choose == "1":
+        if user_inp == "1":
             bookings_menu()
             break
-        elif choose == "2":
+        if user_inp == "2":
             # customers_menu()
             print("Customers")
             break
-        elif choose == "3":
-            staff_info()
+        if user_inp == "3":
+            staff_menu()
             break
-        
+
         print("Incorrect input. Please, choose 1,2 or 3\n")
 
 
