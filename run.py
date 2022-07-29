@@ -42,7 +42,7 @@ def write_new_staff_data(new_staff):
     """
     try:
         update_worksheet(new_staff, "staff")
-    except gspread.exceptions.WorksheetNotFound:
+    except gspread.exceptions.GSpreadException:
         print(
             f"\nDatabase is not available, I couldn't save user {new_staff[0]}"
             )
@@ -67,8 +67,9 @@ def get_staff():
     """
     try:
         staff_data = SHEET.worksheet('staff').get_all_values()
-        return staff_data[1:]
-    except gspread.exceptions.WorksheetNotFound:
+        # data reorganised by columns
+        return [[row[i] for row in staff_data[1:]] for i in range(3)]
+    except gspread.exceptions.GSpreadException:
         print("Sorry, something went wrong accessing database")
         yes_or_no = input("press 1 - Try again?\npress 2 - Enter as new\n")
         if yes_or_no == "1":
@@ -81,19 +82,14 @@ def authorise(name):
     """
     Checks the user's password
     """
-    for item in staff:
-        if name in item:
-            user = item
-
-    while True:
+    idx = staff[0].index(name)
+    for i in range(4):
+        print(f"Attempt {i+1} of 4")
         password = getpass.getpass("Password:")
-        if user[0] == name and user[1] == password:
+        if staff[0][idx] == name and staff[1][idx] == password:
             print("All good!\n")
-            return user
-        else:
-            print("The password is not correct! Try again!\n")
-            continue
-        break
+            return True
+        print("The password is not correct! Try again!\n")
 
 
 def staff_login():
@@ -105,18 +101,18 @@ def staff_login():
         entered_name = input(
             "Enter your name or enter 'new' if you are a new member of staff: "
         )
-        if entered_name in staff_names:
-            user = authorise(entered_name)
-            if len(user) == 3:
-                current_user = Staff(user[0], user[2])
-                break
-        elif entered_name.lower() == "new":
-            create_staff()
+        if entered_name in staff[0]:
+            if authorise(entered_name) is not True:
+                continue
+            current_user = Staff(entered_name, staff[2][staff[0].index(entered_name)])
             break
-        else:
-            print(f"Sorry, there is no user '{entered_name}'.")
-            print("If you want to create a new user, enter 'new'\n")
+        if entered_name.lower() == "new":
+            current_user = create_staff()
+            break
+        print(f"Sorry, there is no user '{entered_name}'.")
+        print("If you want to create a new user, enter 'new'\n")
 
+    print(current_user)
     return current_user
 
 
@@ -128,14 +124,15 @@ def staff_info():
         print("\nEnter 'all' to see the full list")
         request = input("Or enter name to search by name: ")
         if request == "all":
-            for member in staff:
-                print(f"\n{member[0]} : {member[2]}")
+            for i in range(len(staff[0])):
+                print(f"\n{staff[0][i]} : {staff[2][i]}")
             break
-        elif request in staff_names:
-            i = staff_names.index(request)
-            print(f"\n{staff[i][0]} : {staff[i][2]}")
+        if request in staff[0]:
+            i = staff[0].index(request)
+            print(f"\n{staff[0][i]} : {staff[2][i]}")
             break
         print("Nothing found, try again or view the full list")
+    start_menu(the_user)
 
 
 def bookings_menu():
@@ -151,11 +148,11 @@ def bookings_menu():
             # view_bookings()
             print("View")
             break
-        elif user_inp == "2":
+        if user_inp == "2":
             # new_booking()
             print("Add")
             break
-        elif user_inp == "3":
+        if user_inp == "3":
             # edit_booking()
             print("Edit")
             break
@@ -186,6 +183,7 @@ def start_menu(user):
 
 
 staff = get_staff()
-staff_names = [x[0] for x in staff]
+print(staff)
 the_user = staff_login()
+print(the_user.describe())
 start_menu(the_user)
