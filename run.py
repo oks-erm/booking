@@ -162,7 +162,8 @@ def bookings_menu():
         user_inp = input(
             "\n\tpress 1 - View bookings\n\
         press 2 - Add a booking\n\
-        press 3 - Edit a booking\n\t")
+        press 3 - Edit a booking\
+        press x - <==\n\t")
         if user_inp == "1":
             # view_bookings()
             print("View")
@@ -175,7 +176,10 @@ def bookings_menu():
             # edit_booking()
             print("Edit")
             break
-        print("\tInvalid input. Choose 1,2 or 3")
+        if user_inp == "x":
+            start_menu(the_user)
+            break
+        print("\tInvalid input. Use one of the options above")
 
 
 def start_menu(user):
