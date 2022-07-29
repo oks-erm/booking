@@ -88,7 +88,7 @@ def authorise(name):
     while True:
         password = getpass.getpass("Password:")
         if user[0] == name and user[1] == password:
-            print("\nAll good!")
+            print("All good!\n")
             return user
         else:
             print("The password is not correct! Try again!\n")
@@ -124,10 +124,30 @@ def staff_login():
 
 
 def start_menu(user):
-    print(user.describe())
-    
+    """
+    Displays start menu after the user is logged in
+    """
+    print(f"What do you want to do, {user.name}?")
+    while True:
+        choose = input(
+            "press 1 - Bookings\npress 2 - Customers\npress 3 - Staff info\n"
+            )
+        if choose == "1":
+            # bookings_menu()
+            print("Bookings")
+            break
+        elif choose == "2":
+            # customers_menu()
+            print("Customers")
+            break
+        elif choose == "3":
+            for member in staff:
+                print(f"\n{member[0]} : {member[2]}")
+            break
+        else:
+            print("Incorrect input. Please, choose 1,2 or 3\n")
+
 
 staff = get_staff()
 the_user = staff_login()
 start_menu(the_user)
-
