@@ -106,11 +106,9 @@ def staff_login():
             "Enter your name or enter 'new' if you are a new member of staff: "
         )
         if entered_name in staff_names:
-            # global current_user
             user = authorise(entered_name)
             if len(user) == 3:
                 current_user = Staff(user[0], user[2])
-                # print(current_user.describe())
                 break
         elif entered_name.lower() == "new":
             create_staff()
@@ -140,6 +138,30 @@ def staff_info():
         print("Nothing found, try again or view the full list")
 
 
+def bookings_menu():
+    """
+    Displays booking menu
+    """
+    while True:
+        user_inp = input(
+            "\n\tpress 1 - View bookings\n\
+        press 2 - Add a booking\n\
+        press 3 - Edit a booking\n\t")
+        if user_inp == "1":
+            # view_bookings()
+            print("View")
+            break
+        elif user_inp == "2":
+            # new_booking()
+            print("Add")
+            break
+        elif user_inp == "3":
+            # edit_booking()
+            print("Edit")
+            break
+        print("\tInvalid input. Choose 1,2 or 3")
+
+
 def start_menu(user):
     """
     Displays start menu after the user is logged in
@@ -150,8 +172,7 @@ def start_menu(user):
             "press 1 - Bookings\npress 2 - Customers\npress 3 - Staff info\n"
             )
         if choose == "1":
-            # bookings_menu()
-            print("Bookings")
+            bookings_menu()
             break
         elif choose == "2":
             # customers_menu()
