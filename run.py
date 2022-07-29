@@ -14,12 +14,34 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CRED)
 SHEET = GSPREAD_CLIENT.open('My_booking')
 
 
+class Staff:
+    """
+    Creates instance of Staff
+    """
+    def __init__(self, name, contact):
+        self.name = name
+        self.contact = contact
+
+    def describe(self):
+        """
+        Prints info about a member of staff
+        """
+        return f"User: {self.name}, contact: {self.contact}\n"
+
+
+def update_worksheet(data, worksheet):
+    """
+    Writes data passed as an argument to a worksheet passed as an argument.
+    """
+    SHEET.worksheet(worksheet).append_row(data)
+
+
 def write_new_staff_data(new_staff):
     """
     Writes the new user's data to the speadsheet
     """
     try:
-        SHEET.worksheet('staf').append_row(new_staff)
+        update_worksheet(new_staff, "staff")
     except gspread.exceptions.WorksheetNotFound:
         print(
             f"\nDatabase is not available, I couldn't save user {new_staff[0]}"
@@ -35,9 +57,8 @@ def create_staff():
     print(f"Hi, {new_name}!")
     password = getpass.getpass("Create a password:")
     contact = input("Awesome! Enter your contact number:")
-    new_staff = [new_name, password, contact]
-    write_new_staff_data(new_staff)
-    return new_staff
+    write_new_staff_data([new_name, password, contact])
+    return Staff(new_name, contact)
 
 
 def get_staff():
@@ -58,7 +79,7 @@ def get_staff():
 
 def authorise(name):
     """
-    Checks user's password
+    Checks the user's password
     """
     for item in staff:
         if name in item:
@@ -67,10 +88,10 @@ def authorise(name):
     while True:
         password = getpass.getpass("Password:")
         if user[0] == name and user[1] == password:
-            print("All good!")
-            return True
+            print("\nAll good!")
+            return user
         else:
-            print("The password is not correct! Try again!")
+            print("The password is not correct! Try again!\n")
             continue
         break
 
@@ -86,8 +107,11 @@ def staff_login():
             "Enter your name or enter 'new' if you are a new member of staff: "
         )
         if entered_name in staff_names:
-            if authorise(entered_name):
-                print(f"Hi, {entered_name}!")
+            # global current_user
+            user = authorise(entered_name)
+            if len(user) == 3:
+                current_user = Staff(user[0], user[2])
+                # print(current_user.describe())
                 break
         elif entered_name.lower() == "new":
             create_staff()
@@ -96,7 +120,14 @@ def staff_login():
             print(f"Sorry, there is no user '{entered_name}'.")
             print("If you want to create a new user, enter 'new'\n")
 
+    return current_user
+
+
+def start_menu(user):
+    print(user.describe())
+    
 
 staff = get_staff()
-staff_login()
-print("Move on")
+the_user = staff_login()
+start_menu(the_user)
+
