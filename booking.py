@@ -1,5 +1,4 @@
 import re
-from datetime import date
 from spreadsheet import get_worksheet
 
 
@@ -8,12 +7,15 @@ bookings_data = get_worksheet("bookings")
 
 def change_date_format(my_date):
     """
-    ...
+    Changes date format from YYYY-MM-DD to DD-MM-YYYY
     """
     return re.sub(r'(\d{4})-(\d{1,2})-(\d{1,2})', '\\3-\\2-\\1', my_date)
 
 
 def pretty_print(func):
+    """
+    Frames print output with lines of * symbol.
+    """
     def wrap_func(*args, **kwargs):
         print('*' * 55)
         func(*args, **kwargs)
@@ -22,14 +24,12 @@ def pretty_print(func):
 
 
 @pretty_print
-def view_bookings(user_input):
+def print_bookings(period, string):
     """
-    ...
+    Select bookings data out of given range and prints it.
     """
-    if user_input == "1":
-        today = change_date_format(str(date.today()))
-        today_bookings = [x for x in bookings_data if x[0] == today]
-        print(f"\tYou have {len(today_bookings)} booking(s) today {today}:\n")
-        for item in today_bookings:
-            print(f"\t{item[1]}: {item[2]} ({item[3]} people)")
-    
+    bookings = [x for x in bookings_data if x[0] == period or x[0] in period]
+    print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
+    for item in bookings:
+        print(f"\t{item[0]} {item[1]}: {item[2]} ({item[3]} people)")
+

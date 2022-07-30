@@ -20,14 +20,16 @@ class Staff:
 
 def transpose_data(data_list):
     """
-    ...
+    Transposes 2d list.
     """
     return [[row[i] for row in data_list] for i in range(3)]
 
 
 def get_staff_data():
     """
-    ...
+    Fetches staff data from worksheet
+    and reorganises it by columns. Returns list
+    of lists of columns data.
     """
     staff = get_worksheet("staff")
     return transpose_data(staff)

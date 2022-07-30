@@ -1,8 +1,10 @@
 import sys
 import getpass
-from staff import Staff, create_staff, get_staff_data, print_staff_info
+from datetime import date, timedelta
+from staff import (Staff, create_staff, get_staff_data, print_staff_info,
+                   transpose_data)
 from spreadsheet import change_staff_attr
-from booking import view_bookings
+from booking import change_date_format, print_bookings, bookings_data
 
 
 def authorise(name, data_list):
@@ -100,13 +102,29 @@ def bookings_menu(user):
 
 def view_bookings_menu(user):
     """
-    ...
+    Displays menu to choose bookings for what period
+    you want to print. Accepts the user's choice.
     """
+    today = change_date_format(str(date.today()))
+    tomorrow = change_date_format(str(date.today() + timedelta(days=1)))
+    week = [today]
+    for i in range(1, 7):
+        week.append(change_date_format(str(date.today() + timedelta(days=i))))
+    all_time = transpose_data(bookings_data)[0]
     while True:
         user_inp = input("\n\t\tpress 1 - Today\n\t\tpress 2 - Tomorrow\n\
                 press 3 - Next 7 days\n\t\tpress 4 - All\n\t\t")
-        if user_inp in ["1", "2", "3", "4"]:
-            view_bookings(user_inp)
+        if user_inp == "1":
+            print_bookings(today, "today")
+            break
+        if user_inp == "2":
+            print_bookings(tomorrow, "tomorrow")
+            break
+        if user_inp == "3":
+            print_bookings(week, "the upcoming week")
+            break
+        if user_inp == "4":
+            print_bookings(all_time, "all time")
             break
         print("\t\tInvalid input!")
     bookings_menu(user)
