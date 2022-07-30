@@ -1,3 +1,4 @@
+import sys
 import getpass
 from staff import Staff, create_staff, get_staff_data, print_staff_info
 from spreadsheet import change_staff_attr
@@ -51,7 +52,7 @@ def start_menu(user):
     while True:
         user_inp = input(
             "press 1 - Bookings\npress 2 - Customers\n\
-press 3 - Staff info\n"
+press 3 - Staff info\npress x - Exit\n"
             )
         if user_inp == "1":
             bookings_menu(user)
@@ -63,6 +64,8 @@ press 3 - Staff info\n"
         if user_inp == "3":
             staff_menu(user)
             break
+        if user_inp == "x":
+            sys.exit()
 
         print("Incorrect input. Please, choose 1,2 or 3\n")
 
