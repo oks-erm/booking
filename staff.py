@@ -1,5 +1,6 @@
 import getpass
 from spreadsheet import get_worksheet, update_worksheet
+from booking import pretty_print
 
 
 class Staff:
@@ -44,6 +45,7 @@ def create_staff():
     return Staff(new_name, contact)
 
 
+@pretty_print
 def print_staff_info(inp, staff_list):
     """
     ...

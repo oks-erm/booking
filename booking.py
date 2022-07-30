@@ -13,6 +13,15 @@ def change_date_format(my_date):
     return re.sub(r'(\d{4})-(\d{1,2})-(\d{1,2})', '\\3-\\2-\\1', my_date)
 
 
+def pretty_print(func):
+    def wrap_func(*args, **kwargs):
+        print('*' * 55)
+        func(*args, **kwargs)
+        print("*" * 55)
+    return wrap_func
+
+
+@pretty_print
 def view_bookings(user_input):
     """
     ...
