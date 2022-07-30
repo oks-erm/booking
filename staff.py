@@ -14,7 +14,7 @@ class Staff:
         """
         Prints info about a member of staff
         """
-        return f"User: {self.name}, contact: {self.contact}\n"
+        return f"User: {self.name}, contact: {self.contact}"
 
 
 def transpose_data(data_list):
@@ -24,7 +24,7 @@ def transpose_data(data_list):
     return [[row[i] for row in data_list] for i in range(3)]
 
 
-def staff_data():
+def get_staff_data():
     """
     ...
     """
@@ -43,3 +43,14 @@ def create_staff():
     update_worksheet([new_name, password, contact], "staff")
     return Staff(new_name, contact)
 
+
+def print_staff_info(inp, staff_list):
+    """
+    ...
+    """
+    if inp == "all":
+        for i in range(len(staff_list[0])):
+            print(f"{staff_list[0][i]} : {staff_list[2][i]}")
+    if inp in staff_list[0]:
+        i = staff_list[0].index(inp)
+        print(f"{staff_list[0][i]} : {staff_list[2][i]}")

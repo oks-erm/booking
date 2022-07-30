@@ -1,6 +1,7 @@
 import getpass
-from staff import Staff, create_staff, staff_data
+from staff import Staff, create_staff, get_staff_data, print_staff_info
 from spreadsheet import change_staff_attr
+from booking import view_bookings
 
 
 def authorise(name, data_list):
@@ -49,7 +50,8 @@ def start_menu(user):
     print(f"\nWhat do you want to do, {user.name}?")
     while True:
         user_inp = input(
-            "press 1 - Bookings\npress 2 - Customers\npress 3 - Staff info\n"
+            "press 1 - Bookings\npress 2 - Customers\n\
+press 3 - Staff info\n"
             )
         if user_inp == "1":
             bookings_menu(user)
@@ -76,8 +78,7 @@ def bookings_menu(user):
         press 3 - Edit a booking\n\
         press x - <==\n\t")
         if user_inp == "1":
-            # view_bookings()
-            print("View")
+            view_bookings_menu(user)
             break
         if user_inp == "2":
             # new_booking()
@@ -91,6 +92,21 @@ def bookings_menu(user):
             start_menu(user)
             break
         print("\tInvalid input. Use one of the options above")
+    start_menu(user)
+
+
+def view_bookings_menu(user):
+    """
+    ...
+    """
+    while True:
+        user_inp = input("\n\t\tpress 1 - Today\n\t\tpress 2 - Tomorrow\n\
+                press 3 - Next 7 days\n\t\tpress 4 - All\n\t\t")
+        if user_inp in ["1", "2", "3", "4"]:
+            view_bookings(user_inp)
+            break
+        print("\t\tInvalid input!")
+    bookings_menu(user)
 
 
 def staff_menu(user):
@@ -121,13 +137,8 @@ def staff_info_menu(staff_list, user):
     while True:
         print("\nEnter 'all' to see the full list")
         request = input("Or enter name to search by name: ")
-        if request == "all":
-            for i in range(len(staff_list[0])):
-                print(f"\n{staff_list[0][i]} : {staff_list[2][i]}")
-            break
-        if request in staff_list[0]:
-            i = staff_list[0].index(request)
-            print(f"\n{staff_list[0][i]} : {staff_list[2][i]}")
+        if request in staff_list[0] or request == "all":
+            print_staff_info(request, staff_list)
             break
         print("Nothing found, try again or view the full list")
     staff_menu(user)
@@ -157,8 +168,7 @@ def edit_staff_menu(user):
     staff_menu(user)
 
 
-all_staff = staff_data()
-print(all_staff)
+all_staff = get_staff_data()
 the_user = staff_login(all_staff)
 print(the_user.describe())
 start_menu(the_user)
