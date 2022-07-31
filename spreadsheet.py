@@ -1,3 +1,6 @@
+"""
+Includes functions related to interactions with Goggle Spreadsheets API.
+"""
 import sys
 from google.oauth2.service_account import Credentials
 import gspread

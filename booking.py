@@ -1,3 +1,6 @@
+"""
+Includes bookings specific functions and classes.
+"""
 import re
 from datetime import datetime, date, timedelta
 from spreadsheet import get_worksheet
@@ -28,7 +31,7 @@ def pretty_print(func):
 def print_bookings(period, string):
     """
     Select bookings data out of given range and prints it.
-    Accepts a period as a variable or list and a string to name 
+    Accepts an object defining time range and a string to name
     it in the output.
     """
     yesterday = (date.today()-timedelta(days=1))
@@ -38,4 +41,3 @@ def print_bookings(period, string):
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
     for item in bookings:
         print(f"\t{item[0]} {item[1]}: {item[2]} ({item[3]} people)")
-

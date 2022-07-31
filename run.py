@@ -1,3 +1,6 @@
+"""
+Main module, includes main logic flow and menus.
+"""
 import sys
 import getpass
 from datetime import date, timedelta
@@ -193,4 +196,3 @@ all_staff = get_staff_data()
 the_user = staff_login(all_staff)
 print(the_user.describe())
 start_menu(the_user)
-

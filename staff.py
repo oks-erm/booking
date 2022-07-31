@@ -1,3 +1,6 @@
+"""
+Includes staff specific functions and classes.
+"""
 import getpass
 from spreadsheet import get_worksheet, update_worksheet
 from booking import pretty_print
