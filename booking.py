@@ -3,10 +3,10 @@ Includes bookings specific functions and classes.
 """
 import re
 from datetime import datetime, date, timedelta
-from spreadsheet import get_worksheet
+from spreadsheet import get_data
 
 
-bookings_data = get_worksheet("bookings")
+bookings_data = get_data("bookings")
 
 
 def change_date_format(my_date):
@@ -35,9 +35,12 @@ def print_bookings(period, string):
     it in the output.
     """
     yesterday = (date.today()-timedelta(days=1))
-    bookings = [x for x in bookings_data if (x[0] == period or x[0] in period)
-                and (datetime.strptime(x[0], "%d-%m-%Y").date() > yesterday)]
-    bookings.sort(key=lambda x: datetime.strptime(x[0], "%d-%m-%Y"))
+
+    bookings = [x for x in bookings_data if (x["DATE"] == period or x["DATE"] in period)
+                and (datetime.strptime(x["DATE"], "%d-%m-%Y").date() > yesterday)]
+
+    bookings.sort(key=lambda x: datetime.strptime(x["DATE"], "%d-%m-%Y"))
+
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
     for item in bookings:
-        print(f"\t{item[0]} {item[1]}: {item[2]} ({item[3]} people)")
+        print(f"\t{item['DATE']} {item['TIME']}: {item['CUSTOMER']} ({item['PEOPLE']} people)")

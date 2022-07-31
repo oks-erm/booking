@@ -24,7 +24,7 @@ def get_worksheet(worksheet):
     try:
         data = SHEET.worksheet(worksheet).get_all_values()
         # data reorganised by columns
-        return data[1:]
+        return data
     except gspread.exceptions.GSpreadException:
         print("\nSorry, something went wrong accessing database.")
         inp = input("press 1 - Try again\npress x - Exit\n")
@@ -46,15 +46,29 @@ def update_worksheet(data, worksheet):
         print("Saved successfully!")
 
 
-def change_staff_attr(user, attr, value):
+def get_data(worksheet):
+    """
+    Creates a list of dictionaries from data.
+    """
+    response = get_worksheet(worksheet)
+    keys = response[0]
+    data = []
+    for item in response[1:]:
+        data.append(dict(zip(keys, item)))
+    return data
+
+
+def update_staff_data(user, attr, value):
     """
     Updates attributes of instance of Staff and
     writes updates to spreadsheet. Takes three
     arguments: (object to update, attribute to update,
     new value)).
     """
-    setattr(user, attr, value)
-    row = SHEET.worksheet('staff').find(user.name).row
+    row = SHEET.worksheet('staff').find(user["NAME"]).row
     col = SHEET.worksheet('staff').find(attr).col
     SHEET.worksheet('staff').update_cell(row, col, ("'"+value))
     print("\t\tStaff info was successfully updated!")
+    user[attr] = value
+    return user
+

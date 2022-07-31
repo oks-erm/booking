@@ -4,26 +4,30 @@ Main module, includes main logic flow and menus.
 import sys
 import getpass
 from datetime import date, timedelta
-from staff import (Staff, create_staff, print_staff_info,
-                   transpose_data)
-from spreadsheet import change_staff_attr, get_worksheet
+from staff import create_staff, print_staff_info
+from spreadsheet import update_staff_data, get_data
 from booking import change_date_format, print_bookings, bookings_data
 
 
-def authorise(name, data_list):
+def search(name, data):
+    for el in data:
+        if el['NAME'] == name:
+            return el
+
+
+def authorise(name, data):
     """
     Checks the user's password
     """
-    idx = data_list[0].index(name)
     for i in range(4):
         print(f"Attempt {i+1} of 4")
         password = getpass.getpass("Password:")
-        if data_list[0][idx] == name and data_list[1][idx] == password:
+        check_user = [item for item in data if item["NAME"] == name][0]
+        if check_user["PASSWORD"] == password:
             print("All good!\n")
             return True
         print("The password is not correct! Try again!\n")
-        return False
-
+        
 
 def staff_login(data):
     """
@@ -34,27 +38,26 @@ def staff_login(data):
         entered_name = input(
             "Enter your name or enter 'new' if you are a new member of staff: "
         )
-        if entered_name in data[0]:
+        names = [dct['NAME'] for dct in data]
+        if entered_name in names:
             if authorise(entered_name, data) is not True:
                 continue
-            current_user = Staff(
-                entered_name, data[2][data[0].index(entered_name)]
-                )
+            user = [item for item in data if item['NAME'] == entered_name][0]
             break
         if entered_name.lower() == "new":
-            current_user = create_staff()
+            user = create_staff()
             break
         print(f"Sorry, there is no user '{entered_name}'.")
         print("If you want to create a new user, enter 'new'\n")
 
-    return current_user
+    return user
 
 
 def start_menu(user):
     """
     Displays start menu after the user is logged in
     """
-    print(f"\nWhat do you want to do, {user.name}?")
+    print(f"\nWhat do you want to do, {user.get('NAME')}?")
     while True:
         user_inp = input(
             "press 1 - Bookings\npress 2 - Customers\n\
@@ -114,7 +117,8 @@ def view_bookings_menu(user):
     week = [today]
     for i in range(1, 7):
         week.append(change_date_format(str(date.today() + timedelta(days=i))))
-    all_time = transpose_data(bookings_data)[0]
+    all_time = [dct['DATE'] for dct in bookings_data]
+    print(all_time)     # change here!!!
     while True:
         user_inp = input("\n\t\tpress 1 - Today\n\t\tpress 2 - Tomorrow\n\
                 press 3 - Next 7 days\n\t\tpress 4 - All\n\t\t")
@@ -145,7 +149,7 @@ def customers_menu(user):
         press 3 - Stats\n\
         press x - <==\n\t")
         if user_inp == "1":
-            # find_customer()
+            user_inp = input("Enter name: ")
             break
         if user_inp == "2":
             # print_customers()
@@ -170,7 +174,7 @@ def staff_menu(user):
         press 2 - Edit your info\n\
         press x - <==\n\t")
         if user_inp == "1":
-            staff_info_menu(all_staff, user)
+            staff_info_menu(staff, user)
             break
         if user_inp == "2":
             edit_staff_menu(user)
@@ -188,7 +192,7 @@ def staff_info_menu(staff_list, user):
     while True:
         print("\nEnter 'all' to see the full list")
         request = input("Or enter name to search by name: ")
-        if request in staff_list[0] or request == "all":
+        if request in [dct['NAME'] for dct in staff_list] or request == "all":
             print_staff_info(request, staff_list)
             break
         print("Nothing found, try again or view the full list")
@@ -211,7 +215,11 @@ def edit_staff_menu(user):
             if user_inp == "1":
                 attr = "PASSWORD"
                 new_value = getpass.getpass("\n\t\tNew password: ")
-            change_staff_attr(user, attr, new_value)
+            updated_user = update_staff_data(user, attr, new_value)
+            for dict in staff:
+                if dict["NAME"] == updated_user["NAME"]:
+                    dict.update(updated_user)
+            
             break
         if user_inp == "x":
             break
@@ -219,8 +227,8 @@ def edit_staff_menu(user):
     staff_menu(user)
 
 
-staff = get_worksheet("staff")
-all_staff = transpose_data(staff)
-the_user = staff_login(all_staff)
-print(the_user.describe())
+staff = get_data("staff")
+print(staff)
+the_user = staff_login(staff)
+print(the_user)
 start_menu(the_user)
