@@ -64,7 +64,7 @@ press 3 - Staff info\npress x - Exit\n"
             bookings_menu(user)
             break
         if user_inp == "2":
-            # customers_menu()
+            customers_menu(user)
             print("Customers")
             break
         if user_inp == "3":
@@ -132,6 +132,32 @@ def view_bookings_menu(user):
             break
         print("\t\tInvalid input!")
     bookings_menu(user)
+
+
+def customers_menu(user):
+    """
+    Displays customers menu.
+    """
+    while True:
+        user_inp = input(
+            "\n\tpress 1 - View a customer\n\
+        press 2 - List of customers\n\
+        press 3 - Stats\n\
+        press x - <==\n\t")
+        if user_inp == "1":
+            # find_customer()
+            break
+        if user_inp == "2":
+            # print_customers()
+            break
+        if user_inp == "3":
+            # customers_stats()
+            break
+        if user_inp == "x":
+            start_menu(user)
+            break
+        print("\tInvalid input. Use one of the options above")
+    start_menu(user)
 
 
 def staff_menu(user):
