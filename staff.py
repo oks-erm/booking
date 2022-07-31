@@ -2,7 +2,7 @@
 Includes staff specific functions and classes.
 """
 import getpass
-from spreadsheet import get_worksheet, update_worksheet
+from spreadsheet import update_worksheet
 from booking import pretty_print
 
 
@@ -26,16 +26,6 @@ def transpose_data(data_list):
     Transposes 2d list.
     """
     return [[row[i] for row in data_list] for i in range(3)]
-
-
-def get_staff_data():
-    """
-    Fetches staff data from worksheet
-    and reorganises it by columns. Returns list
-    of lists of columns data.
-    """
-    staff = get_worksheet("staff")
-    return transpose_data(staff)
 
 
 def create_staff():

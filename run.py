@@ -4,9 +4,9 @@ Main module, includes main logic flow and menus.
 import sys
 import getpass
 from datetime import date, timedelta
-from staff import (Staff, create_staff, get_staff_data, print_staff_info,
+from staff import (Staff, create_staff, print_staff_info,
                    transpose_data)
-from spreadsheet import change_staff_attr
+from spreadsheet import change_staff_attr, get_worksheet
 from booking import change_date_format, print_bookings, bookings_data
 
 
@@ -192,7 +192,8 @@ def edit_staff_menu(user):
     staff_menu(user)
 
 
-all_staff = get_staff_data()
+staff = get_worksheet("staff")
+all_staff = transpose_data(staff)
 the_user = staff_login(all_staff)
 print(the_user.describe())
 start_menu(the_user)
