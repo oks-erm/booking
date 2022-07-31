@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 from spreadsheet import get_worksheet
 
 
@@ -27,8 +28,12 @@ def pretty_print(func):
 def print_bookings(period, string):
     """
     Select bookings data out of given range and prints it.
+    Accepts a period as a variable or list and a string to name 
+    it in the output.
     """
     bookings = [x for x in bookings_data if x[0] == period or x[0] in period]
+    bookings.sort(key=lambda x: datetime.strptime(x[0], "%d-%m-%Y"))
+    print(bookings)
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
     for item in bookings:
         print(f"\t{item[0]} {item[1]}: {item[2]} ({item[3]} people)")
