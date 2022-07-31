@@ -22,6 +22,7 @@ def authorise(name, data_list):
             print("All good!\n")
             return True
         print("The password is not correct! Try again!\n")
+        return False
 
 
 def staff_login(data):
