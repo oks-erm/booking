@@ -9,6 +9,16 @@ from spreadsheet import get_data
 bookings_data = get_data("bookings")
 
 
+def search(name, data):
+    """
+    Find and returns an element from data
+    that has a requested value of NAME.
+    """
+    for el in data:
+        if el['NAME'] == name:
+            return el
+
+
 def change_date_format(my_date):
     """
     Changes date format from YYYY-MM-DD to DD-MM-YYYY
@@ -34,13 +44,13 @@ def print_bookings(period, string):
     Accepts an object defining time range and a string to name
     it in the output.
     """
-    yesterday = (date.today()-timedelta(days=1))
-    bookings = [x for x in bookings_data 
-                if (x["DATE"] == period or x["DATE"] in period)
+    yesterday = date.today()-timedelta(days=1) 
+    bookings = [x for x in bookings_data if (x["DATE"] == period or x["DATE"] in period)
                 and (datetime.strptime(x["DATE"], "%d-%m-%Y").date()
                      > yesterday)]
+
     bookings.sort(key=lambda x: datetime.strptime(x["DATE"], "%d-%m-%Y"))
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
     for item in bookings:
-        print(f"\t{item['DATE']} {item['TIME']} - \
+        print(f"\t{item['DATE'][:5]} - {item['TIME']} - \
 {item['CUSTOMER']} ({item['PEOPLE']} ppl) added by {item['CREATED']}")

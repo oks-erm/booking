@@ -6,17 +6,7 @@ import getpass
 from datetime import date, timedelta
 from staff import create_staff, print_staff_info
 from spreadsheet import update_staff_data, get_data
-from booking import change_date_format, print_bookings, bookings_data
-
-
-def search(name, data):
-    """
-    Find and returns an element from data
-    that has a requested value of NAME.
-    """
-    for el in data:
-        if el['NAME'] == name:
-            return el
+from booking import change_date_format, print_bookings, bookings_data, search
 
 
 def authorise(name, data):
