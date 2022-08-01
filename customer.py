@@ -3,9 +3,9 @@ Includes customers specific functions.
 """
 import csv
 from datetime import date, datetime
+import matplotlib.pyplot as plt
 from spreadsheet import get_data, update_worksheet, get_worksheet
 from booking import pretty_print
-
 
 
 KEYS = get_data("customers")[0]
@@ -82,7 +82,7 @@ def age(birthdate):
     """
     today = date.today()
     age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
-    return age
+    return str(age)
 
 
 def data_for_stats():
@@ -92,17 +92,26 @@ def data_for_stats():
     data = get_worksheet("customers")
     for item in data[1:]:
         item[3] = age(datetime.strptime(item[3], "%d-%m-%Y").date())
-    with open("stats.csv", "w", newline="") as f:
-        f.truncate()
-        writer = csv.writer(f)
-        writer.writerows(data)
+    transposed = [[row[i] for row in data[1:]] for i in range(len(data[0]))]
+    return transposed
+    # with open("stats.csv", "w", newline="") as f:
+    #     f.truncate()
+    #     writer = csv.writer(f)
+    #     writer.writerows(data)
 
 
-data_for_stats()
+def customers_stats():
+    """
+    Shows customers stats
+    """
+    data = data_for_stats()
+ 
+    plt.hist(sorted(data[3]))
 
-# def customers_stats():
-#     """
-#     Shows customers stats
-#     """
-#     data_frame = pd.read_csv('stats.csv')
-#     data_frame[""].hist()
+    plt.xlabel("Age of the customers")
+    plt.ylabel("Number of customers")
+    plt.savefig('save as png.png')
+    plt.show() 
+
+
+customers_stats()

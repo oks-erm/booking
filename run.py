@@ -7,7 +7,7 @@ from datetime import date, timedelta
 from staff import create_staff, print_staff_info
 from spreadsheet import update_staff_data, get_data
 from booking import change_date_format, print_bookings, new_booking
-from customer import get_customer, search, view_customer
+from customer import get_customer, search, view_customer, customers_stats
 
 
 def authorise(name, data):
