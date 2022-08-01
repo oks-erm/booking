@@ -10,6 +10,10 @@ from booking import change_date_format, print_bookings, bookings_data
 
 
 def search(name, data):
+    """
+    Find and returns an element from data
+    that has a requested value of NAME.
+    """
     for el in data:
         if el['NAME'] == name:
             return el
@@ -22,7 +26,7 @@ def authorise(name, data):
     for i in range(4):
         print(f"Attempt {i+1} of 4")
         password = getpass.getpass("Password:")
-        check_user = [item for item in data if item["NAME"] == name][0]
+        check_user = search(name, data)
         if check_user["PASSWORD"] == password:
             print("All good!\n")
             return True
@@ -42,7 +46,7 @@ def staff_login(data):
         if entered_name in names:
             if authorise(entered_name, data) is not True:
                 continue
-            user = [item for item in data if item['NAME'] == entered_name][0]
+            user = search(entered_name, data)
             break
         if entered_name.lower() == "new":
             user = create_staff()
