@@ -7,7 +7,7 @@ from datetime import date, timedelta
 from staff import create_staff, print_staff_info
 from spreadsheet import update_staff_data, get_data
 from booking import change_date_format, print_bookings, new_booking
-from customer import get_customer, search
+from customer import get_customer, search, view_customer
 
 
 def authorise(name, data):
@@ -88,7 +88,8 @@ def bookings_menu(user):
             view_bookings_menu(user)
             break
         if user_inp == "2":
-            customer = get_customer()
+            user_inp = input("\n\tEnter customer's name: ")
+            customer = get_customer(user_inp)
             new_booking(user, customer)
             break
         if user_inp == "3":
@@ -129,7 +130,7 @@ def view_bookings_menu(user):
         if user_inp == "4":
             print_bookings(bookings_data, all_time, "all time")
             break
-        print("\t\tInvalid input!")
+        print("\t\tInvalid input! Use one of the options above")
     bookings_menu(user)
 
 
@@ -144,18 +145,19 @@ def customers_menu(user):
         press 3 - Stats\n\
         press x - <==\n\t")
         if user_inp == "1":
-            user_inp = input("Enter name: ")
-            break
-        if user_inp == "2":
+            user_inp = input("\n\tEnter name: ")
+            view_customer(user_inp)
+        elif user_inp == "2":
             # print_customers()
             break
-        if user_inp == "3":
+        elif user_inp == "3":
             # customers_stats()
             break
-        if user_inp == "x":
+        elif user_inp == "x":
             start_menu(user)
             break
-        print("\tInvalid input. Use one of the options above")
+        else:
+            print("\tInvalid input. Use one of the options above")
     start_menu(user)
 
 
@@ -222,7 +224,8 @@ def edit_staff_menu(user):
     staff_menu(user)
 
 
-staff = get_data("staff")
-the_user = staff_login(staff)
-print(f"{the_user['NAME']} : {the_user['CONTACT']}")
-start_menu(the_user)
+if __name__ == '__main__':
+    staff = get_data("staff")
+    the_user = staff_login(staff)
+    print(f"{the_user['NAME']} : {the_user['CONTACT']}")
+    start_menu(the_user)

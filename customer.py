@@ -2,6 +2,7 @@
 Includes customers specific functions.
 """
 from spreadsheet import get_data, update_worksheet
+from booking import pretty_print
 
 
 KEYS = get_data("customers")[0]
@@ -32,14 +33,30 @@ def create_customer(name):
     return dict(zip(KEYS, new_data))
 
 
-def get_customer():
+def get_customer(user_inp):
     """
     Checks if the customer exists and returns
     customer ductionary.
     """
     customers = get_data("customers")[1:]
-    user_inp = input("\n\tEnter customer's name: ")
     names = [dct['NAME'] for dct in customers]
     if user_inp in names:
         return search(user_inp, customers)
     return create_customer(user_inp)
+
+
+@pretty_print
+def view_customer(name):
+    """
+    Prints out information about the requested customer.
+    """
+    customers = get_data("customers")[1:]  # Do i need a function for 2 lines?
+    names = [dct['NAME'] for dct in customers]
+    if name in names:
+        cust = search(name, customers)
+        print(f"\t{cust['NAME']} - {cust['PHONE']} BD: {cust['BD']}")
+        print(f"\tbookings history: {cust['NUM OF BOOKINGS']},\
+ cancelled {cust['CANCELLED']}")
+    else:
+        print("\tThis customer doesn't exist")
+ 
