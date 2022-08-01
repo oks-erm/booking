@@ -6,7 +6,8 @@ import getpass
 from datetime import date, timedelta
 from staff import create_staff, print_staff_info
 from spreadsheet import update_staff_data, get_data
-from booking import change_date_format, print_bookings, bookings_data, search
+from booking import change_date_format, print_bookings, bookings_data,new_booking
+from customer import get_customer, search
 
 
 def authorise(name, data):
@@ -87,7 +88,8 @@ def bookings_menu(user):
             view_bookings_menu(user)
             break
         if user_inp == "2":
-            new_booking(user)
+            get_customer()
+            new_booking(user, customer)
             break
         if user_inp == "3":
             # edit_booking()
@@ -129,14 +131,6 @@ def view_bookings_menu(user):
             break
         print("\t\tInvalid input!")
     bookings_menu(user)
-
-
-def new_booking(user, customer):
-    name = customer["NAME"]
-    created = user["NAME"]
-    new_date = input("Enter date in dd-mm-yyyy format: ")
-    new_time = input("Enter date in hh:mm format: ")
-    ppl = input("How many people: ")
 
 
 def customers_menu(user):

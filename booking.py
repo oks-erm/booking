@@ -1,23 +1,12 @@
 """
-Includes bookings specific functions and classes.
+Includes bookings specific functions.
 """
 import re
 from datetime import datetime, date, timedelta
 from spreadsheet import get_data, update_worksheet
 
 
-bookings_data = get_data("bookings")
-KEYS = bookings_data[0]
-
-
-def search(name, data):
-    """
-    Find and returns an element from data
-    that has a requested value of NAME.
-    """
-    for el in data:
-        if el['NAME'] == name:
-            return el
+KEYS = get_data("bookings")[0]
 
 
 def change_date_format(my_date):
@@ -45,8 +34,9 @@ def print_bookings(period, string):
     Accepts an object defining time range and a string to name
     it in the output.
     """
+    upd_bookings = get_data("bookings")[1:]
     yesterday = date.today()-timedelta(days=1) 
-    bookings = [x for x in bookings_data if (x["DATE"] == period or x["DATE"] in period)
+    bookings = [x for x in upd_bookings if (x["DATE"] == period or x["DATE"] in period)
                 and (datetime.strptime(x["DATE"], "%d-%m-%Y").date()
                      > yesterday)]
 
@@ -67,6 +57,7 @@ def new_booking(user, customer):
     new_date = input("Enter date in dd-mm-yyyy format: ")
     new_time = input("Enter date in hh:mm format: ")
     ppl = input("How many people: ")
-    new = dict(zip(KEYS, [new_date, new_time, name, ppl, created]))
+    new = [new_date, new_time, name, ppl, created]
     update_worksheet(new, "bookings")
     return new
+

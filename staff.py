@@ -1,5 +1,5 @@
 """
-Includes staff specific functions and classes.
+Includes staff specific functions.
 """
 import getpass
 from spreadsheet import update_worksheet, get_data
