@@ -148,8 +148,7 @@ def customers_menu(user):
             user_inp = input("\n\tEnter name: ")
             view_customer(user_inp)
         elif user_inp == "2":
-            # print_customers()
-            break
+            view_customer("all")
         elif user_inp == "3":
             # customers_stats()
             break

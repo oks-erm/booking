@@ -48,15 +48,26 @@ def get_customer(user_inp):
 @pretty_print
 def view_customer(name):
     """
-    Prints out information about the requested customer.
+    Checks the request and to print out the customer
+    and calls print_customer.
     """
     customers = get_data("customers")[1:]  # Do i need a function for 2 lines?
     names = [dct['NAME'] for dct in customers]
     if name in names:
         cust = search(name, customers)
-        print(f"\t{cust['NAME']} - {cust['PHONE']} BD: {cust['BD']}")
-        print(f"\tbookings history: {cust['NUM OF BOOKINGS']},\
- cancelled {cust['CANCELLED']}")
+        print_customer(cust)
+    elif name == "all":
+        for item in customers:
+            print_customer(item)
+            print("-" * 50)
     else:
         print("\tThis customer doesn't exist")
- 
+
+
+def print_customer(cust):
+    """
+    Prints out information about the requested customer.
+    """
+    print(f"\t{cust.get('NAME')} - {cust.get('PHONE')} BD: {cust.get('BD')}")
+    print(f"\tbookings history: {cust.get('NUM OF BOOKINGS')},\
+ cancelled: {cust.get('CANCELLED')}")
