@@ -34,7 +34,6 @@ def print_bookings(data, period, string):
     Accepts an object defining time range and a string to name
     it in the output.
     """
-    # upd_bookings = get_data("bookings")[1:]
     yesterday = date.today()-timedelta(days=1) 
     bookings = [x for x in data if (x["DATE"] == period or x["DATE"] in period)
                 and (datetime.strptime(x["DATE"], "%d-%m-%Y").date()
@@ -59,5 +58,6 @@ def new_booking(user, customer):
     ppl = input("\tHow many people: ")
     new = [new_date, new_time, name, ppl, created]
     update_worksheet(new, "bookings")
+    print_bookings([dict(zip(KEYS, new))], new_date, "".join(new_date))
     return new
 
