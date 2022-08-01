@@ -21,22 +21,22 @@ def pretty_print(func):
     Frames print output with lines of * symbol.
     """
     def wrap_func(*args, **kwargs):
-        print('*' * 55)
+        print('*' * 65)
         func(*args, **kwargs)
-        print("*" * 55)
+        print("*" * 65)
     return wrap_func
 
 
 @pretty_print
-def print_bookings(period, string):
+def print_bookings(data, period, string):
     """
     Select bookings data out of given range and prints it.
     Accepts an object defining time range and a string to name
     it in the output.
     """
-    upd_bookings = get_data("bookings")[1:]
+    # upd_bookings = get_data("bookings")[1:]
     yesterday = date.today()-timedelta(days=1) 
-    bookings = [x for x in upd_bookings if (x["DATE"] == period or x["DATE"] in period)
+    bookings = [x for x in data if (x["DATE"] == period or x["DATE"] in period)
                 and (datetime.strptime(x["DATE"], "%d-%m-%Y").date()
                      > yesterday)]
 
@@ -54,9 +54,9 @@ def new_booking(user, customer):
     """
     name = customer["NAME"]
     created = user["NAME"]
-    new_date = input("Enter date in dd-mm-yyyy format: ")
-    new_time = input("Enter date in hh:mm format: ")
-    ppl = input("How many people: ")
+    new_date = input("\n\tEnter booking date in dd-mm-yyyy format: ")
+    new_time = input("\tEnter date in hh:mm format: ")
+    ppl = input("\tHow many people: ")
     new = [new_date, new_time, name, ppl, created]
     update_worksheet(new, "bookings")
     return new

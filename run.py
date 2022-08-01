@@ -6,7 +6,7 @@ import getpass
 from datetime import date, timedelta
 from staff import create_staff, print_staff_info
 from spreadsheet import update_staff_data, get_data
-from booking import change_date_format, print_bookings, bookings_data,new_booking
+from booking import change_date_format, print_bookings, new_booking
 from customer import get_customer, search
 
 
@@ -88,7 +88,7 @@ def bookings_menu(user):
             view_bookings_menu(user)
             break
         if user_inp == "2":
-            get_customer()
+            customer = get_customer()
             new_booking(user, customer)
             break
         if user_inp == "3":
@@ -107,27 +107,27 @@ def view_bookings_menu(user):
     Displays menu to choose bookings for what period
     you want to print. Accepts the user's choice.
     """
+    bookings_data = get_data("bookings")[1:]
     today = change_date_format(str(date.today()))
     tomorrow = change_date_format(str(date.today() + timedelta(days=1)))
     week = [today]
     for i in range(1, 7):
         week.append(change_date_format(str(date.today() + timedelta(days=i))))
-    all_time = [dct['DATE'] for dct in bookings_data]
-    print(all_time)     # change here!!!
+    all_time = [dct['DATE'] for dct in bookings_data]    # change here!!!
     while True:
         user_inp = input("\n\t\tpress 1 - Today\n\t\tpress 2 - Tomorrow\n\
                 press 3 - Next 7 days\n\t\tpress 4 - All\n\t\t")
         if user_inp == "1":
-            print_bookings(today, "today")
+            print_bookings(bookings_data, today, "today")
             break
         if user_inp == "2":
-            print_bookings(tomorrow, "tomorrow")
+            print_bookings(bookings_data, tomorrow, "tomorrow")
             break
         if user_inp == "3":
-            print_bookings(week, "the upcoming week")
+            print_bookings(bookings_data, week, "the upcoming week")
             break
         if user_inp == "4":
-            print_bookings(all_time, "all time")
+            print_bookings(bookings_data, all_time, "all time")
             break
         print("\t\tInvalid input!")
     bookings_menu(user)
@@ -223,7 +223,6 @@ def edit_staff_menu(user):
 
 
 staff = get_data("staff")
-print(staff)
 the_user = staff_login(staff)
-print(the_user)
+print(f"{the_user['NAME']} : {the_user['CONTACT']}")
 start_menu(the_user)

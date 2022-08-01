@@ -18,26 +18,12 @@ def search(name, data):
             return element
 
 
-def create_customer(name):
-    """
-    Creates a new customer with a parameter 'name' and writes
-    it to the spreadsheet.
-    """
-    new_name = name
-    phone = input("Enter contact number: ")
-    email = input("Enter email to receive reminders: ")
-    bday = input("Enter date of birth: ")
-    new_data = [new_name, phone, email, bday, 1, ""]
-    update_worksheet(new_data, "customers")
-    return dict(zip(KEYS, new_data))
-
-
 def get_customer():
     """
     Checks if the customer exists and returns
     customer ductionary.
     """
-    user_inp = input("Enter customer's name: ")
+    user_inp = input("\n\tEnter customer's name: ")
     names = [dct['NAME'] for dct in customers]
     if user_inp in names:
         return search(user_inp, customers)
