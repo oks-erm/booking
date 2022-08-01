@@ -17,21 +17,6 @@ def search(name, data):
             return element
 
 
-def create_customer(name):
-    """
-    Creates a new customer with a parameter 'name' and writes
-    it to the spreadsheet.
-    """
-    new_name = name
-    print("\tThis customer is not in the list! Create a new customer:\n")
-    phone = input("\tEnter contact number: ")
-    email = input("\tEnter email to receive reminders: ").encode('utf-8')
-    bday = input("\tEnter date of birth in dd-mm-yyyy format: ")
-    new_data = [new_name, phone, email.decode('utf-8'), bday, 1, ""]
-    update_worksheet(new_data, "customers")
-    return dict(zip(KEYS, new_data))
-
-
 def get_customer():
     """
     Checks if the customer exists and returns
