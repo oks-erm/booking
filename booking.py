@@ -43,4 +43,4 @@ def print_bookings(period, string):
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
     for item in bookings:
         print(f"\t{item['DATE']} {item['TIME']} - \
-{item['CUSTOMER']} ({item['PEOPLE']} people)")
+{item['CUSTOMER']} ({item['PEOPLE']} ppl) added by {item['CREATED']}")

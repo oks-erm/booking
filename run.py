@@ -97,8 +97,7 @@ def bookings_menu(user):
             view_bookings_menu(user)
             break
         if user_inp == "2":
-            # new_booking()
-            print("Add")
+            new_booking(user)
             break
         if user_inp == "3":
             # edit_booking()
@@ -140,6 +139,10 @@ def view_bookings_menu(user):
             break
         print("\t\tInvalid input!")
     bookings_menu(user)
+
+
+def new_booking(user):
+    pass
 
 
 def customers_menu(user):
