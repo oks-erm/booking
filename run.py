@@ -131,8 +131,12 @@ def view_bookings_menu(user):
     bookings_menu(user)
 
 
-def new_booking(user):
-    pass
+def new_booking(user, customer):
+    name = customer["NAME"]
+    created = user["NAME"]
+    new_date = input("Enter date in dd-mm-yyyy format: ")
+    new_time = input("Enter date in hh:mm format: ")
+    ppl = input("How many people: ")
 
 
 def customers_menu(user):

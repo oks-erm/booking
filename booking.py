@@ -3,10 +3,11 @@ Includes bookings specific functions and classes.
 """
 import re
 from datetime import datetime, date, timedelta
-from spreadsheet import get_data
+from spreadsheet import get_data, update_worksheet
 
 
 bookings_data = get_data("bookings")
+KEYS = bookings_data[0]
 
 
 def search(name, data):
@@ -54,3 +55,18 @@ def print_bookings(period, string):
     for item in bookings:
         print(f"\t{item['DATE'][:5]} - {item['TIME']} - \
 {item['CUSTOMER']} ({item['PEOPLE']} ppl) added by {item['CREATED']}")
+
+
+def new_booking(user, customer):
+    """
+    Creates a new booking acepting the user's
+    input and writes it to the spreadsheet.
+    """
+    name = customer["NAME"]
+    created = user["NAME"]
+    new_date = input("Enter date in dd-mm-yyyy format: ")
+    new_time = input("Enter date in hh:mm format: ")
+    ppl = input("How many people: ")
+    new = dict(zip(KEYS, [new_date, new_time, name, ppl, created]))
+    update_worksheet(new, "bookings")
+    return new
