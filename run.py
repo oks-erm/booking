@@ -150,8 +150,7 @@ def customers_menu(user):
         elif user_inp == "2":
             view_customer("all")
         elif user_inp == "3":
-            # customers_stats()
-            break
+            customers_stats()
         elif user_inp == "x":
             start_menu(user)
             break

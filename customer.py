@@ -3,6 +3,7 @@ Includes customers specific functions.
 """
 from spreadsheet import get_data, update_worksheet
 from booking import pretty_print
+import pandas as pd
 
 
 KEYS = get_data("customers")[0]
@@ -71,3 +72,6 @@ def print_customer(cust):
     print(f"\t{cust.get('NAME')} - {cust.get('PHONE')} BD: {cust.get('BD')}")
     print(f"\tbookings history: {cust.get('NUM OF BOOKINGS')},\
  cancelled: {cust.get('CANCELLED')}")
+
+
+def customers_stats():

@@ -4,6 +4,7 @@ Includes functions related to interactions with Goggle Spreadsheets API.
 import sys
 from google.oauth2.service_account import Credentials
 import gspread
+import csv
 
 
 SCOPE = [
@@ -72,3 +73,13 @@ def update_staff_data(user, attr, value):
     user[attr] = value
     return user
 
+
+def data_for_stats():
+    data = get_worksheet("customers")
+    with open("stats.csv", "w", newline="") as f:
+        f.truncate()
+        writer = csv.writer(f)
+        writer.writerows(data)
+    
+
+data_for_stats()
