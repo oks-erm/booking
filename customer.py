@@ -1,9 +1,11 @@
 """
 Includes customers specific functions.
 """
-from spreadsheet import get_data, update_worksheet
+import csv
+from datetime import date, datetime
+from spreadsheet import get_data, update_worksheet, get_worksheet
 from booking import pretty_print
-import pandas as pd
+
 
 
 KEYS = get_data("customers")[0]
@@ -74,4 +76,33 @@ def print_customer(cust):
  cancelled: {cust.get('CANCELLED')}")
 
 
-def customers_stats():
+def age(birthdate):
+    """
+    Calculates age based on birthdate.
+    """
+    today = date.today()
+    age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+    return age
+
+
+def data_for_stats():
+    """
+    Prepares data for stats and writes it to csv
+    """
+    data = get_worksheet("customers")
+    for item in data[1:]:
+        item[3] = age(datetime.strptime(item[3], "%d-%m-%Y").date())
+    with open("stats.csv", "w", newline="") as f:
+        f.truncate()
+        writer = csv.writer(f)
+        writer.writerows(data)
+
+
+data_for_stats()
+
+# def customers_stats():
+#     """
+#     Shows customers stats
+#     """
+#     data_frame = pd.read_csv('stats.csv')
+#     data_frame[""].hist()
