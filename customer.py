@@ -1,10 +1,7 @@
 """
 Includes customers specific functions.
 """
-import csv
-from datetime import date, datetime
-import matplotlib.pyplot as plt
-from spreadsheet import get_data, update_worksheet, get_worksheet
+from spreadsheet import get_data, update_worksheet
 from booking import pretty_print
 
 
@@ -74,44 +71,3 @@ def print_customer(cust):
     print(f"\t{cust.get('NAME')} - {cust.get('PHONE')} BD: {cust.get('BD')}")
     print(f"\tbookings history: {cust.get('NUM OF BOOKINGS')},\
  cancelled: {cust.get('CANCELLED')}")
-
-
-def age(birthdate):
-    """
-    Calculates age based on birthdate.
-    """
-    today = date.today()
-    age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
-    return str(age)
-
-
-def data_for_stats():
-    """
-    Prepares data for stats and writes it to csv
-    """
-    data = get_worksheet("customers")
-    for item in data[1:]:
-        item[3] = age(datetime.strptime(item[3], "%d-%m-%Y").date())
-    transposed = [[row[i] for row in data[1:]] for i in range(len(data[0]))]
-    return transposed
-    # with open("stats.csv", "w", newline="") as f:
-    #     f.truncate()
-    #     writer = csv.writer(f)
-    #     writer.writerows(data)
-
-
-def customers_stats():
-    """
-    Shows customers stats
-    """
-    data = data_for_stats()
- 
-    plt.hist(sorted(data[3]))
-
-    plt.xlabel("Age of the customers")
-    plt.ylabel("Number of customers")
-    plt.savefig('save as png.png')
-    plt.show() 
-
-
-customers_stats()
