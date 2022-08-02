@@ -3,15 +3,11 @@ Main module, includes main logic flow and menus.
 """
 import sys
 import getpass
-from datetime import date, timedelta
 from staff import create_staff, edit_staff_menu, staff_info_menu
 from spreadsheet import get_data
-from booking import change_date_format, print_bookings, new_booking
+from booking import new_booking, view_bookings_menu
 from customer import get_customer, search, view_customer
 from stats import customers_stats
-
-
-today = change_date_format(str(date.today()))
 
 
 def authorise(name, data):
@@ -89,52 +85,21 @@ def bookings_menu(user):
         press 3 - Edit a booking\n\
         press x - <==\n\t")
         if user_inp == "1":
-            view_bookings_menu(user)
-            break
+            view_bookings_menu()
+            continue
         if user_inp == "2":
             user_inp = input("\n\tEnter customer's name: ")
             customer = get_customer(user_inp)
             new_booking(user, customer)
-            break
+            continue
         if user_inp == "3":
-            # edit_bookings(user)
-            print("Edit")
-            break
+            # edit_bookings()
+            continue
         if user_inp == "x":
             start_menu(user)
             break
         print("\tInvalid input. Use one of the options above")
     start_menu(user)
-
-
-def view_bookings_menu(user):
-    """
-    Displays menu to choose bookings for what period
-    you want to print. Accepts the user's choice.
-    """
-    bookings_data = get_data("bookings")
-    tomorrow = change_date_format(str(date.today() + timedelta(days=1)))
-    week = [today]
-    for i in range(1, 7):
-        week.append(change_date_format(str(date.today() + timedelta(days=i))))
-    all_time = [dct['DATE'] for dct in bookings_data]    # change here!!!
-    while True:
-        user_inp = input("\n\t\tpress 1 - Today\n\t\tpress 2 - Tomorrow\n\
-                press 3 - Next 7 days\n\t\tpress 4 - All\n\t\t")
-        if user_inp == "1":
-            print_bookings(bookings_data, today, "today")
-            break
-        if user_inp == "2":
-            print_bookings(bookings_data, tomorrow, "tomorrow")
-            break
-        if user_inp == "3":
-            print_bookings(bookings_data, week, "the upcoming week")
-            break
-        if user_inp == "4":
-            print_bookings(bookings_data, all_time, "all time")
-            break
-        print("\t\tInvalid input! Use one of the options above")
-    bookings_menu(user)
 
 
 def customers_menu(user):
