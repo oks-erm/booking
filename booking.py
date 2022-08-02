@@ -28,6 +28,10 @@ def pretty_print(func):
 
 
 def confirmed(booking):
+    """
+    Checks if booking is confirmed and 
+    returns a corresponding symbol.
+    """
     if booking["CONF"] == "yes":
         return "\/"
     else:
