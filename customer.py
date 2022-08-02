@@ -49,6 +49,7 @@ def pretty_print(func):
     Frames print output with lines of * symbol.
     """
     def wrap_func(*args, **kwargs):
+        print("")
         print('*' * 65)
         func(*args, **kwargs)
         print("*" * 65)

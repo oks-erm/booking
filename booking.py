@@ -44,11 +44,11 @@ def print_bookings(data, period, string):
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
     for item in bookings:
         print(f"\t{item['DATE'][:5]} - {item['TIME']} - \
-{item['CUSTOMER']} ({item['PEOPLE']} ppl) added by {item['CREATED']} \
+{item['NAME']} ({item['PEOPLE']} ppl) added by {item['CREATED']} \
 {confirmed(item)}")
         if string == "today" and item["CONF"] != "yes":
             print(f"\t!!! confirm this booking: \
-{get_customer(item['CUSTOMER'])['PHONE']}\n")
+{get_customer(item['NAME'])['PHONE']}\n")
 
 
 def new_booking(user, customer):

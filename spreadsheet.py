@@ -58,16 +58,16 @@ def get_data(worksheet):
     return data
 
 
-def update_staff_data(user, attr, value):
+def update_data(worksheet, obj, attr, value):
     """
     Updates attributes of instance of Staff and
     writes updates to spreadsheet. Takes three
     arguments: (object to update, attribute to update,
     new value)).
     """
-    row = SHEET.worksheet('staff').find(user["NAME"]).row
-    col = SHEET.worksheet('staff').find(attr).col
-    SHEET.worksheet('staff').update_cell(row, col, ("'"+value))
-    print("\t\tStaff info was successfully updated!")
-    user[attr] = value
-    return user
+    row = SHEET.worksheet(worksheet).find(obj["NAME"]).row
+    col = SHEET.worksheet(worksheet).find(attr).col
+    SHEET.worksheet(worksheet).update_cell(row, col, ("'"+value))
+    print(f"\t\t{worksheet.capitalize()} info was successfully updated!")
+    obj[attr] = value
+    return obj

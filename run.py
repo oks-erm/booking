@@ -4,11 +4,14 @@ Main module, includes main logic flow and menus.
 import sys
 import getpass
 from datetime import date, timedelta
-from staff import create_staff, print_staff_info
-from spreadsheet import update_staff_data, get_data
+from staff import create_staff, edit_staff_menu, staff_info_menu
+from spreadsheet import get_data
 from booking import change_date_format, print_bookings, new_booking
 from customer import get_customer, search, view_customer
 from stats import customers_stats
+
+
+today = change_date_format(str(date.today()))
 
 
 def authorise(name, data):
@@ -94,7 +97,7 @@ def bookings_menu(user):
             new_booking(user, customer)
             break
         if user_inp == "3":
-            # edit_booking()
+            # edit_bookings(user)
             print("Edit")
             break
         if user_inp == "x":
@@ -110,7 +113,6 @@ def view_bookings_menu(user):
     you want to print. Accepts the user's choice.
     """
     bookings_data = get_data("bookings")
-    today = change_date_format(str(date.today()))
     tomorrow = change_date_format(str(date.today() + timedelta(days=1)))
     week = [today]
     for i in range(1, 7):
@@ -137,7 +139,7 @@ def view_bookings_menu(user):
 
 def customers_menu(user):
     """
-    Displays customers menu.
+    Displays Customers Menu.
     """
     while True:
         user_inp = input(
@@ -171,57 +173,15 @@ def staff_menu(user):
         press 2 - Edit your info\n\
         press x - <==\n\t")
         if user_inp == "1":
-            staff_info_menu(staff, user)
-            break
+            staff_info_menu(staff)
+            continue
         if user_inp == "2":
-            edit_staff_menu(user)
-            break
+            edit_staff_menu(staff, user)
+            continue
         if user_inp == "x":
             start_menu(user)
             break
         print("\tInvalid input. Use one of the options above")
-
-
-def staff_info_menu(staff_list, user):
-    """
-    Prints info about members of staff: search by name of a full list.
-    """
-    while True:
-        print("\nEnter 'all' to see the full list")
-        request = input("Or enter name to search by name: ")
-        if request in [dct['NAME'] for dct in staff_list] or request == "all":
-            print_staff_info(request, staff_list)
-            break
-        print("Nothing found, try again or view the full list")
-    staff_menu(user)
-
-
-def edit_staff_menu(user):
-    """
-    Edits instance of the current user. If the user wants
-    to change a password or contact"
-    """
-    while True:
-        user_inp = input("\t\tpress 1 - Change password\n\
-                press 2 - Change contact\n\
-                press x - <==\n\t\t")
-        if user_inp == "1" or user_inp == "2":
-            if user_inp == "2":
-                attr = "CONTACT"
-                new_value = input("\n\t\tEnter new contact: ")
-            if user_inp == "1":
-                attr = "PASSWORD"
-                new_value = getpass.getpass("\n\t\tNew password: ")
-            updated_user = update_staff_data(user, attr, new_value)
-            for dict in staff:
-                if dict["NAME"] == updated_user["NAME"]:
-                    dict.update(updated_user)
-            
-            break
-        if user_inp == "x":
-            break
-        print("\t\tInvalid input. Use one of the options above")
-    staff_menu(user)
 
 
 if __name__ == '__main__':
