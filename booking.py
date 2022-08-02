@@ -3,7 +3,7 @@ Includes bookings specific functions.
 """
 import re
 from datetime import datetime, date, timedelta
-from spreadsheet import get_data, update_worksheet
+from spreadsheet import get_data, update_worksheet, update_data
 from customer import pretty_print, get_customer
 
 
@@ -38,7 +38,7 @@ def view_bookings_menu():
     all_time = [dct['DATE'] for dct in bookings_data]    # change here!!!
     while True:
         user_inp = input("\n\t\tpress 1 - Today\n\t\tpress 2 - Tomorrow\n\
-                press 3 - Next 7 days\n\t\tpress 4 - All\n\t\t")
+                press 3 - Next 7 days\n\t\tpress 4 - All\n\t\tpress x - <==\n\t\t")
         if user_inp == "1":
             print_bookings(bookings_data, today, "today")
             break
@@ -50,6 +50,8 @@ def view_bookings_menu():
             break
         if user_inp == "4":
             print_bookings(bookings_data, all_time, "all time")
+            break
+        if user_inp == "x":
             break
         print("\t\tInvalid input! Use one of the options above")
 
@@ -87,10 +89,63 @@ def new_booking(user, customer):
     new_date = input("\n\tEnter booking date in dd-mm-yyyy format: ")
     new_time = input("\tEnter date in hh:mm format: ")
     ppl = input("\tHow many people: ")
-    new = [new_date, new_time, name, ppl, created, "--"]
+    new = [new_date, new_time, name, ppl, created, "-"]
     update_worksheet(new, "bookings")
     increment_bookings(customer)
     print_bookings([dict(zip(KEYS, new))], new_date, "".join(new_date))
+
+
+def edit_bookings():
+    """
+    Displays Edit Bookings menu.
+    """
+    while True:
+        user_inp = input(
+            "\n\t\tpress 1 - Confirm\n\
+                press 2 - Reschedule\n\
+                press 3 - Cancel\n\
+                press x - <==\n\t\t")
+        if user_inp == "1":
+            bookings_data = get_data("bookings")
+            not_confirmed = ([item for item in bookings_data if (item["CONF"]
+                             != "yes" and item["DATE"] == today)])
+            if len(not_confirmed) == 0:
+                print("\n\t\tAll bookings are confirmed! Chill!")
+            confirm(not_confirmed)
+            continue
+        if user_inp == "2":
+            # reschedule()
+            continue
+        if user_inp == "3":
+            # cancel()
+            continue
+        if user_inp == "x":
+            break
+        print("\t\tInvalid input. Use one of the options above")
+
+
+def confirm(bookings):
+    """
+    Finds not confirmed bookings and prints them
+    with contact numbers one by one to confirm or
+    skip.
+    """
+    for booking in bookings:
+        while True:
+            print_bookings([booking], today, "today")
+            user_inp = input("\n\t\t\tpress 1 - Confirmed\n\
+                        press 2 - Skip\n\t\t\tpress x - <==\n\t\t\t")
+            if user_inp == "1":
+                booking.update({"CONF": "yes"})
+                update_data("bookings", booking, "CONF", "yes")
+                break
+            if user_inp == "2":
+                break
+            if user_inp == "x":
+                break
+            print("\t\t\tInvalid input! Use one of the options above")
+        if user_inp == "x":
+            break
 
 
 def increment_bookings(customer):

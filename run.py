@@ -5,7 +5,7 @@ import sys
 import getpass
 from staff import create_staff, edit_staff_menu, staff_info_menu
 from spreadsheet import get_data
-from booking import new_booking, view_bookings_menu
+from booking import new_booking, view_bookings_menu, edit_bookings
 from customer import get_customer, search, view_customer
 from stats import customers_stats
 
@@ -82,7 +82,7 @@ def bookings_menu(user):
         user_inp = input(
             "\n\tpress 1 - View bookings\n\
         press 2 - Add a booking\n\
-        press 3 - Edit a booking\n\
+        press 3 - Edit bookings\n\
         press x - <==\n\t")
         if user_inp == "1":
             view_bookings_menu()
@@ -93,7 +93,7 @@ def bookings_menu(user):
             new_booking(user, customer)
             continue
         if user_inp == "3":
-            # edit_bookings()
+            edit_bookings()
             continue
         if user_inp == "x":
             start_menu(user)
