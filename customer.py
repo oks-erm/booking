@@ -2,7 +2,6 @@
 Includes customers specific functions.
 """
 from spreadsheet import get_data, update_worksheet
-from booking import pretty_print
 
 
 KEYS = get_data("customers")[0]
@@ -43,6 +42,17 @@ def get_customer(user_inp):
     if user_inp in names:
         return search(user_inp, customers)
     return create_customer(user_inp)
+
+
+def pretty_print(func):
+    """
+    Frames print output with lines of * symbol.
+    """
+    def wrap_func(*args, **kwargs):
+        print('*' * 65)
+        func(*args, **kwargs)
+        print("*" * 65)
+    return wrap_func
 
 
 @pretty_print

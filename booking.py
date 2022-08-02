@@ -4,6 +4,7 @@ Includes bookings specific functions.
 import re
 from datetime import datetime, date, timedelta
 from spreadsheet import get_data, update_worksheet
+from customer import pretty_print, get_customer
 
 
 KEYS = get_data("bookings")[0]
@@ -14,17 +15,6 @@ def change_date_format(my_date):
     Changes date format from YYYY-MM-DD to DD-MM-YYYY
     """
     return re.sub(r'(\d{4})-(\d{1,2})-(\d{1,2})', '\\3-\\2-\\1', my_date)
-
-
-def pretty_print(func):
-    """
-    Frames print output with lines of * symbol.
-    """
-    def wrap_func(*args, **kwargs):
-        print('*' * 65)
-        func(*args, **kwargs)
-        print("*" * 65)
-    return wrap_func
 
 
 def confirmed(booking):
@@ -56,6 +46,9 @@ def print_bookings(data, period, string):
         print(f"\t{item['DATE'][:5]} - {item['TIME']} - \
 {item['CUSTOMER']} ({item['PEOPLE']} ppl) added by {item['CREATED']} \
 {confirmed(item)}")
+        if string == "today" and item["CONF"] != "yes":
+            print(f"\t!!! confirm this booking: \
+{get_customer(item['CUSTOMER'])['PHONE']}\n")
 
 
 def new_booking(user, customer):
