@@ -109,7 +109,7 @@ def view_bookings_menu(user):
     Displays menu to choose bookings for what period
     you want to print. Accepts the user's choice.
     """
-    bookings_data = get_data("bookings")[1:]
+    bookings_data = get_data("bookings")
     today = change_date_format(str(date.today()))
     tomorrow = change_date_format(str(date.today() + timedelta(days=1)))
     week = [today]
@@ -152,7 +152,7 @@ def customers_menu(user):
             view_customer("all")
         elif user_inp == "3":
             customers_stats()
-            print("You're stats are ready! Check *** folder.")
+            print("\tYou're stats are ready! Check *** folder.")
         elif user_inp == "x":
             start_menu(user)
             break

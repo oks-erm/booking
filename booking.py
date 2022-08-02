@@ -27,6 +27,13 @@ def pretty_print(func):
     return wrap_func
 
 
+def confirmed(booking):
+    if booking["CONF"] == "yes":
+        return "\/"
+    else:
+        return "--"
+
+
 @pretty_print
 def print_bookings(data, period, string):
     """
@@ -43,7 +50,8 @@ def print_bookings(data, period, string):
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
     for item in bookings:
         print(f"\t{item['DATE'][:5]} - {item['TIME']} - \
-{item['CUSTOMER']} ({item['PEOPLE']} ppl) added by {item['CREATED']}")
+{item['CUSTOMER']} ({item['PEOPLE']} ppl) added by {item['CREATED']} \
+{confirmed(item)}")
 
 
 def new_booking(user, customer):
@@ -60,4 +68,3 @@ def new_booking(user, customer):
     update_worksheet(new, "bookings")
     print_bookings([dict(zip(KEYS, new))], new_date, "".join(new_date))
     return new
-

@@ -65,7 +65,3 @@ def customers_stats():
     for fig in figs:
         fig.savefig(pdf_pgs, format='pdf')
     pdf_pgs.close()
-
-
-data_for_stats()
-customers_stats()
