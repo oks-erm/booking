@@ -7,13 +7,13 @@ from spreadsheet import get_data, update_worksheet
 KEYS = get_data("customers")[0]
 
 
-def search(name, data):
+def search(value, attr, data):
     """
     Find and returns an element from data
     that has a requested value of NAME.
     """
     for element in data:
-        if element['NAME'] == name:
+        if element[attr] == value:
             return element
 
 
@@ -40,7 +40,7 @@ def get_customer(user_inp):
     customers = get_data("customers")[1:]
     names = [dct['NAME'] for dct in customers]
     if user_inp in names:
-        return search(user_inp, customers)
+        return search(user_inp, "NAME", customers)
     return create_customer(user_inp)
 
 
@@ -65,7 +65,7 @@ def view_customer(name):
     customers = get_data("customers")[1:]  # Do i need a function for 2 lines?
     names = [dct['NAME'] for dct in customers]
     if name in names:
-        cust = search(name, customers)
+        cust = search(name, "NAME", customers)
         print_customer(cust)
     elif name == "all":
         for item in customers:

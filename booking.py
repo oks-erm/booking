@@ -42,7 +42,7 @@ def view_bookings_menu():
     week = [today]
     for i in range(1, 7):
         week.append(change_date_format(str(date.today() + timedelta(days=i))))
-    all_time = [dct['DATE'] for dct in bookings_data] 
+    all_time = [dct['DATE'] for dct in bookings_data]
     while True:
         user_inp = input("\n\t\tpress 1 - Today\n\
                 press 2 - Tomorrow\n\
@@ -124,7 +124,8 @@ def edit_bookings():
             # reschedule()
             continue
         if user_inp == "3":
-            # cancel()
+            customers_bookings = find_bookings(bookings_data)
+            cancel(customers_bookings)
             continue
         if user_inp == "x":
             break
@@ -170,11 +171,16 @@ def find_bookings(bookings):
     accepts user input with a name to search.
     """
     user_inp = input("\n\t\t\tEnter customer's name: ")
-    customers_bookings = ([item for item in bookings if (item["NAME"]
-                          == user_inp and to_date(item["DATE"]) >= today)])
-    all_time = [dct['DATE'] for dct in customers_bookings
-                if to_date(dct['DATE']) >= date.today()]
-    print_bookings(customers_bookings, all_time, "all time")
+    cust_bookings = ([item for item in bookings if (item["NAME"]
+                     == user_inp and to_date(item["DATE"]) >= date.today())])
+    all_time = [dct['DATE'] for dct in cust_bookings]
+    print_bookings(cust_bookings, all_time, "all time")
+    return cust_bookings
+
+
+def cancel(cust_bookings):
+    user_inp = input("\n\t\t\tEnter date of a booking to cancel: ")
+
 
 
 today = change_date_format(str(date.today()))

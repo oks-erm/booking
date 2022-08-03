@@ -17,7 +17,7 @@ def authorise(name, data):
     for i in range(4):
         print(f"Attempt {i+1} of 4")
         password = getpass.getpass("Password:")
-        check_user = search(name, data)
+        check_user = search(name, "NAME", data)
         if check_user["PASSWORD"] == password:
             print("All good!\n")
             return True
@@ -37,7 +37,7 @@ def staff_login(data):
         if entered_name in names:
             if authorise(entered_name, data) is not True:
                 continue
-            user = search(entered_name, data)
+            user = search(entered_name, "NAME", data)
             break
         if entered_name.lower() == "new":
             user = create_staff()

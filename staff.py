@@ -53,7 +53,7 @@ def edit_staff_menu(staff, user):
                 attr = "PASSWORD"
                 new_value = getpass.getpass("\n\t\tNew password: ")
             updated_user = update_data("staff", user, attr, new_value)
-            old_user = search(updated_user["NAME"], staff)
+            old_user = search(updated_user["NAME"], "NAME", staff)
             old_user.update(updated_user)
             break
         if user_inp == "x":
