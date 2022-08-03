@@ -6,7 +6,7 @@ import getpass
 from staff import create_staff, edit_staff_menu, staff_info_menu
 from spreadsheet import get_data
 from booking import new_booking, view_bookings_menu, edit_bookings
-from customer import search, view_customer, create_customer, find_customer
+from customer import search, view_customer, find_customer
 from stats import customers_stats
 
 
@@ -22,11 +22,11 @@ def authorise(name, data):
             print("All good!\n")
             return True
         print("The password is not correct! Try again!\n")
-        
+
 
 def staff_login(data):
     """
-    Logs in a member of staff
+    Logs in a member of staff.
     """
     print("\n\n\t\tWelcome to Your Booking System!\n")
     while True:
@@ -50,7 +50,7 @@ def staff_login(data):
 
 def start_menu(user):
     """
-    Displays start menu after the user is logged in
+    Displays start menu after the user is logged in.
     """
     print(f"\nWhat do you want to do, {user.get('NAME')}?")
     while True:
@@ -131,7 +131,7 @@ def customers_menu(user):
 
 def staff_menu(user):
     """
-    Displays staff menu
+    Displays staff menu.
     """
     while True:
         user_inp = input(
@@ -142,7 +142,7 @@ def staff_menu(user):
             staff_info_menu(staff)
             continue
         if user_inp == "2":
-            upd_staff = get_data("staff")  # new staff data in case a new user wants to change their data
+            upd_staff = get_data("staff")  # new staff data if it got updated
             edit_staff_menu(upd_staff, user)
             continue
         if user_inp == "x":
