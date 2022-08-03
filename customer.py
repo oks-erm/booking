@@ -27,7 +27,7 @@ def create_customer(name):
     phone = input("\tEnter contact number: ")
     email = input("\tEnter email to receive reminders: ").encode('utf-8')
     bday = input("\tEnter date of birth in dd-mm-yyyy format: ")
-    new_data = [new_name, phone, email.decode('utf-8'), bday, 1, ""]
+    new_data = [new_name, phone, email.decode('utf-8'), bday, 1, 0]
     update_worksheet(new_data, "customers")
     return dict(zip(KEYS, new_data))
 

@@ -4,7 +4,7 @@ Includes bookings specific functions.
 import re
 from datetime import datetime, date, timedelta
 from spreadsheet import get_data, update_worksheet, update_data
-from customer import pretty_print, get_customer
+from customer import pretty_print, get_customer, search
 
 
 def change_date_format(my_date):
@@ -19,6 +19,15 @@ def to_date(string):
     Converts string date data to date format.
     """
     return datetime.strptime(string, "%d-%m-%Y").date()
+
+
+def active(data):
+    """
+    Filters out past and cancelled bookings.
+    """
+    filtered = [x for x in data if (to_date(x.get("DATE")) >= date.today())
+                and (x.get("CANC") != "yes")]
+    return filtered
 
 
 def confirmed(booking):
@@ -72,8 +81,8 @@ def print_bookings(data, period, string):
     Accepts an object defining time range and a string to name
     it in the output.
     """
-    bookings = [x for x in data if (x["DATE"] == period or x["DATE"] in period)
-                and (to_date(x["DATE"]) >= date.today())]
+    bookings = [x for x in active(data)
+                if (x.get("DATE") == period or x.get("DATE") in period)]
 
     bookings.sort(key=lambda x: datetime.strptime(x["DATE"], "%d-%m-%Y"))
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
@@ -96,7 +105,7 @@ def new_booking(user, customer):
     new_date = input("\n\tEnter booking date in dd-mm-yyyy format: ")
     new_time = input("\tEnter date in hh:mm format: ")
     ppl = input("\tHow many people: ")
-    new = [new_date, new_time, name, ppl, created, "-"]
+    new = [new_date, new_time, name, ppl, created, "-", ""]
     update_worksheet(new, "bookings")
     increment_bookings(customer)
     print_bookings([dict(zip(KEYS, new))], new_date, "".join(new_date))
@@ -124,8 +133,8 @@ def edit_bookings():
             # reschedule()
             continue
         if user_inp == "3":
-            customers_bookings = find_bookings(bookings_data)
-            cancel(customers_bookings)
+            booking = find_bookings(bookings_data)
+            cancel(booking)
             continue
         if user_inp == "x":
             break
@@ -171,16 +180,24 @@ def find_bookings(bookings):
     accepts user input with a name to search.
     """
     user_inp = input("\n\t\t\tEnter customer's name: ")
-    cust_bookings = ([item for item in bookings if (item["NAME"]
-                     == user_inp and to_date(item["DATE"]) >= date.today())])
+    cust_bookings = ([item for item in active(bookings) if item.get("NAME")
+                     == user_inp])
     all_time = [dct['DATE'] for dct in cust_bookings]
     print_bookings(cust_bookings, all_time, "all time")
-    return cust_bookings
+    user_inp = input("\n\t\t\tEnter date of a booking to edit: ")
+    target = search(user_inp, "DATE", cust_bookings)
+    return target
 
 
-def cancel(cust_bookings):
-    user_inp = input("\n\t\t\tEnter date of a booking to cancel: ")
-
+def cancel(booking):
+    """
+    Updates bookings spreadsheet with new booking status
+    and increments the customer's stats of cancelled bookings. 
+    """
+    update_data("bookings", booking, "CANC", "yes")
+    customer = get_customer(booking.get("NAME"))
+    new_value = int(customer.get("CANCELLED")) + 1
+    update_data("customers", customer, "CANCELLED", new_value)
 
 
 today = change_date_format(str(date.today()))
