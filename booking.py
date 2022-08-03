@@ -149,7 +149,12 @@ def confirm(bookings):
 
 
 def increment_bookings(customer):
-    pass
+    """
+    Increments number of bookings a customer has, when
+    a new booking is created.
+    """
+    new_number = int(customer.get("NUM OF BOOKINGS")) + 1
+    update_data("customers", customer, "NUM OF BOOKINGS", str(new_number))
 
 
 today = change_date_format(str(date.today()))
