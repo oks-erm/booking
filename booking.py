@@ -14,6 +14,13 @@ def change_date_format(my_date):
     return re.sub(r'(\d{4})-(\d{1,2})-(\d{1,2})', '\\3-\\2-\\1', my_date)
 
 
+def to_date(string):
+    """
+    Converts string date data to date format.
+    """
+    return datetime.strptime(string, "%d-%m-%Y").date()
+
+
 def confirmed(booking):
     """
     Checks if booking is confirmed and
@@ -35,10 +42,12 @@ def view_bookings_menu():
     week = [today]
     for i in range(1, 7):
         week.append(change_date_format(str(date.today() + timedelta(days=i))))
-    all_time = [dct['DATE'] for dct in bookings_data]    # change here!!!
+    all_time = [dct['DATE'] for dct in bookings_data] 
     while True:
-        user_inp = input("\n\t\tpress 1 - Today\n\t\tpress 2 - Tomorrow\n\
-                press 3 - Next 7 days\n\t\tpress 4 - All\n\t\tpress x - <==\n\t\t")
+        user_inp = input("\n\t\tpress 1 - Today\n\
+                press 2 - Tomorrow\n\
+                press 3 - Next 7 days\n\
+                press 4 - All\n\t\tpress x - <==\n\t\t")
         if user_inp == "1":
             print_bookings(bookings_data, today, "today")
             break
@@ -63,10 +72,8 @@ def print_bookings(data, period, string):
     Accepts an object defining time range and a string to name
     it in the output.
     """
-    yesterday = date.today()-timedelta(days=1) 
     bookings = [x for x in data if (x["DATE"] == period or x["DATE"] in period)
-                and (datetime.strptime(x["DATE"], "%d-%m-%Y").date()
-                     > yesterday)]
+                and (to_date(x["DATE"]) >= date.today())]
 
     bookings.sort(key=lambda x: datetime.strptime(x["DATE"], "%d-%m-%Y"))
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
@@ -155,6 +162,19 @@ def increment_bookings(customer):
     """
     new_number = int(customer.get("NUM OF BOOKINGS")) + 1
     update_data("customers", customer, "NUM OF BOOKINGS", str(new_number))
+
+
+def find_bookings(bookings):
+    """
+    Find all bookings of a customer,
+    accepts user input with a name to search.
+    """
+    user_inp = input("\n\t\t\tEnter customer's name: ")
+    customers_bookings = ([item for item in bookings if (item["NAME"]
+                          == user_inp and to_date(item["DATE"]) >= today)])
+    all_time = [dct['DATE'] for dct in customers_bookings
+                if to_date(dct['DATE']) >= date.today()]
+    print_bookings(customers_bookings, all_time, "all time")
 
 
 today = change_date_format(str(date.today()))
