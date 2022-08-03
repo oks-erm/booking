@@ -116,13 +116,13 @@ def edit_bookings():
     Displays Edit Bookings menu.
     """
     while True:
+        bookings_data = get_data("bookings")
         user_inp = input(
             "\n\t\tpress 1 - Confirm\n\
                 press 2 - Reschedule\n\
                 press 3 - Cancel\n\
                 press x - <==\n\t\t")
         if user_inp == "1":
-            bookings_data = get_data("bookings")
             not_confirmed = ([item for item in bookings_data if (item["CONF"]
                              != "yes" and item["DATE"] == today)])
             if len(not_confirmed) == 0:
@@ -170,8 +170,8 @@ def increment_bookings(customer):
     Increments number of bookings a customer has, when
     a new booking is created.
     """
-    new_number = int(customer.get("NUM OF BOOKINGS")) + 1
-    update_data("customers", customer, "NUM OF BOOKINGS", str(new_number))
+    new_number = str(int(customer.get("NUM OF BOOKINGS")) + 1)
+    update_data("customers", customer, "NUM OF BOOKINGS", new_number)
 
 
 def find_bookings(bookings):
@@ -196,7 +196,7 @@ def cancel(booking):
     """
     update_data("bookings", booking, "CANC", "yes")
     customer = get_customer(booking.get("NAME"))
-    new_value = int(customer.get("CANCELLED")) + 1
+    new_value = str(int(customer.get("CANCELLED")) + 1)
     update_data("customers", customer, "CANCELLED", new_value)
 
 
