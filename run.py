@@ -6,7 +6,7 @@ import getpass
 from staff import create_staff, edit_staff_menu, staff_info_menu
 from spreadsheet import get_data
 from booking import new_booking, view_bookings_menu, edit_bookings
-from customer import get_customer, search, view_customer
+from customer import search, view_customer, create_customer, find_customer
 from stats import customers_stats
 
 
@@ -88,8 +88,9 @@ def bookings_menu(user):
             view_bookings_menu()
             continue
         if user_inp == "2":
-            user_inp = input("\n\tEnter customer's name: ")
-            customer = get_customer(user_inp)
+            customer = find_customer()
+            if customer is None:
+                continue
             new_booking(user, customer)
             continue
         if user_inp == "3":

@@ -18,31 +18,27 @@ def search(value, attr, data):
     return None
 
 
+def get_customer(name):
+    """
+    Returns a dictionary with a customer of a given name.
+    """
+    customers = get_data("customers")
+    return search(name, "NAME", customers)
+
+
 def create_customer(name):
     """
     Creates a new customer with a parameter 'name' and writes
     it to the spreadsheet.
     """
     new_name = name
-    print("\tThis customer is not in the list! Create a new customer:\n")
+    print("\n\tCreate a new customer:\n")
     phone = input("\tEnter contact number: ")
     email = input("\tEnter email to receive reminders: ").encode('utf-8')
     bday = input("\tEnter date of birth in dd-mm-yyyy format: ")
     new_data = [new_name, phone, email.decode('utf-8'), bday, 1, 0]
     update_worksheet(new_data, "customers")
     return dict(zip(KEYS, new_data))
-
-
-def get_customer(user_inp):
-    """
-    Checks if the customer exists and returns
-    customer ductionary.
-    """
-    customers = get_data("customers")[1:]
-    names = [dct['NAME'] for dct in customers]
-    if user_inp in names:
-        return search(user_inp, "NAME", customers)
-    return create_customer(user_inp)
 
 
 def pretty_print(func):
@@ -83,3 +79,35 @@ def print_customer(cust):
     print(f"\t{cust.get('NAME')} - {cust.get('PHONE')} BD: {cust.get('BD')}")
     print(f"\tbookings history: {cust.get('NUM OF BOOKINGS')},\
  cancelled: {cust.get('CANCELLED')}")
+
+
+def find_customer():
+    """
+    Returns a customer if exists or offers to create a new one.
+    Allows to input again in case of a typo.
+    """
+    customer = None
+    while True:
+        print("\n\tpress x - <==")
+        name = input("\n\tEnter customer's name: ")
+        customer = get_customer(name)
+        if name == "x":
+            break
+        if customer is None:
+            print(f"\tCustomer '{name}' does not exist.")
+            while True:
+                user_inp = input(f"\tCreate a new customer '{name}'? y/n\n\t")
+                if user_inp == "y":
+                    customer = create_customer(name)
+                    break
+                if user_inp == "n":
+                    break
+                print("\n\tInvalid input! Use one of the options above\n")
+        else:
+            break
+        if user_inp == "n":
+            continue
+        if user_inp == "y":
+            break
+
+    return customer

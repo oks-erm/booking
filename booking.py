@@ -4,7 +4,7 @@ Includes bookings specific functions.
 import re
 from datetime import datetime, date, timedelta
 from spreadsheet import get_data, update_worksheet, update_data
-from customer import pretty_print, get_customer, search
+from customer import pretty_print, search, get_customer
 
 
 def change_date_format(my_date):
@@ -183,7 +183,7 @@ def find_bookings(bookings):
     Finda and returns all bookings of a customer,
     accepts user input with a name to search.
     """
-    customers = get_data("customers")[1:]
+    customers = get_data("customers")
     while True:
         print("\n\t\t\tpress x - <==")
         user_inp = input("\n\t\t\tEnter customer's name: ")
@@ -228,8 +228,8 @@ def cancel(booking):
     and increments the customer's stats of cancelled bookings.
     """
     update_data("bookings", booking, "CANC", "yes")
-    customer = get_customer(booking.get("NAME"))
-    new_value = str(int(customer.get("CANCELLED")) + 1)
+    customer = get_customer(booking["NAME"])
+    new_value = str(int(customer["CANCELLED"]) + 1)
     update_data("customers", customer, "CANCELLED", new_value)
 
 
