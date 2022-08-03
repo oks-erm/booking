@@ -67,6 +67,12 @@ def update_data(worksheet, obj, attr, value):
     """
     row = SHEET.worksheet(worksheet).find(obj["NAME"]).row
     col = SHEET.worksheet(worksheet).find(attr).col
+    if worksheet == "bookings":
+        cell_list = SHEET.worksheet(worksheet).findall(obj["NAME"])
+        rows = [cell.row for cell in cell_list]
+        for r in rows:
+            if obj["DATE"] in SHEET.worksheet(worksheet).row_values(r):
+                row = r
     SHEET.worksheet(worksheet).update_cell(row, col, ("'"+value))
     print(f"\t\t{worksheet.capitalize()} info was successfully updated!")
     obj[attr] = value

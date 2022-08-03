@@ -130,7 +130,8 @@ def edit_bookings():
             confirm(not_confirmed)
             continue
         if user_inp == "2":
-            # reschedule()
+            booking = find_bookings(bookings_data)
+            reschedule(booking)
             continue
         if user_inp == "3":
             booking = find_bookings(bookings_data)
@@ -184,7 +185,8 @@ def find_bookings(bookings):
                      == user_inp])
     all_time = [dct['DATE'] for dct in cust_bookings]
     print_bookings(cust_bookings, all_time, "all time")
-    user_inp = input("\n\t\t\tEnter date of a booking to edit: ")
+    user_inp = input("\n\t\tEnter date of a booking to edit \
+in dd-mm-yyyy format: ")
     target = search(user_inp, "DATE", cust_bookings)
     return target
 
@@ -192,12 +194,24 @@ def find_bookings(bookings):
 def cancel(booking):
     """
     Updates bookings spreadsheet with new booking status
-    and increments the customer's stats of cancelled bookings. 
+    and increments the customer's stats of cancelled bookings.
     """
     update_data("bookings", booking, "CANC", "yes")
     customer = get_customer(booking.get("NAME"))
     new_value = str(int(customer.get("CANCELLED")) + 1)
     update_data("customers", customer, "CANCELLED", new_value)
+
+
+def reschedule(booking):
+    """
+    Updates booking data about date or time.
+    """
+    new_date = input("\n\t\tNew date in dd-mm-yyyy format\
+(leave empty if no change): ")
+    new_time = input("\t\tNew time in hh:mm format: ")
+    if new_date != "":
+        update_data("bookings", booking, "DATE", new_date)
+    update_data("bookings", booking, "TIME", new_time)
 
 
 today = change_date_format(str(date.today()))
