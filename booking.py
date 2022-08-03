@@ -36,9 +36,8 @@ def confirmed(booking):
     returns a corresponding symbol.
     """
     if booking["CONF"] == "yes":
-        return "\/"
-    else:
-        return "--"
+        return "\\/"
+    return "--"
 
 
 def view_bookings_menu():
@@ -131,10 +130,14 @@ def edit_bookings():
             continue
         if user_inp == "2":
             booking = find_bookings(bookings_data)
+            if booking is None:
+                continue
             reschedule(booking)
             continue
         if user_inp == "3":
             booking = find_bookings(bookings_data)
+            if booking is None:
+                continue
             cancel(booking)
             continue
         if user_inp == "x":
@@ -191,21 +194,23 @@ def find_bookings(bookings):
                              if item.get("NAME") == user_inp])
             all_time = [dct['DATE'] for dct in cust_bookings]
             print_bookings(cust_bookings, all_time, "all time")
+            if len(cust_bookings) == 0:
+                break
             return pick_booking(cust_bookings)
         else:
-            print(f"Customer {user_inp} does not exist. Try again.")
+            print(f"\t\t\tCustomer '{user_inp}' does not exist. Try again.")
             continue
-    edit_bookings()
-        
+
 
 def pick_booking(bookings):
     """
     Picks one booking from the list based on
     user input.
     """
+    target = None
     while True:
-        user_inp = input("\n\t\tpress x - <==\
-                    Enter date of a booking to edit in dd-mm-yyyy format: ")
+        user_inp = input("\n\t\tpress x - <==\n\
+                Enter date of a booking to edit in dd-mm-yyyy format: ")
         if user_inp == "x":
             edit_bookings()
             break
