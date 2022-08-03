@@ -13,8 +13,9 @@ def search(value, attr, data):
     that has a requested value of NAME.
     """
     for element in data:
-        if element[attr] == value:
+        if element.get(attr) == value:
             return element
+    return None
 
 
 def create_customer(name):

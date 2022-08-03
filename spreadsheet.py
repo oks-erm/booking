@@ -43,7 +43,7 @@ def update_worksheet(data, worksheet):
     except gspread.exceptions.GSpreadException:
         print("\nDatabase is not available, I couldn't save your data")
     else:
-        print("\tSaved successfully!")
+        print("\tSaved successfully!\n")
 
 
 def get_data(worksheet):

@@ -71,7 +71,7 @@ press 3 - Staff info\npress x - Exit\n"
         if user_inp == "x":
             sys.exit()
 
-        print("Incorrect input. Please, choose 1,2 or 3\n")
+        print("Invalid input. Please, use options above.\n")
 
 
 def bookings_menu(user):
@@ -141,7 +141,8 @@ def staff_menu(user):
             staff_info_menu(staff)
             continue
         if user_inp == "2":
-            edit_staff_menu(staff, user)
+            upd_staff = get_data("staff")  # new staff data in case a new user wants to change their data
+            edit_staff_menu(upd_staff, user)
             continue
         if user_inp == "x":
             start_menu(user)

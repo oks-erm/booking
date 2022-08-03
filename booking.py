@@ -177,17 +177,43 @@ def increment_bookings(customer):
 
 def find_bookings(bookings):
     """
-    Find all bookings of a customer,
+    Finda and returns all bookings of a customer,
     accepts user input with a name to search.
     """
-    user_inp = input("\n\t\t\tEnter customer's name: ")
-    cust_bookings = ([item for item in active(bookings) if item.get("NAME")
-                     == user_inp])
-    all_time = [dct['DATE'] for dct in cust_bookings]
-    print_bookings(cust_bookings, all_time, "all time")
-    user_inp = input("\n\t\tEnter date of a booking to edit \
-in dd-mm-yyyy format: ")
-    target = search(user_inp, "DATE", cust_bookings)
+    customers = get_data("customers")[1:]
+    while True:
+        print("\n\t\t\tpress x - <==")
+        user_inp = input("\n\t\t\tEnter customer's name: ")
+        if user_inp == "x":
+            break
+        if user_inp in [dct['NAME'] for dct in customers]:
+            cust_bookings = ([item for item in active(bookings)
+                             if item.get("NAME") == user_inp])
+            all_time = [dct['DATE'] for dct in cust_bookings]
+            print_bookings(cust_bookings, all_time, "all time")
+            return pick_booking(cust_bookings)
+        else:
+            print(f"Customer {user_inp} does not exist. Try again.")
+            continue
+    edit_bookings()
+        
+
+def pick_booking(bookings):
+    """
+    Picks one booking from the list based on
+    user input.
+    """
+    while True:
+        user_inp = input("\n\t\tpress x - <==\
+                    Enter date of a booking to edit in dd-mm-yyyy format: ")
+        if user_inp == "x":
+            edit_bookings()
+            break
+        else:
+            target = search(user_inp, "DATE", bookings)
+            if target is not None:
+                break
+            print(f"Invalid input '{user_inp}'. Please, enter a correct date.")
     return target
 
 
