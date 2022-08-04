@@ -59,17 +59,16 @@ def view_customer(name):
     Checks the request and to print out the customer
     and calls print_customer.
     """
-    customers = get_data("customers")[1:]  # Do i need a function for 2 lines?
-    names = [dct['NAME'] for dct in customers]
-    if name in names:
-        cust = search(name, "NAME", customers)
-        print_customer(cust)
+    customers = get_data("customers") 
+    customer = get_customer(name)
+    if customer is not None:
+        print_customer(customer)
     elif name == "all":
         for item in customers:
             print_customer(item)
             print("-" * 50)
     else:
-        print("\tThis customer doesn't exist")
+        print(f"\tCustomer '{name}' doesn't exist")
 
 
 def print_customer(cust):

@@ -50,7 +50,7 @@ def start_menu(user):
     """
     Displays start menu after the user is logged in.
     """
-    print(f"\nWhat do you want to do, {user.get('NAME')}?")
+    print(f"\nWhat do you want to do, {user['NAME']}?")
     while True:
         user_inp = input(
             "press 1 - Bookings\npress 2 - Customers\n\
