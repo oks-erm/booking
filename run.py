@@ -10,15 +10,14 @@ from customer import search, view_customer, find_customer
 from stats import customers_stats
 
 
-def authorise(name, data):
+def authorise(user, data):
     """
     Checks the user's password
     """
     for i in range(4):
         print(f"Attempt {i+1} of 4")
         password = getpass.getpass("Password:")
-        check_user = search(name, "NAME", data)
-        if check_user["PASSWORD"] == password:
+        if user["PASSWORD"] == password:
             print("All good!\n")
             return True
         print("The password is not correct! Try again!\n")
@@ -33,11 +32,10 @@ def staff_login(data):
         entered_name = input(
             "Enter your name or enter 'new' if you are a new member of staff: "
         )
-        names = [dct['NAME'] for dct in data]
-        if entered_name in names:
-            if authorise(entered_name, data) is not True:
+        user = search(entered_name, "NAME", data)
+        if user is not None:
+            if authorise(user, data) is not True:
                 continue
-            user = search(entered_name, "NAME", data)
             break
         if entered_name.lower() == "new":
             user = create_staff()
