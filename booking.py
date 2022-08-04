@@ -25,8 +25,9 @@ def active(data):
     """
     Filters out past and cancelled bookings.
     """
-    filtered = [x for x in data if (to_date(x.get("DATE")) >= date.today())
-                and (x.get("CANC") != "yes")]
+    filtered = [item for item in data
+                if (to_date(item["DATE"]) >= date.today())
+                and (item["CANC"] != "yes")]
     return filtered
 
 
@@ -80,8 +81,8 @@ def print_bookings(data, period, string):
     Accepts an object defining time range and a string to name
     it in the output.
     """
-    bookings = [x for x in active(data)
-                if (x.get("DATE") == period or x.get("DATE") in period)]
+    bookings = [bkng for bkng in active(data)
+                if (bkng["DATE"] == period or bkng["DATE"] in period)]
 
     bookings.sort(key=lambda x: datetime.strptime(x["DATE"], "%d-%m-%Y"))
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
@@ -174,7 +175,7 @@ def increment_bookings(customer):
     Increments number of bookings a customer has, when
     a new booking is created.
     """
-    new_number = str(int(customer.get("NUM OF BOOKINGS")) + 1)
+    new_number = str(int(customer["NUM OF BOOKINGS"]) + 1)
     update_data("customers", customer, "NUM OF BOOKINGS", new_number)
 
 
@@ -189,17 +190,16 @@ def find_bookings(bookings):
         user_inp = input("\n\t\t\tEnter customer's name: ")
         if user_inp == "x":
             break
-        if user_inp in [dct['NAME'] for dct in customers]:
+        if user_inp in [dct["NAME"] for dct in customers]:
             cust_bookings = ([item for item in active(bookings)
-                             if item.get("NAME") == user_inp])
-            all_time = [dct['DATE'] for dct in cust_bookings]
+                             if item["NAME"] == user_inp])
+            all_time = [dct["DATE"] for dct in cust_bookings]
             print_bookings(cust_bookings, all_time, "all time")
             if len(cust_bookings) == 0:
                 break
             return pick_booking(cust_bookings)
-        else:
-            print(f"\t\t\tCustomer '{user_inp}' does not exist. Try again.")
-            continue
+
+        print(f"\t\t\tCustomer '{user_inp}' does not exist. Try again.")
 
 
 def pick_booking(bookings):
@@ -212,13 +212,11 @@ def pick_booking(bookings):
         user_inp = input("\n\t\tpress x - <==\n\
                 Enter date of a booking to edit in dd-mm-yyyy format: ")
         if user_inp == "x":
-            edit_bookings()
             break
-        else:
-            target = search(user_inp, "DATE", bookings)
-            if target is not None:
-                break
-            print(f"Invalid input '{user_inp}'. Please, enter a correct date.")
+        target = search(user_inp, "DATE", bookings)
+        if target is not None:
+            break
+        print(f"\t\tInvalid input '{user_inp}'. Please, enter a correct date.")
     return target
 
 

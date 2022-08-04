@@ -75,9 +75,9 @@ def print_customer(cust):
     """
     Prints out information about the requested customer.
     """
-    print(f"\t{cust.get('NAME')} - {cust.get('PHONE')} BD: {cust.get('BD')}")
-    print(f"\tbookings history: {cust.get('NUM OF BOOKINGS')},\
- cancelled: {cust.get('CANCELLED')}")
+    print(f"\t{cust['NAME']} - {cust['PHONE']} BD: {cust['BD']}")
+    print(f"\tbookings history: {cust['NUM OF BOOKINGS']},\
+ cancelled: {cust['CANCELLED']}")
 
 
 def find_customer():

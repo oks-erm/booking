@@ -68,7 +68,7 @@ def print_staff_info(inp, staff):
     """
     if inp == "all":
         for item in staff:
-            print(f"\t{item.get('NAME')} : {item.get('CONTACT')}")
+            print(f"\t{item['NAME']} : {item['CONTACT']}")
     else:
         result = [item for item in staff if item["NAME"] == inp]
-        print(f"\t{result[0].get('NAME')} : {result[0].get('CONTACT')}")
+        print(f"\t{result[0]['NAME']} : {result[0]['CONTACT']}")
