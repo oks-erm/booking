@@ -10,7 +10,7 @@ from customer import search, view_customer, find_customer
 from stats import customers_stats
 
 
-def authorise(user, data):
+def authorise(user):
     """
     Checks the user's password
     """
@@ -34,7 +34,7 @@ def staff_login(data):
         )
         user = search(entered_name, "NAME", data)
         if user is not None:
-            if authorise(user, data) is not True:
+            if authorise(user) is not True:
                 continue
             break
         if entered_name.lower() == "new":

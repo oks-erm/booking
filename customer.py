@@ -59,7 +59,7 @@ def view_customer(name):
     Checks the request and to print out the customer
     and calls print_customer.
     """
-    customers = get_data("customers") 
+    customers = get_data("customers")
     customer = get_customer(name)
     if customer is not None:
         print_customer(customer)
