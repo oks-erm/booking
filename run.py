@@ -111,7 +111,7 @@ def customers_menu(user):
         press 3 - Stats\n\
         press x - <==\n\t")
         if user_inp == "1":
-            user_inp = input("\n\tEnter name: \n")
+            user_inp = input("\n\tEnter name: ")
             view_customer(user_inp)
         elif user_inp == "2":
             view_customer("all")

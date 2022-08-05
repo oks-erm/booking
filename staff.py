@@ -14,10 +14,10 @@ def create_staff():
     """
     Creates a new member of Staff
     """
-    new_name = input("Enter a name for a new member of staff:\n")
+    new_name = input("Enter a name for a new member of staff: ")
     print(f"Hi, {new_name}!")
-    password = getpass.getpass("Create a password:")
-    contact = input("Awesome! Enter your contact number: \n")
+    password = getpass.getpass("Create a password: ")
+    contact = input("Awesome! Enter your contact number: ")
     user = [new_name, password, contact]
     update_worksheet(user, "staff")
     return dict(zip(KEYS, user))
@@ -29,7 +29,7 @@ def staff_info_menu(staff_list):
     """
     while True:
         print("\n\tEnter 'all' to see the full list")
-        request = input("\tOr enter name to search by name: ")
+        request = input("\tOr enter a name to search by name: ")
         if request in [dct['NAME'] for dct in staff_list] or request == "all":
             print_staff_info(request, staff_list)
             break
