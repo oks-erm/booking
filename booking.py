@@ -103,7 +103,7 @@ def new_booking(user, customer):
     name = customer["NAME"]
     created = user["NAME"]
     new_date = input("\n\tEnter booking date in dd-mm-yyyy format: \n")
-    new_time = input("\tEnter date in hh:mm format: \n")
+    new_time = input("\tEnter time in hh:mm format: \n")
     ppl = input("\tHow many people: \n")
     new = [new_date, new_time, name, ppl, created, "-", ""]
     update_worksheet(new, "bookings")
