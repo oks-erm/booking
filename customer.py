@@ -33,9 +33,9 @@ def create_customer(name):
     """
     new_name = name
     print("\n\tCreate a new customer:\n")
-    phone = input("\tEnter contact number: ")
-    email = input("\tEnter email to receive reminders: ").encode('utf-8')
-    bday = input("\tEnter date of birth in dd-mm-yyyy format: ")
+    phone = input("\tEnter contact number: \n")
+    email = input("\tEnter email to receive reminders: \n").encode('utf-8')
+    bday = input("\tEnter date of birth in dd-mm-yyyy format: \n")
     new_data = [new_name, phone, email.decode('utf-8'), bday, 1, 0]
     update_worksheet(new_data, "customers")
     return dict(zip(KEYS, new_data))
@@ -88,7 +88,7 @@ def find_customer():
     customer = None
     while True:
         print("\n\tpress x - <==")
-        name = input("\n\tEnter customer's name: ")
+        name = input("\n\tEnter customer's name: \n")
         customer = get_customer(name)
         if name == "x":
             break

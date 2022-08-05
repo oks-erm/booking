@@ -29,9 +29,8 @@ def staff_login(data):
     """
     print("\n\n\t\tWelcome to Your Booking System!\n")
     while True:
-        entered_name = input(
-            "Enter your name or enter 'new' if you are a new member of staff: "
-        )
+        entered_name = input("Enter your name or enter 'new'\
+if you are a new member of staff: \n")
         user = search(entered_name, "NAME", data)
         if user is not None:
             if authorise(user) is not True:
@@ -112,7 +111,7 @@ def customers_menu(user):
         press 3 - Stats\n\
         press x - <==\n\t")
         if user_inp == "1":
-            user_inp = input("\n\tEnter name: ")
+            user_inp = input("\n\tEnter name: \n")
             view_customer(user_inp)
         elif user_inp == "2":
             view_customer("all")

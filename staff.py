@@ -17,7 +17,7 @@ def create_staff():
     new_name = input("Enter a name for a new member of staff:\n")
     print(f"Hi, {new_name}!")
     password = getpass.getpass("Create a password:")
-    contact = input("Awesome! Enter your contact number:")
+    contact = input("Awesome! Enter your contact number: \n")
     user = [new_name, password, contact]
     update_worksheet(user, "staff")
     return dict(zip(KEYS, user))

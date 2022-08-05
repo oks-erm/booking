@@ -102,9 +102,9 @@ def new_booking(user, customer):
     """
     name = customer["NAME"]
     created = user["NAME"]
-    new_date = input("\n\tEnter booking date in dd-mm-yyyy format: ")
-    new_time = input("\tEnter date in hh:mm format: ")
-    ppl = input("\tHow many people: ")
+    new_date = input("\n\tEnter booking date in dd-mm-yyyy format: \n")
+    new_time = input("\tEnter date in hh:mm format: \n")
+    ppl = input("\tHow many people: \n")
     new = [new_date, new_time, name, ppl, created, "-", ""]
     update_worksheet(new, "bookings")
     increment_bookings(customer)
@@ -187,7 +187,7 @@ def find_bookings(bookings):
     customers = get_data("customers")
     while True:
         print("\n\t\t\tpress x - <==")
-        user_inp = input("\n\t\t\tEnter customer's name: ")
+        user_inp = input("\n\t\t\tEnter customer's name: \n")
         if user_inp == "x":
             break
         if user_inp in [dct["NAME"] for dct in customers]:
@@ -210,7 +210,7 @@ def pick_booking(bookings):
     target = None
     while True:
         user_inp = input("\n\t\tpress x - <==\n\
-                Enter date of a booking to edit in dd-mm-yyyy format: ")
+                Enter date of a booking to edit in dd-mm-yyyy format: \n")
         if user_inp == "x":
             break
         target = search(user_inp, "DATE", bookings)
@@ -236,8 +236,8 @@ def reschedule(booking):
     Updates booking data about date or time.
     """
     new_date = input("\n\t\tNew date in dd-mm-yyyy format\
-(leave empty if no change): ")
-    new_time = input("\t\tNew time in hh:mm format: ")
+(leave empty if no change): \n")
+    new_time = input("\t\tNew time in hh:mm format: \n")
     if new_date != "":
         update_data("bookings", booking, "DATE", new_date)
     update_data("bookings", booking, "TIME", new_time)
