@@ -112,18 +112,21 @@ def new_booking(user, customer):
     created = user["NAME"]
     while True:
         while True:
-            print("\n\tEnter 'x' for date and time if you don\'t want to create a new booking")
+            print("\n\tEnter 'x' for date and time if you don\'t want \
+to create a new booking")
             new_date = input("\tEnter a booking date (dd-mm-yyyy): ")
             if new_date == "x":
                 break
             if validate_date_input(new_date) is True and \
                     check_duplicates(new_date, name) is False:
+                bookings = get_data("bookings")
+                print_bookings(bookings, new_date, new_date)    
                 break
             print(f"\tInvalid input: '{new_date}'.\n\
         Please, enter a correct date.")
         while True:
             new_time = input("\tNew time (hh:mm): ")
-            if new_date == "x":
+            if new_time == "x":
                 break
             if validate_time_input(new_time) is True:
                 break
