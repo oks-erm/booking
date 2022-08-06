@@ -29,7 +29,6 @@ def upload(my_file, folder):
     except HttpError as error:
         print(F'An error occurred: {error}')
         file = None
-
     return file.get('id')
 
 

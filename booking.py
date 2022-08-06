@@ -216,7 +216,7 @@ def pick_booking(bookings):
         target = search(user_inp, "DATE", bookings)
         if target is not None:
             break
-        print(f"\t\tInvalid input: '{user_inp}'.\
+        print(f"\t\tInvalid input: '{user_inp}'.\n\
                 Please, enter a correct date.")
     return target
 

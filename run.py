@@ -117,7 +117,7 @@ def customers_menu(user):
             view_customer("all")
         elif user_inp == "3":
             customers_stats()
-            print("\tYou're stats are ready! Check *** folder.")
+            print("\tYour stats is ready! Check your Google Drive folder.")
         elif user_inp == "x":
             start_menu(user)
             break
