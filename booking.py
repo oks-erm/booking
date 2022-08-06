@@ -277,10 +277,14 @@ to change.")
 (leave empty if no change): ")
             if new_date == "x":
                 break
-            if validate_date_input(new_date) is True and \
+            if (validate_date_input(new_date) is True or
+                new_date == "") and \
                     check_duplicates(new_date, booking["NAME"]) is False:
                 bookings = get_data("bookings")
-                print_bookings(bookings, new_date, new_date)
+                if new_date != "":
+                    print_bookings(bookings, new_date, new_date)
+                else:
+                    print_bookings(bookings, booking["DATE"], booking["DATE"])
                 break
             print(f"\t\tInvalid input: '{new_date}'.\n\
                 Please, enter a correct date.")
@@ -320,10 +324,7 @@ def validate_time_input(inp):
     it's not from the past.
     """
     try:
-        inp_to_time = datetime.strptime(inp, "%H:%M").time()
-        now = datetime.now().time()
-        if inp != datetime.strptime(inp, "%H:%M").strftime("%H:%M") or \
-                inp_to_time < now:
+        if inp != datetime.strptime(inp, "%H:%M").strftime("%H:%M"):
             raise ValueError
         return True
     except ValueError:
