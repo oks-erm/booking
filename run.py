@@ -2,10 +2,12 @@
 Main module, includes main logic flow and menus.
 """
 import sys
+import os
 import getpass
 from staff import create_staff, edit_staff_menu, staff_info_menu
 from spreadsheet import get_data
-from booking import new_booking, view_bookings_menu, edit_bookings
+from booking import (new_booking, view_bookings_menu,
+                     edit_bookings, bookings_today)
 from customer import search, view_customer, find_customer
 from stats import customers_stats
 
@@ -66,6 +68,7 @@ press 3 - Staff info\npress x - Exit\n"
             staff_menu(user)
             break
         if user_inp == "x":
+            cleanup()
             sys.exit()
 
         print("Invalid input. Please, use options above.\n")
@@ -147,9 +150,21 @@ def staff_menu(user):
             break
         print("\tInvalid input. Please, use options above.")
 
+    
+def cleanup():
+    """
+    Deletes not needed files.
+    """
+    files = ['today.csv', 'stats.csv']
+    for file in files:
+        if os.path.exists(file):
+            os.remove(file)
+
 
 if __name__ == '__main__':
     staff = get_data("staff")
     the_user = staff_login(staff)
     print(f"{the_user['NAME']} : {the_user['CONTACT']}")
+    bookings_today()
     start_menu(the_user)
+

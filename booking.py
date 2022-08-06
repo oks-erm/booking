@@ -2,8 +2,9 @@
 Includes bookings specific functions.
 """
 import re
+import csv
 from datetime import datetime, date, timedelta
-from spreadsheet import get_data, update_worksheet, update_data
+from spreadsheet import get_data, update_worksheet, update_data, get_worksheet
 from customer import pretty_print, search, get_customer
 
 
@@ -120,7 +121,7 @@ to create a new booking")
             if validate_date_input(new_date) is True and \
                     check_duplicates(new_date, name) is False:
                 bookings = get_data("bookings")
-                print_bookings(bookings, new_date, new_date)    
+                print_bookings(bookings, new_date, new_date)
                 break
             print(f"\tInvalid input: '{new_date}'.\n\
         Please, enter a correct date.")
@@ -331,17 +332,30 @@ def validate_time_input(inp):
         return False
 
 
-def check_duplicates(date, name):
+def check_duplicates(user_date, name):
     """
     Checks if a customer already has a booking for
     this date.
     """
     customer_bookings = cust_bookings(name)
-    if date in [dct["DATE"] for dct in customer_bookings]:
-        print(f"\n\t!!!Booking for {date} already exists!!!")
-        print_bookings(customer_bookings, date, date)
+    if user_date in [dct["DATE"] for dct in customer_bookings]:
+        print(f"\n\t!!!Booking for {user_date} already exists!!!")
+        print_bookings(customer_bookings, user_date, user_date)
         return True
     return False
+
+
+def bookings_today():
+    """
+    Writes today's bookings to csv.
+    """
+    bookings_data = get_worksheet("bookings")
+    todays = [bkng for bkng in bookings_data[1:]
+              if bkng[0] == today]
+    with open("today.csv", "w", newline="") as file:
+        file.truncate()
+        writer = csv.writer(file)
+        writer.writerows(todays)
 
 
 today = change_date_format(str(date.today()))
