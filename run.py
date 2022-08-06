@@ -29,7 +29,7 @@ def staff_login(data):
     """
     print("\n\n\t\tWelcome to Your Booking System!\n")
     while True:
-        entered_name = input("Enter your name or enter 'new'\
+        entered_name = input("Enter your name or enter 'new' \
 if you are a new member of staff: ")
         user = search(entered_name, "NAME", data)
         if user is not None:
