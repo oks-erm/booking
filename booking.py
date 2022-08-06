@@ -41,6 +41,14 @@ def confirmed(booking):
     return "--"
 
 
+def cust_bookings(name):
+    """
+    Selects all active bookings of a customer.
+    """
+    bookings = get_data("bookings")
+    return [item for item in active(bookings) if item["NAME"] == name]
+
+
 def view_bookings_menu():
     """
     Displays menu to choose bookings for what period
@@ -104,7 +112,8 @@ def new_booking(user, customer):
     created = user["NAME"]
     while True:
         new_date = input("\n\tEnter a booking date (dd-mm-yyyy): ")
-        if validate_date_input(new_date) is True:
+        if validate_date_input(new_date) is True and \
+                check_duplicates(new_date, name) is False:
             break
         print(f"\tInvalid input: '{new_date}'.\n\
         Please, enter a correct date.")
@@ -201,13 +210,12 @@ def find_bookings(bookings):
         if user_inp == "x":
             break
         if user_inp in [dct["NAME"] for dct in customers]:
-            cust_bookings = ([item for item in active(bookings)
-                             if item["NAME"] == user_inp])
-            all_time = [dct["DATE"] for dct in cust_bookings]
-            print_bookings(cust_bookings, all_time, "all time")
-            if len(cust_bookings) == 0:
+            bookings = cust_bookings(user_inp)
+            all_time = [dct["DATE"] for dct in bookings]
+            print_bookings(bookings, all_time, "all time")
+            if len(bookings) == 0:
                 break
-            return pick_booking(cust_bookings)
+            return pick_booking(bookings)
 
         print(f"\t\t\tCustomer '{user_inp}' does not exist. Try again.")
 
@@ -252,7 +260,8 @@ def reschedule(booking):
     while True:
         new_date = input("\n\t\tNew date (dd-mm-yyyy)\
 (leave empty if no change): ")
-        if validate_date_input(new_date) is True:
+        if validate_date_input(new_date) is True and \
+                check_duplicates(new_date, booking["NAME"]) is False:
             break
         print(f"\t\tInvalid input: '{new_date}'.\n\
                 Please, enter a correct date.")
@@ -295,6 +304,19 @@ def validate_time_input(inp):
         return True
     except ValueError:
         return False
+
+
+def check_duplicates(date, name):
+    """
+    Checks if a customer already has a booking for
+    this date.
+    """
+    customer_bookings = cust_bookings(name)
+    if date in [dct["DATE"] for dct in customer_bookings]:
+        print(f"\n\tBooking for {date} already exists")
+        print_bookings(customer_bookings, date, date)
+        return True
+    return False
 
 
 today = change_date_format(str(date.today()))
