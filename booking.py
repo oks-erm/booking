@@ -111,23 +111,31 @@ def new_booking(user, customer):
     name = customer["NAME"]
     created = user["NAME"]
     while True:
-        new_date = input("\n\tEnter a booking date (dd-mm-yyyy): ")
-        if validate_date_input(new_date) is True and \
-                check_duplicates(new_date, name) is False:
-            break
-        print(f"\tInvalid input: '{new_date}'.\n\
+        while True:
+            print("\n\tEnter 'x' for date and time if you don\'t want to create a new booking")
+            new_date = input("\tEnter a booking date (dd-mm-yyyy): ")
+            if new_date == "x":
+                break
+            if validate_date_input(new_date) is True and \
+                    check_duplicates(new_date, name) is False:
+                break
+            print(f"\tInvalid input: '{new_date}'.\n\
         Please, enter a correct date.")
-    while True:
-        new_time = input("\tNew time (hh:mm): ")
-        if validate_time_input(new_time) is True:
-            break
-        print(f"\tInvalid input: '{new_time}'.\n\
+        while True:
+            new_time = input("\tNew time (hh:mm): ")
+            if new_date == "x":
+                break
+            if validate_time_input(new_time) is True:
+                break
+            print(f"\tInvalid input: '{new_time}'.\n\
         Please, enter correct time.")
-    ppl = input("\tHow many people: ")
-    new = [new_date, new_time, name, ppl, created, "-", ""]
-    update_worksheet(new, "bookings")
-    increment_bookings(customer)
-    print_bookings([dict(zip(KEYS, new))], new_date, "".join(new_date))
+        if new_date == "x" or new_time == "x":
+            break
+        ppl = input("\tHow many people: ")
+        new = [new_date, new_time, name, ppl, created, "-", ""]
+        update_worksheet(new, "bookings")
+        increment_bookings(customer)
+        print_bookings([dict(zip(KEYS, new))], new_date, "".join(new_date))
 
 
 def edit_bookings():
@@ -313,7 +321,7 @@ def check_duplicates(date, name):
     """
     customer_bookings = cust_bookings(name)
     if date in [dct["DATE"] for dct in customer_bookings]:
-        print(f"\n\tBooking for {date} already exists")
+        print(f"\n\t!!!Booking for {date} already exists!!!")
         print_bookings(customer_bookings, date, date)
         return True
     return False
