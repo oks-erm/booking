@@ -102,7 +102,13 @@ def new_booking(user, customer):
     """
     name = customer["NAME"]
     created = user["NAME"]
-    new_date = input("\n\tEnter a booking date (dd-mm-yyyy): ")
+    while True:
+        new_date = input("\n\tEnter a booking date (dd-mm-yyyy): ")
+        if validate_date_input(new_date) is True:
+            break
+        print(f"\t\tInvalid input: '{new_date}'.\n\
+                Please, enter a correct date.")
+
     new_time = input("\tEnter time (hh:mm): ")
     ppl = input("\tHow many people: ")
     new = [new_date, new_time, name, ppl, created, "-", ""]
@@ -213,11 +219,14 @@ def pick_booking(bookings):
                 Date of a booking to edit (dd-mm-yyyy): ")
         if user_inp == "x":
             break
+        if validate_date_input(user_inp) is False:
+            print(f"\t\tInvalid input: '{user_inp}'.\n\
+                Please, enter a correct date.")
+            continue
         target = search(user_inp, "DATE", bookings)
         if target is not None:
             break
-        print(f"\t\tInvalid input: '{user_inp}'.\n\
-                Please, enter a correct date.")
+        print(f"There are no bookings for {user_inp}")
     return target
 
 
@@ -236,12 +245,31 @@ def reschedule(booking):
     """
     Updates booking data about date or time.
     """
-    new_date = input("\n\t\tNew date (dd-mm-yyyy)\
+    while True:
+        new_date = input("\n\t\tNew date (dd-mm-yyyy)\
 (leave empty if no change): ")
+        if validate_date_input(new_date) is True:
+            break
+        print(f"\t\tInvalid input: '{new_date}'.\n\
+                Please, enter a correct date.")
     new_time = input("\t\tNew time (hh:mm): ")
     if new_date != "":
         update_data("bookings", booking, "DATE", new_date)
     update_data("bookings", booking, "TIME", new_time)
+
+
+def validate_date_input(inp):
+    """
+    Validates if date is correct dd-mm-yyyy format and
+    it's not from the past.
+    """
+    try:
+        if inp != (datetime.strptime(inp, "%d-%m-%Y").strftime("%d-%m-%Y")
+                   or to_date(inp) < date.today()):
+            raise ValueError
+        return True
+    except ValueError:
+        return False
 
 
 today = change_date_format(str(date.today()))
