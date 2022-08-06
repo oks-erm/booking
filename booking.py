@@ -106,10 +106,14 @@ def new_booking(user, customer):
         new_date = input("\n\tEnter a booking date (dd-mm-yyyy): ")
         if validate_date_input(new_date) is True:
             break
-        print(f"\t\tInvalid input: '{new_date}'.\n\
-                Please, enter a correct date.")
-
-    new_time = input("\tEnter time (hh:mm): ")
+        print(f"\tInvalid input: '{new_date}'.\n\
+        Please, enter a correct date.")
+    while True:
+        new_time = input("\tNew time (hh:mm): ")
+        if validate_time_input(new_time) is True:
+            break
+        print(f"\tInvalid input: '{new_time}'.\n\
+        Please, enter correct time.")
     ppl = input("\tHow many people: ")
     new = [new_date, new_time, name, ppl, created, "-", ""]
     update_worksheet(new, "bookings")
@@ -252,7 +256,12 @@ def reschedule(booking):
             break
         print(f"\t\tInvalid input: '{new_date}'.\n\
                 Please, enter a correct date.")
-    new_time = input("\t\tNew time (hh:mm): ")
+    while True:
+        new_time = input("\t\tNew time (hh:mm): ")
+        if validate_time_input(new_time) is True:
+            break
+        print(f"\t\tInvalid input: '{new_time}'.\n\
+                Please, enter correct time.")
     if new_date != "":
         update_data("bookings", booking, "DATE", new_date)
     update_data("bookings", booking, "TIME", new_time)
@@ -264,8 +273,24 @@ def validate_date_input(inp):
     it's not from the past.
     """
     try:
-        if inp != (datetime.strptime(inp, "%d-%m-%Y").strftime("%d-%m-%Y")
-                   or to_date(inp) < date.today()):
+        if inp != datetime.strptime(inp, "%d-%m-%Y").strftime("%d-%m-%Y") or \
+                to_date(inp) < date.today():
+            raise ValueError
+        return True
+    except ValueError:
+        return False
+
+
+def validate_time_input(inp):
+    """
+    Validates if time is correct hh:mm format and
+    it's not from the past.
+    """
+    try:
+        inp_to_time = datetime.strptime(inp, "%H:%M").time()
+        now = datetime.now().time()
+        if inp != datetime.strptime(inp, "%H:%M").strftime("%H:%M") or \
+                inp_to_time < now:
             raise ValueError
         return True
     except ValueError:
