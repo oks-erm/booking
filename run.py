@@ -40,7 +40,7 @@ if you are a new member of staff: ")
             user = create_staff()
             break
         print(f"Sorry, there is no user '{entered_name}'.")
-        print("If you want to create a new user, enter 'new'\n")
+        print("If you want to create a new user, enter 'new'.\n")
 
     return user
 
@@ -96,7 +96,7 @@ def bookings_menu(user):
         if user_inp == "x":
             start_menu(user)
             break
-        print("\tInvalid input. Use one of the options above")
+        print("\tInvalid input. Please, use options above.")
     start_menu(user)
 
 
@@ -122,7 +122,7 @@ def customers_menu(user):
             start_menu(user)
             break
         else:
-            print("\tInvalid input. Use one of the options above")
+            print("\tInvalid input. Please, use options above.")
     start_menu(user)
 
 
@@ -145,7 +145,7 @@ def staff_menu(user):
         if user_inp == "x":
             start_menu(user)
             break
-        print("\tInvalid input. Use one of the options above")
+        print("\tInvalid input. Please, use options above.")
 
 
 if __name__ == '__main__':

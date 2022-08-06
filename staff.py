@@ -33,7 +33,7 @@ def staff_info_menu(staff_list):
         if request in [dct['NAME'] for dct in staff_list] or request == "all":
             print_staff_info(request, staff_list)
             break
-        print("\tNothing found, try again or view the full list")
+        print("\tNothing found, try again or view the full list.")
 
 
 def edit_staff_menu(staff, user):
@@ -58,7 +58,7 @@ def edit_staff_menu(staff, user):
             break
         if user_inp == "x":
             break
-        print("\t\tInvalid input. Use one of the options above\n")
+        print("\t\tInvalid input. Please, use options above.\n")
 
 
 @pretty_print

@@ -9,7 +9,7 @@ from customer import pretty_print, search, get_customer
 
 def change_date_format(my_date):
     """
-    Changes date format from YYYY-MM-DD to DD-MM-YYYY
+    Changes date format from YYYY-MM-DD to DD-MM-YYYY.
     """
     return re.sub(r'(\d{4})-(\d{1,2})-(\d{1,2})', '\\3-\\2-\\1', my_date)
 
@@ -71,7 +71,7 @@ def view_bookings_menu():
             break
         if user_inp == "x":
             break
-        print("\t\tInvalid input! Use one of the options above")
+        print("\t\tInvalid input. Please, use options above.")
 
 
 @pretty_print
@@ -102,8 +102,8 @@ def new_booking(user, customer):
     """
     name = customer["NAME"]
     created = user["NAME"]
-    new_date = input("\n\tEnter a booking date in dd-mm-yyyy format: ")
-    new_time = input("\tEnter time in hh:mm format: ")
+    new_date = input("\n\tEnter a booking date (dd-mm-yyyy): ")
+    new_time = input("\tEnter time (hh:mm): ")
     ppl = input("\tHow many people: ")
     new = [new_date, new_time, name, ppl, created, "-", ""]
     update_worksheet(new, "bookings")
@@ -143,7 +143,7 @@ def edit_bookings():
             continue
         if user_inp == "x":
             break
-        print("\t\tInvalid input. Use one of the options above")
+        print("\t\tInvalid input. Please, use options above.")
 
 
 def confirm(bookings):
@@ -165,7 +165,7 @@ def confirm(bookings):
                 break
             if user_inp == "x":
                 break
-            print("\t\t\tInvalid input! Use one of the options above")
+            print("\t\t\tInvalid input. Please, use options above.")
         if user_inp == "x":
             break
 
@@ -210,13 +210,14 @@ def pick_booking(bookings):
     target = None
     while True:
         user_inp = input("\n\t\tpress x - <==\n\
-                Enter date of a booking to edit in dd-mm-yyyy format: ")
+                Date of a booking to edit (dd-mm-yyyy): ")
         if user_inp == "x":
             break
         target = search(user_inp, "DATE", bookings)
         if target is not None:
             break
-        print(f"\t\tInvalid input '{user_inp}'. Please, enter a correct date.")
+        print(f"\t\tInvalid input: '{user_inp}'.\
+                Please, enter a correct date.")
     return target
 
 
@@ -235,9 +236,9 @@ def reschedule(booking):
     """
     Updates booking data about date or time.
     """
-    new_date = input("\n\t\tNew date in dd-mm-yyyy format\
+    new_date = input("\n\t\tNew date (dd-mm-yyyy)\
 (leave empty if no change): ")
-    new_time = input("\t\tNew time in hh:mm format: ")
+    new_time = input("\t\tNew time (hh:mm): ")
     if new_date != "":
         update_data("bookings", booking, "DATE", new_date)
     update_data("bookings", booking, "TIME", new_time)
