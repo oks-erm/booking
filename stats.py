@@ -97,6 +97,3 @@ def customers_stats():
         fig.savefig(pdf_pgs, format='pdf')
     pdf_pgs.close()
     upload("stats.pdf", '1RMQBmiL3ATEkIAtPFmQypM5rcYfzXsD-')
-
-
-customers_stats()
