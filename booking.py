@@ -139,6 +139,7 @@ to create a new booking")
         update_worksheet(new, "bookings")
         increment_bookings(customer)
         print_bookings([dict(zip(KEYS, new))], new_date, "".join(new_date))
+        break
 
 
 def edit_bookings():
@@ -269,22 +270,34 @@ def reschedule(booking):
     Updates booking data about date or time.
     """
     while True:
-        new_date = input("\n\t\tNew date (dd-mm-yyyy)\
+        while True:
+            print("\n\t\tEnter 'x' for date and time if you don\'t want \
+to change.")
+            new_date = input("\n\t\tNew date (dd-mm-yyyy)\
 (leave empty if no change): ")
-        if validate_date_input(new_date) is True and \
-                check_duplicates(new_date, booking["NAME"]) is False:
-            break
-        print(f"\t\tInvalid input: '{new_date}'.\n\
+            if new_date == "x":
+                break
+            if validate_date_input(new_date) is True and \
+                    check_duplicates(new_date, booking["NAME"]) is False:
+                bookings = get_data("bookings")
+                print_bookings(bookings, new_date, new_date)
+                break
+            print(f"\t\tInvalid input: '{new_date}'.\n\
                 Please, enter a correct date.")
-    while True:
-        new_time = input("\t\tNew time (hh:mm): ")
-        if validate_time_input(new_time) is True:
-            break
-        print(f"\t\tInvalid input: '{new_time}'.\n\
+        while True:
+            new_time = input("\t\tNew time (hh:mm): ")
+            if new_time == "x":
+                break
+            if validate_time_input(new_time) is True:
+                break
+            print(f"\t\tInvalid input: '{new_time}'.\n\
                 Please, enter correct time.")
-    if new_date != "":
-        update_data("bookings", booking, "DATE", new_date)
-    update_data("bookings", booking, "TIME", new_time)
+        if new_date == "x" or new_time == "x":
+            break
+        if new_date != "":
+            update_data("bookings", booking, "DATE", new_date)
+        update_data("bookings", booking, "TIME", new_time)
+        break
 
 
 def validate_date_input(inp):
