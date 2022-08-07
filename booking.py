@@ -5,6 +5,7 @@ import re
 from datetime import datetime, date, timedelta
 from spreadsheet import get_data, update_worksheet, update_data
 from customer import pretty_print, search, get_customer
+from validation import to_date, validate_date_input, validate_time_input
 
 
 def change_date_format(my_date):
@@ -12,13 +13,6 @@ def change_date_format(my_date):
     Changes date format from YYYY-MM-DD to DD-MM-YYYY.
     """
     return re.sub(r'(\d{4})-(\d{1,2})-(\d{1,2})', '\\3-\\2-\\1', my_date)
-
-
-def to_date(string):
-    """
-    Converts string date data to date format.
-    """
-    return datetime.strptime(string, "%d-%m-%Y").date()
 
 
 def active(data):
@@ -305,33 +299,6 @@ to change.")
             update_data("bookings", booking, "DATE", new_date)
         update_data("bookings", booking, "TIME", new_time)
         break
-
-
-def validate_date_input(inp):
-    """
-    Validates if date is correct dd-mm-yyyy format and
-    it's not from the past.
-    """
-    try:
-        if inp != datetime.strptime(inp, "%d-%m-%Y").strftime("%d-%m-%Y") or \
-                to_date(inp) < date.today():
-            raise ValueError
-        return True
-    except ValueError:
-        return False
-
-
-def validate_time_input(inp):
-    """
-    Validates if time is correct hh:mm format and
-    it's not from the past.
-    """
-    try:
-        if inp != datetime.strptime(inp, "%H:%M").strftime("%H:%M"):
-            raise ValueError
-        return True
-    except ValueError:
-        return False
 
 
 def check_duplicates(user_date, name):
