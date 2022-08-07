@@ -8,7 +8,7 @@ from staff import create_staff, edit_staff_menu, staff_info_menu
 from spreadsheet import get_data
 from booking import new_booking, view_bookings_menu, edit_bookings
 from customer import search, view_customer, find_customer
-from stats import customers_stats
+from stats import customers_stats, data_for_stats
 
 
 def authorise(user):
@@ -118,6 +118,7 @@ def customers_menu(user):
         elif user_inp == "2":
             view_customer("all")
         elif user_inp == "3":
+            data_for_stats()
             customers_stats()
             print("\tYour stats is ready! Check your Google Drive folder.")
         elif user_inp == "x":
