@@ -54,7 +54,7 @@ def view_bookings_menu():
     Displays menu to choose bookings for what period
     you want to print. Accepts the user's choice.
     """
-    bookings_data = get_data("bookings")
+    bookings_data = active(get_data("bookings"))
     tomorrow = change_date_format(str(date.today() + timedelta(days=1)))
     week = [today]
     for i in range(1, 7):
@@ -89,9 +89,8 @@ def print_bookings(data, period, string):
     Accepts an object defining time range and a string to name
     it in the output.
     """
-    bookings = [bkng for bkng in active(data)
+    bookings = [bkng for bkng in data
                 if (bkng["DATE"] == period or bkng["DATE"] in period)]
-
     bookings.sort(key=lambda x: datetime.strptime(x["DATE"], "%d-%m-%Y"))
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
     for item in bookings:
@@ -147,7 +146,7 @@ def edit_bookings():
     Displays Edit Bookings menu.
     """
     while True:
-        bookings_data = get_data("bookings")
+        bookings_data = active(get_data("bookings"))
         user_inp = input(
             "\n\t\tpress 1 - Confirm\n\
                 press 2 - Reschedule\n\
@@ -187,12 +186,16 @@ def confirm(bookings):
         while True:
             print_bookings([booking], today, "today")
             user_inp = input("\n\t\t\tpress 1 - Confirmed\n\
-                        press 2 - Skip\n\t\t\tpress x - <==\n\t\t\t")
+                        press 2 - Skip\n\t\t\tpress 3 - Cancel\n\
+                        press x - <==\n\t\t\t")
             if user_inp == "1":
                 booking.update({"CONF": "yes"})
                 update_data("bookings", booking, "CONF", "yes")
                 break
             if user_inp == "2":
+                break
+            if user_inp == "3":
+                cancel(booking)
                 break
             if user_inp == "x":
                 break
