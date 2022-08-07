@@ -2,9 +2,8 @@
 Includes bookings specific functions.
 """
 import re
-import csv
 from datetime import datetime, date, timedelta
-from spreadsheet import get_data, update_worksheet, update_data, get_worksheet
+from spreadsheet import get_data, update_worksheet, update_data
 from customer import pretty_print, search, get_customer
 
 
@@ -343,19 +342,6 @@ def check_duplicates(user_date, name):
         print_bookings(customer_bookings, user_date, user_date)
         return True
     return False
-
-
-def bookings_today():
-    """
-    Writes today's bookings to csv.
-    """
-    bookings_data = get_worksheet("bookings")
-    todays = [bkng for bkng in bookings_data[1:]
-              if bkng[0] == today]
-    with open("today.csv", "w", newline="") as file:
-        file.truncate()
-        writer = csv.writer(file)
-        writer.writerows(todays)
 
 
 today = change_date_format(str(date.today()))
