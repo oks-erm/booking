@@ -114,7 +114,7 @@ def new_booking(user, customer):
                 print_bookings(bookings, new_date, new_date)
                 break
             print(f"\tInvalid input: '{new_date}'.\n\
-        Please, enter a correct date.\n")
+        Please, enter a valid date.\n")
         if new_date == "x":
             break
         while True:
@@ -124,7 +124,7 @@ def new_booking(user, customer):
             if validate_time_input(new_time) is True:
                 break
             print(f"\tInvalid input: '{new_time}'.\n\
-        Please, enter correct time.")
+        Please, enter valid time.")
         if new_time == "x":
             break
         ppl = input("\tHow many people: ")
@@ -283,7 +283,7 @@ def reschedule(booking):
                     print_bookings(bookings, booking["DATE"], booking["DATE"])
                 break
             print(f"\t\tInvalid input: '{new_date}'.\n\
-                Please, enter a correct date.\n")
+                Please, enter a valid date.\n")
         if new_date == "x":
             break
         while True:
@@ -293,7 +293,7 @@ def reschedule(booking):
             if validate_time_input(new_time) is True:
                 break
             print(f"\t\tInvalid input: '{new_time}'.\n\
-                Please, enter correct time.\n")
+                Please, enter valid time.\n")
         if new_time == "x":
             break
         if new_date != "":

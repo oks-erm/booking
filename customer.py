@@ -2,7 +2,7 @@
 Includes customers specific functions.
 """
 from spreadsheet import get_data, update_worksheet
-from validation import validate_birthdate
+from validation import validate_birthdate, validate_email
 
 
 KEYS = get_data("customers")[0]
@@ -38,14 +38,20 @@ def create_customer(name):
         phone = input("\tContact number: ")
         if phone == "x":
             break
-        email = input("\tEmail to receive reminders: ").encode('utf-8')
+        while True:
+            email = input("\tEmail to receive reminders: ").encode('utf-8')
+            if validate_email(email.decode('utf-8')) is True or email == "x":
+                break
+            print(f"\tInvalid input: '{email.decode('utf-8')}'. Enter a valid email.\n")
+            if email.decode('utf-8') == "x":
+                break
         if email.decode('utf-8') == "x":
             break
         while True:
             bday = input("\tDate of birth (dd-mm-yyyy): ")
             if validate_birthdate(bday) is True or bday == "x":
                 break
-            print(f"\tInvalid input: '{bday}'. Enter correct date.\n")
+            print(f"\tInvalid input: '{bday}'. Enter a valid date.\n")
         if bday == "x":
             break
         new_data = [new_name, phone, email.decode('utf-8'), bday, 1, 0]

@@ -1,6 +1,7 @@
 """
 Functions for validating user input.
 """
+import re
 from datetime import datetime, date
 
 
@@ -49,3 +50,13 @@ def validate_time_input(inp):
         return True
     except ValueError:
         return False
+
+
+def validate_email(email):
+    """
+    Checks if an email is a valid email address.
+    """
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    if re.fullmatch(regex, email):
+        return True
+    return False
