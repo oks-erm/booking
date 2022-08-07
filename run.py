@@ -155,9 +155,10 @@ def cleanup():
     """
     Deletes not needed files.
     """
-    file = 'stats.csv'
-    if os.path.exists(file):
-        os.remove(file)
+    files = ['stats.pdf', 'stats.csv']
+    for file in files:
+        if os.path.exists(file):
+            os.remove(file)
 
 
 if __name__ == '__main__':
