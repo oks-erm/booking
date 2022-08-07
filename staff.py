@@ -14,13 +14,17 @@ def create_staff():
     """
     Creates a new member of Staff
     """
-    new_name = input("Enter a name for a new member of staff: ")
-    print(f"Hi, {new_name}!")
-    password = getpass.getpass("Create a password: ")
-    contact = input("Awesome! Enter your contact number: ")
-    user = [new_name, password, contact]
-    update_worksheet(user, "staff")
-    return dict(zip(KEYS, user))
+    while True:
+        print("\npress x - <==")
+        new_name = input("Enter a name for a new member of staff: ")
+        if new_name == "x":
+            break
+        print(f"Hi, {new_name}!")
+        password = getpass.getpass("Create a password: ")
+        contact = input("Awesome! Enter your contact number: ")
+        user = [new_name, password, contact]
+        update_worksheet(user, "staff")
+        return dict(zip(KEYS, user))
 
 
 def staff_info_menu(staff_list):

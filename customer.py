@@ -34,16 +34,23 @@ def create_customer(name):
     """
     new_name = name
     print("\n\tCreate a new customer:\n")
-    phone = input("\tEnter a contact number: ")
-    email = input("\tEnter an email to receive reminders: ").encode('utf-8')
     while True:
-        bday = input("\tEnter date of birth (dd-mm-yyyy): ")
-        if validate_birthdate(bday) is True:
+        phone = input("\tContact number: ")
+        if phone == "x":
             break
-        print(f"\tInvalid input: '{bday}'. Enter correct date.\n")
-    new_data = [new_name, phone, email.decode('utf-8'), bday, 1, 0]
-    update_worksheet(new_data, "customers")
-    return dict(zip(KEYS, new_data))
+        email = input("\tEmail to receive reminders: ").encode('utf-8')
+        if email.decode('utf-8') == "x":
+            break
+        while True:
+            bday = input("\tDate of birth (dd-mm-yyyy): ")
+            if validate_birthdate(bday) is True or bday == "x":
+                break
+            print(f"\tInvalid input: '{bday}'. Enter correct date.\n")
+        if bday == "x":
+            break
+        new_data = [new_name, phone, email.decode('utf-8'), bday, 1, 0]
+        update_worksheet(new_data, "customers")
+        return dict(zip(KEYS, new_data))
 
 
 def pretty_print(func):
@@ -92,7 +99,7 @@ def find_customer():
     """
     customer = None
     while True:
-        print("\n\tpress x - <==")
+        print("\n\t~ Enter 'x' at any point to go back ~")
         name = input("\n\tEnter a customer's name: ")
         customer = get_customer(name)
         if name == "x":

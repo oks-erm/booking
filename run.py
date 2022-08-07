@@ -39,6 +39,8 @@ if you are a new member of staff: ")
             break
         if entered_name.lower() == "new":
             user = create_staff()
+            if user is None:
+                continue
             break
         print(f"Sorry, there is no user '{entered_name}'.")
         print("If you want to create a new user, enter 'new'.\n")

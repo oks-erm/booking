@@ -105,18 +105,18 @@ def new_booking(user, customer):
     created = user["NAME"]
     while True:
         while True:
-            print("\n\tEnter 'x' for date and time if you don\'t want \
-to create a new booking")
             new_date = input("\tEnter a booking date (dd-mm-yyyy): ")
             if new_date == "x":
                 break
             if validate_date_input(new_date) is True and \
                     check_duplicates(new_date, name) is False:
-                bookings = get_data("bookings")
+                bookings = active(get_data("bookings"))
                 print_bookings(bookings, new_date, new_date)
                 break
             print(f"\tInvalid input: '{new_date}'.\n\
-        Please, enter a correct date.")
+        Please, enter a correct date.\n")
+        if new_date == "x":
+            break
         while True:
             new_time = input("\tNew time (hh:mm): ")
             if new_time == "x":
@@ -125,9 +125,11 @@ to create a new booking")
                 break
             print(f"\tInvalid input: '{new_time}'.\n\
         Please, enter correct time.")
-        if new_date == "x" or new_time == "x":
+        if new_time == "x":
             break
         ppl = input("\tHow many people: ")
+        if ppl == "x":
+            break
         new = [new_date, new_time, name, ppl, created, "-", ""]
         update_worksheet(new, "bookings")
         increment_bookings(customer)
@@ -214,8 +216,8 @@ def find_bookings(bookings):
     """
     customers = get_data("customers")
     while True:
-        print("\n\t\t\tpress x - <==")
-        user_inp = input("\n\t\t\tEnter a customer's name: ")
+        print("\n\t\t~ Enter 'x' at any point to go back ~\n")
+        user_inp = input("\t\tEnter a customer's name: ")
         if user_inp == "x":
             break
         if user_inp in [dct["NAME"] for dct in customers]:
@@ -236,8 +238,7 @@ def pick_booking(bookings):
     """
     target = None
     while True:
-        user_inp = input("\n\t\tpress x - <==\n\
-                Date of a booking to edit (dd-mm-yyyy): ")
+        user_inp = input("\n\t\tDate of a booking to edit (dd-mm-yyyy): ")
         if user_inp == "x":
             break
         if validate_date_input(user_inp) is False:
@@ -268,23 +269,23 @@ def reschedule(booking):
     """
     while True:
         while True:
-            print("\n\t\tEnter 'x' for date and time if you don\'t want \
-to change.")
-            new_date = input("\n\t\tNew date (dd-mm-yyyy)\
+            new_date = input("\t\tNew date (dd-mm-yyyy)\
 (leave empty if no change): ")
             if new_date == "x":
                 break
             if (validate_date_input(new_date) is True or
                 new_date == "") and \
                     check_duplicates(new_date, booking["NAME"]) is False:
-                bookings = get_data("bookings")
+                bookings = active(get_data("bookings"))
                 if new_date != "":
                     print_bookings(bookings, new_date, new_date)
                 else:
                     print_bookings(bookings, booking["DATE"], booking["DATE"])
                 break
             print(f"\t\tInvalid input: '{new_date}'.\n\
-                Please, enter a correct date.")
+                Please, enter a correct date.\n")
+        if new_date == "x":
+            break
         while True:
             new_time = input("\t\tNew time (hh:mm): ")
             if new_time == "x":
@@ -292,8 +293,8 @@ to change.")
             if validate_time_input(new_time) is True:
                 break
             print(f"\t\tInvalid input: '{new_time}'.\n\
-                Please, enter correct time.")
-        if new_date == "x" or new_time == "x":
+                Please, enter correct time.\n")
+        if new_time == "x":
             break
         if new_date != "":
             update_data("bookings", booking, "DATE", new_date)

@@ -15,11 +15,11 @@
 			"thread": "",
 			"mode": "release",
 			"overload": 0,
-			"date": "2022-08-07T17:10:47.744Z",
-			"memory": 9.77,
+			"date": "2022-08-07T21:47:48.254Z",
+			"memory": 9.97,
 			"rm": 0,
 			"fm": 0,
-			"wm": 11,
+			"wm": 4,
 			"em": 0,
 			"mm": 0,
 			"om": 0,
@@ -31,15 +31,15 @@
 			"dbrm": 0,
 			"dbwm": 0,
 			"usage": 0,
-			"requests": 17,
+			"requests": 38,
 			"pending": 0,
 			"external": 0,
 			"errors": 0,
 			"timeouts": 0,
 			"online": 1,
-			"uptime": 191,
-			"download": 0,
-			"upload": 0.081
+			"uptime": 468,
+			"download": 0.002,
+			"upload": 0.154
 		}
 	]
 }
