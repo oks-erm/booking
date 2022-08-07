@@ -75,7 +75,7 @@ def customers_stats():
     pie_data["Age groups"] = round((pie_data.BD/sum(pie_data.BD))*100, 2)
     pie_data["Age groups"].plot.pie(colors=["#bbe0e7", "#fce782", "#2a7acc",
                                     "#a755f4", "#74e387", "#ffa25e"],
-                                    autopct='%1.1f%%')
+                                    autopct='%1.1f%%', startangle=35)
     # rate of cancelled bookings
     plt.figure()
     plt.pie([(df['NUM OF BOOKINGS'].sum()-df['CANCELLED'].sum()),
