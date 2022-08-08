@@ -32,12 +32,15 @@ def staff_info_menu(staff_list):
     Prints info about members of staff: search by name of a full list.
     """
     while True:
-        print("\n\tEnter 'all' to see the full list")
-        request = input("\tOr enter a name to search by name: ")
+        print("\n\t\tpress x - <==")
+        print("\t\tEnter 'all' to see the full list")
+        request = input("\t\tOr enter a name to search by name: ")
+        if request == "x":
+            break
         if request in [dct['NAME'] for dct in staff_list] or request == "all":
             print_staff_info(request, staff_list)
             break
-        print("\tNothing found, try again or view the full list.")
+        print("\t\tNothing found, try again or view the full list.")
 
 
 def edit_staff_menu(staff, user):
