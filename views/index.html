@@ -25,8 +25,9 @@
             term.writeln('Running startup command: python3 run.py');
             term.writeln('');
 
-            var ws = new WebSocket(location.protocol.replace('http', 'ws') + '//' + location.hostname + (location.port ? (
-                ':' + location.port) : '') + '/');
+            var ws = new WebSocket(location.protocol.replace('http', 'ws') + '//' + location.hostname + (location.port ?
+                (
+                    ':' + location.port) : '') + '/');
 
             ws.onopen = function () {
                 new attach.attach(term, ws);
@@ -39,16 +40,25 @@
             document.getElementsByClassName("xterm-helper-textarea")[0].focus();
         </script>
     </main>
-     <!-- footer -->
+    <div id="standwith">
+        <span>Stand with Ukraine</span> 
+        <svg width="14" height="14" class="inline-block" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 7A7 7 0 1 0 0 7h14Z" fill="#015BBB"></path>
+            <path d="M0 7a7 7 0 1 0 14 0H0Z" fill="#FC0"></path>
+        </svg>
+    </div>
+    <!-- footer -->
     <footer>
-            <!-- about site -->
-            <p>This website was created as a portfolio project and has no commercial purpose.</p>
-            <!-- social media -->
-            <div>
-                <a href="https://github.com/oks-erm" target="_blank"
-                    aria-label="Oksana Erm's GitHub profile (opens in a new tab)"> <i class="fa-brands fa-square-github"></i></a>
-                <a href="https://www.linkedin.com/in/oksana-erm/" target="_blank"
-                    aria-label="Oksana Erm's LinkedIn profile (opens in a new tab)"><i class="fa-brands fa-linkedin"></i></a>
-            </div>
+        <!-- about site -->
+        <p>This website was created as a portfolio project and has no commercial purpose.</p>
+        <!-- social media -->
+        <div>
+            <a href="https://github.com/oks-erm" target="_blank"
+                aria-label="Oksana Erm's GitHub profile (opens in a new tab)"> <i
+                    class="fa-brands fa-square-github"></i></a>
+            <a href="https://www.linkedin.com/in/oksana-erm/" target="_blank"
+                aria-label="Oksana Erm's LinkedIn profile (opens in a new tab)"><i
+                    class="fa-brands fa-linkedin"></i></a>
+        </div>
     </footer>
 </body>
