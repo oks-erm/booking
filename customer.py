@@ -42,7 +42,8 @@ def create_customer(name):
             email = input("\tEmail to receive reminders: ").encode('utf-8')
             if validate_email(email.decode('utf-8')) is True or email == "x":
                 break
-            print(f"\tInvalid input: '{email.decode('utf-8')}'. Enter a valid email.\n")
+            print(f"\tInvalid input: '{email.decode('utf-8')}'.\
+        Enter a valid email.\n")
             if email.decode('utf-8') == "x":
                 break
         if email.decode('utf-8') == "x":

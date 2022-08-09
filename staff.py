@@ -9,7 +9,7 @@ from booking import pretty_print
 KEYS = get_data("staff")[0]
 
 
-def loop_menu(text):
+def loop_menu(indentation, text):
     """
     Places a function inside a While Loop,
     which breaks if input is "x" and warns
@@ -19,7 +19,7 @@ def loop_menu(text):
     def decorator(func):
         def wrap_func(*args):
             while True:
-                print("\npress x - <==")
+                print("\n" + indentation + "press x - <==")
                 user_inp = input(text)
                 if user_inp == "x":
                     break
@@ -35,7 +35,7 @@ def loop_menu(text):
     return decorator
 
 
-@loop_menu("Enter a name for a new member of staff: ")
+@loop_menu("", "Enter a name for a new member of staff: ")
 def create_staff(*args):
     """
     Creates a new member of Staff
@@ -48,8 +48,8 @@ def create_staff(*args):
     return dict(zip(KEYS, user))
 
 
-@loop_menu("\t\tEnter 'all' to see the full list\n\
-                Or enter a name to search by name: ")
+@loop_menu("\t\t", "\t\tEnter 'all' to see the full list\n"
+           "\t\tOr enter a name to search by name: ")
 def staff_info_menu(*args):
     """
     Prints info about members of staff: search by name of a full list.
@@ -60,8 +60,8 @@ def staff_info_menu(*args):
     return False
 
 
-@loop_menu("\t\tpress 1 - Change password\n\
-                press 2 - Change contact\n")
+@loop_menu("\t\t", "\t\tpress 1 - Change password\n"
+           "\t\tpress 2 - Change contact\n\t\t")
 def edit_staff_menu(*args):
     """
     Edits instance of the current user. If the user wants
@@ -82,7 +82,8 @@ def edit_staff_menu(*args):
 @pretty_print
 def print_staff_info(inp, staff):
     """
-    ...
+    Prints a name and a contact number of a member
+    of staff. Takes user input and staff data as params.
     """
     if inp == "all":
         for item in staff:
