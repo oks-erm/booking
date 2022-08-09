@@ -144,8 +144,7 @@ def staff_menu(user):
             staff_info_menu(staff)
             continue
         if user_inp == "2":
-            upd_staff = get_data("staff")  # new staff data if it got updated
-            edit_staff_menu(upd_staff, user)
+            edit_staff_menu(user)
             continue
         if user_inp == "x":
             start_menu(user)
