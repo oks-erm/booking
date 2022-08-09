@@ -1,8 +1,8 @@
 """
 Includes customers specific functions.
 """
-from spreadsheet import get_data, update_worksheet
-from validation import validate_birthdate, validate_email
+from booking.spreadsheet import get_data, update_worksheet
+from booking.validation import validate_birthdate, validate_email
 
 
 KEYS = get_data("customers")[0]
@@ -42,8 +42,8 @@ def create_customer(name):
             email = input("\tEmail to receive reminders: ").encode('utf-8')
             if validate_email(email.decode('utf-8')) is True or email == "x":
                 break
-            print(f"\tInvalid input: '{email.decode('utf-8')}'.\
-        Enter a valid email.\n")
+            print(f"\tInvalid input: '{email.decode('utf-8')}'."
+                  "\tEnter a valid email.\n")
             if email.decode('utf-8') == "x":
                 break
         if email.decode('utf-8') == "x":
@@ -90,13 +90,14 @@ def view_customer(name):
         print(f"\tCustomer '{name}' doesn't exist.")
 
 
-def print_customer(cust):
+def print_customer(customer):
     """
     Prints out information about the requested customer.
     """
-    print(f"\t{cust['NAME']} - {cust['PHONE']} BD: {cust['BD']}")
-    print(f"\tbookings history: {cust['NUM OF BOOKINGS']},\
- cancelled: {cust['CANCELLED']}")
+    print(f"\t{customer['NAME']} - {customer['PHONE']}, "
+          f"birthday: {customer['BD']}\n"
+          f"\tbookings history: {customer['NUM OF BOOKINGS']},"
+          f"cancelled: {customer['CANCELLED']}")
 
 
 def find_customer():

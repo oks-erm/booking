@@ -3,9 +3,10 @@ Includes bookings specific functions.
 """
 import re
 from datetime import datetime, date, timedelta
-from spreadsheet import get_data, update_worksheet, update_data
-from customer import pretty_print, search, get_customer
-from validation import to_date, validate_date_input, validate_time_input
+from booking.spreadsheet import get_data, update_worksheet, update_data
+from booking.customer import pretty_print, search, get_customer
+from booking.validation import (to_date, validate_date_input,
+                                validate_time_input)
 
 
 def change_date_format(my_date):
@@ -19,9 +20,9 @@ def active(data):
     """
     Filters out past and cancelled bookings.
     """
-    filtered = [item for item in data
-                if (to_date(item["DATE"]) >= date.today())
-                and (item["CANC"] != "yes")]
+    filtered = [item for item in data if
+                (to_date(item["DATE"]) >= date.today()) and
+                (item["CANC"] != "yes")]
     return filtered
 
 
@@ -55,10 +56,11 @@ def view_bookings_menu():
         week.append(change_date_format(str(date.today() + timedelta(days=i))))
     all_time = [dct['DATE'] for dct in bookings_data]
     while True:
-        user_inp = input("\n\t\tpress 1 - Today\n\
-                press 2 - Tomorrow\n\
-                press 3 - Next 7 days\n\
-                press 4 - All\n\t\tpress x - <==\n\t\t")
+        user_inp = input("\n\t\tpress 1 - Today"
+                         "\n\t\tpress 2 - Tomorrow"
+                         "\n\t\tpress 3 - Next 7 days"
+                         "\n\t\tpress 4 - All"
+                         "\n\t\tpress x - <==\n\t\t")
         if user_inp == "1":
             print_bookings(bookings_data, today, "today")
             break
@@ -83,17 +85,20 @@ def print_bookings(data, period, string):
     Accepts an object defining time range and a string to name
     it in the output.
     """
-    bookings = [bkng for bkng in data
-                if (bkng["DATE"] == period or bkng["DATE"] in period)]
+    bookings = [bkng for bkng in data if
+                (bkng["DATE"] == period or
+                 bkng["DATE"] in period)]
     bookings.sort(key=lambda x: datetime.strptime(x["DATE"], "%d-%m-%Y"))
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
+
     for item in bookings:
-        print(f"\t{item['DATE'][:5]} - {item['TIME']} - \
-{item['NAME']} ({item['PEOPLE']} ppl) added by {item['CREATED']} \
-{confirmed(item)}")
+        print(f"\t{item['DATE'][:5]} - {item['TIME']} -"
+              f"{item['NAME']} ({item['PEOPLE']} ppl)"
+              f"added by {item['CREATED']}"
+              f"{confirmed(item)}")
         if string == "today" and item["CONF"] != "yes":
-            print(f"\t!!! confirm this booking: \
-{get_customer(item['NAME'])['PHONE']}\n")
+            print(f"\t!!! confirm this booking: "
+                  f"{get_customer(item['NAME'])['PHONE']}\n")
 
 
 def new_booking(user, customer):
@@ -108,13 +113,13 @@ def new_booking(user, customer):
             new_date = input("\tEnter a booking date (dd-mm-yyyy): ")
             if new_date == "x":
                 break
-            if validate_date_input(new_date) is True and \
-                    check_duplicates(new_date, name) is False:
+            if (validate_date_input(new_date) is True and
+                    check_duplicates(new_date, name) is False):
                 bookings = active(get_data("bookings"))
                 print_bookings(bookings, new_date, new_date)
                 break
-            print(f"\tInvalid input: '{new_date}'.\n\
-        Please, enter a valid date.\n")
+            print(f"\tInvalid input: '{new_date}'.\n"
+                  f"Please, enter a valid date.\n")
         if new_date == "x":
             break
         while True:
@@ -123,8 +128,8 @@ def new_booking(user, customer):
                 break
             if validate_time_input(new_time) is True:
                 break
-            print(f"\tInvalid input: '{new_time}'.\n\
-        Please, enter valid time.")
+            print(f"\tInvalid input: '{new_time}'.\n"
+                  f"Please, enter valid time.")
         if new_time == "x":
             break
         ppl = input("\tHow many people: ")
@@ -143,11 +148,10 @@ def edit_bookings():
     """
     while True:
         bookings_data = active(get_data("bookings"))
-        user_inp = input(
-            "\n\t\tpress 1 - Confirm\n\
-                press 2 - Reschedule\n\
-                press 3 - Cancel\n\
-                press x - <==\n\t\t")
+        user_inp = input("\n\t\tpress 1 - Confirm"
+                         "\n\t\tpress 2 - Reschedule"
+                         "\n\t\tpress 3 - Cancel"
+                         "\n\t\tpress x - <==\n\t\t")
         if user_inp == "1":
             not_confirmed = ([item for item in bookings_data if (item["CONF"]
                              != "yes" and item["DATE"] == today)])
@@ -181,9 +185,10 @@ def confirm(bookings):
     for booking in bookings:
         while True:
             print_bookings([booking], today, "today")
-            user_inp = input("\n\t\t\tpress 1 - Confirmed\n\
-                        press 2 - Skip\n\t\t\tpress 3 - Cancel\n\
-                        press x - <==\n\t\t\t")
+            user_inp = input("\n\t\t\tpress 1 - Confirmed"
+                             "\n\t\t\tpress 2 - Skip"
+                             "\n\t\t\tpress 3 - Cancel"
+                             "\n\t\t\tpress x - <==\n\t\t\t")
             if user_inp == "1":
                 booking.update({"CONF": "yes"})
                 update_data("bookings", booking, "CONF", "yes")
@@ -242,8 +247,8 @@ def pick_booking(bookings):
         if user_inp == "x":
             break
         if validate_date_input(user_inp) is False:
-            print(f"\t\tInvalid input: '{user_inp}'.\n\
-                Please, enter a correct date.")
+            print(f"\t\tInvalid input: '{user_inp}'.\n"
+                  "Please, enter a correct date.")
             continue
         target = search(user_inp, "DATE", bookings)
         if target is not None:
@@ -269,21 +274,20 @@ def reschedule(booking):
     """
     while True:
         while True:
-            new_date = input("\t\tNew date (dd-mm-yyyy)\
-(leave empty if no change): ")
+            new_date = input("\t\tNew date (dd-mm-yyyy) "
+                             "(leave empty if no change): ")
             if new_date == "x":
                 break
-            if (validate_date_input(new_date) is True or
-                new_date == "") and \
-                    check_duplicates(new_date, booking["NAME"]) is False:
+            if ((validate_date_input(new_date) is True or new_date == "") and
+                    check_duplicates(new_date, booking["NAME"]) is False):
                 bookings = active(get_data("bookings"))
                 if new_date != "":
                     print_bookings(bookings, new_date, new_date)
                 else:
                     print_bookings(bookings, booking["DATE"], booking["DATE"])
                 break
-            print(f"\t\tInvalid input: '{new_date}'.\n\
-                Please, enter a valid date.\n")
+            print(f"\t\tInvalid input: '{new_date}'.\n"
+                  "\t\tPlease, enter a valid date.\n")
         if new_date == "x":
             break
         while True:
@@ -292,8 +296,8 @@ def reschedule(booking):
                 break
             if validate_time_input(new_time) is True:
                 break
-            print(f"\t\tInvalid input: '{new_time}'.\n\
-                Please, enter valid time.\n")
+            print(f"\t\tInvalid input: '{new_time}'.\n"
+                  "\t\tPlease, enter valid time.\n")
         if new_time == "x":
             break
         if new_date != "":

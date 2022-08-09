@@ -2,8 +2,8 @@
 Includes staff specific functions.
 """
 import getpass
-from spreadsheet import update_worksheet, get_data, update_data
-from booking import pretty_print
+from booking.spreadsheet import update_worksheet, get_data, update_data
+from booking.booking import pretty_print
 
 
 KEYS = get_data("staff")[0]

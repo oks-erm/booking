@@ -18,8 +18,8 @@ def validate_date_input(inp):
     it's not from the past.
     """
     try:
-        if inp != datetime.strptime(inp, "%d-%m-%Y").strftime("%d-%m-%Y") or \
-                to_date(inp) < date.today():
+        if (inp != datetime.strptime(inp, "%d-%m-%Y").strftime("%d-%m-%Y") or
+                to_date(inp) < date.today()):
             raise ValueError
         return True
     except ValueError:

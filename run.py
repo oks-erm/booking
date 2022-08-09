@@ -3,49 +3,12 @@ Main module, includes main logic flow and menus.
 """
 import sys
 import os
-import getpass
-from staff import create_staff, edit_staff_menu, staff_info_menu
-from spreadsheet import get_data
-from booking import new_booking, view_bookings_menu, edit_bookings
-from customer import search, view_customer, find_customer
-from stats import customers_stats, data_for_stats
-
-
-def authorise(user):
-    """
-    Checks the user's password
-    """
-    for i in range(4):
-        print(f"Attempt {i+1} of 4")
-        password = getpass.getpass("Password:")
-        if user["PASSWORD"] == password:
-            print("All good!\n")
-            return True
-        print("The password is not correct! Try again!\n")
-
-
-def staff_login(data):
-    """
-    Logs in a member of staff.
-    """
-    print("\n\n\t\tWelcome to Your Booking System!\n")
-    while True:
-        entered_name = input("Enter your name or enter 'new' \
-if you are a new member of staff: ")
-        user = search(entered_name, "NAME", data)
-        if user is not None:
-            if authorise(user) is not True:
-                continue
-            break
-        if entered_name.lower() == "new":
-            user = create_staff()
-            if user is None:
-                continue
-            break
-        print(f"Sorry, there is no user '{entered_name}'.")
-        print("If you want to create a new user, enter 'new'.\n")
-
-    return user
+from booking.auth import staff_login
+from booking.staff import edit_staff_menu, staff_info_menu
+from booking.spreadsheet import get_data
+from booking.booking import new_booking, view_bookings_menu, edit_bookings
+from booking.customer import view_customer, find_customer
+from booking.stats import customers_stats, data_for_stats
 
 
 def start_menu(user):
@@ -54,10 +17,10 @@ def start_menu(user):
     """
     print(f"\nWhat do you want to do, {user['NAME']}?")
     while True:
-        user_inp = input(
-            "press 1 - Bookings\npress 2 - Customers\n\
-press 3 - Staff info\npress x - Exit\n"
-            )
+        user_inp = input("press 1 - Bookings\n"
+                         "press 2 - Customers\n"
+                         "press 3 - Staff info\n"
+                         "press x - Exit\n")
         if user_inp == "1":
             bookings_menu(user)
             break
@@ -80,11 +43,10 @@ def bookings_menu(user):
     Displays booking menu
     """
     while True:
-        user_inp = input(
-            "\n\tpress 1 - View bookings\n\
-        press 2 - Add a booking\n\
-        press 3 - Edit bookings\n\
-        press x - <==\n\t")
+        user_inp = input("\n\tpress 1 - View bookings"
+                         "\n\tpress 2 - Add a booking"
+                         "\n\tpress 3 - Edit bookings"
+                         "\n\tpress x - <==\n\t")
         if user_inp == "1":
             view_bookings_menu()
             continue
@@ -109,11 +71,10 @@ def customers_menu(user):
     Displays Customers Menu.
     """
     while True:
-        user_inp = input(
-            "\n\tpress 1 - View a customer\n\
-        press 2 - List of customers\n\
-        press 3 - Stats\n\
-        press x - <==\n\t")
+        user_inp = input("\n\tpress 1 - View a customer"
+                         "\n\tpress 2 - List of customers"
+                         "\n\tpress 3 - Stats"
+                         "\n\tpress x - <==\n\t")
         if user_inp == "1":
             user_inp = input("\n\tEnter name: ")
             view_customer(user_inp)
@@ -122,7 +83,7 @@ def customers_menu(user):
         elif user_inp == "3":
             data_for_stats()
             customers_stats()
-            print("\tYour stats is ready! Check your Google Drive folder.")
+            print("\tYour stats is ready! Check your Reports folder.")
         elif user_inp == "x":
             start_menu(user)
             break
@@ -136,10 +97,9 @@ def staff_menu(user):
     Displays staff menu.
     """
     while True:
-        user_inp = input(
-            "\n\tpress 1 - Staff info\n\
-        press 2 - Edit your info\n\
-        press x - <==\n\t")
+        user_inp = input("\n\tpress 1 - Staff info"
+                         "\n\tpress 2 - Edit your info"
+                         "\n\tpress x - <==\n\t")
         if user_inp == "1":
             staff_info_menu(staff)
             continue
