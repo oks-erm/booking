@@ -34,7 +34,6 @@ def start_menu(user):
         if user_inp == "x":
             cleanup()
             sys.exit()
-
         print("Invalid input. Please, use options above.\n")
 
 

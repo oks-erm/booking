@@ -9,43 +9,48 @@ def to_date(string):
     """
     Converts string date data to date format.
     """
-    return datetime.strptime(string, "%d-%m-%Y").date()
+    for date_format in ('%d-%m-%Y', '%d.%m.%Y', '%d/%m/%Y'):
+        try:
+            return datetime.strptime(string, date_format).date()
+        except ValueError:
+            pass
+    return False
 
 
-def validate_date_input(inp):
+def validate_date_input(new_date):
     """
     Validates if date is correct dd-mm-yyyy format and
     it's not from the past.
     """
     try:
-        if (inp != datetime.strptime(inp, "%d-%m-%Y").strftime("%d-%m-%Y") or
-                to_date(inp) < date.today()):
+        if ((to_date(new_date) is False) or
+                (to_date(new_date) <= date.today())):
             raise ValueError
         return True
     except ValueError:
         return False
 
 
-def validate_birthdate(inp):
+def validate_birthdate(new_date):
     """
     Validates if date is correct dd-mm-yyyy format and
     it's not from the past.
     """
     try:
-        if inp != datetime.strptime(inp, "%d-%m-%Y").strftime("%d-%m-%Y"):
+        if to_date(new_date) is False:
             raise ValueError
         return True
     except ValueError:
         return False
 
 
-def validate_time_input(inp):
+def validate_time_input(new_time):
     """
     Validates if time is correct hh:mm format and
     it's not from the past.
     """
     try:
-        if inp != datetime.strptime(inp, "%H:%M").strftime("%H:%M"):
+        if new_time != datetime.strptime(new_time, "%H:%M").strftime("%H:%M"):
             raise ValueError
         return True
     except ValueError:
