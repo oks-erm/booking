@@ -9,37 +9,47 @@ def to_date(string):
     """
     Converts string date data to date format.
     """
-    for date_format in ('%d-%m-%Y', '%d.%m.%Y', '%d/%m/%Y'):
-        try:
-            return datetime.strptime(string, date_format).date()
-        except ValueError:
-            pass
-    return False
+    try:
+        return datetime.strptime(string, '%d-%m-%Y').date()
+    except ValueError:
+        return False
+
+
+def convert_date(new_date):
+    """
+    Converts a date with various date separators
+    into a date separated with "-".
+    """
+    repl_delim = '-'
+    return re.sub('[/,.]', repl_delim, new_date)
 
 
 def validate_date_input(new_date):
     """
-    Validates if date is correct dd-mm-yyyy format and
+    Validates if date is correct dd mm yyyy format and
     it's not from the past.
     """
     try:
-        if ((to_date(new_date) is False) or
-                (to_date(new_date) <= date.today())):
+        f_date = convert_date(new_date)
+        if ((f_date != datetime.strptime(f_date, "%d-%m-%Y")
+             .strftime("%d-%m-%Y")) or
+                (to_date(f_date) < date.today())):
             raise ValueError
-        return True
+        return f_date
     except ValueError:
         return False
 
 
 def validate_birthdate(new_date):
     """
-    Validates if date is correct dd-mm-yyyy format and
-    it's not from the past.
+    Validates if date is correct dd mm yyyy format.
     """
     try:
-        if to_date(new_date) is False:
+        f_date = convert_date(new_date)
+        if (f_date != datetime.strptime(f_date, "%d-%m-%Y")
+                .strftime("%d-%m-%Y")):
             raise ValueError
-        return True
+        return f_date
     except ValueError:
         return False
 

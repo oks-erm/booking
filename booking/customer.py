@@ -50,12 +50,13 @@ def create_customer(name):
             break
         while True:
             bday = input("\tDate of birth (dd-mm-yyyy): ")
-            if validate_birthdate(bday) is True or bday == "x":
+            valid_date = validate_birthdate(bday)
+            if valid_date is False or bday == "x":
                 break
             print(f"\tInvalid input: '{bday}'. Enter a valid date.\n")
         if bday == "x":
             break
-        new_data = [new_name, phone, email.decode('utf-8'), bday, 1, 0]
+        new_data = [new_name, phone, email.decode('utf-8'), valid_date, 1, 0]
         update_worksheet(new_data, "customers")
         return dict(zip(KEYS, new_data))
 

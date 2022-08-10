@@ -17,15 +17,6 @@ def dd_mm_yyyy(my_date):
     return re.sub(r'(\d{4})-(\d{1,2})-(\d{1,2})', '\\3-\\2-\\1', my_date)
 
 
-def convert_date(my_date):
-    """
-    Converts a date with various date separators
-    into a date separated with "-".
-    """
-    repl_delim = '-'
-    return re.sub('[/,.]', repl_delim, my_date)
-
-
 def active(data):
     """
     Filters out past and cancelled bookings.
@@ -104,9 +95,9 @@ def print_bookings(data, period, string):
     print(f"\tYou have {len(bookings)} booking(s) for {string}:\n")
 
     for item in bookings:
-        print(f"\t{item['DATE'][:5]} - {item['TIME']} -"
-              f"{item['NAME']} ({item['PEOPLE']} ppl)"
-              f"added by {item['CREATED']}"
+        print(f"\t{item['DATE'][:5]} - {item['TIME']} - "
+              f"{item['NAME']} ({item['PEOPLE']} ppl) "
+              f"added by {item['CREATED']} "
               f"{confirmed(item)}")
         if string == "today" and item["CONF"] != "yes":
             print(f"\t!!! confirm this booking: "
@@ -122,17 +113,16 @@ def new_booking(user, customer):
     created = user["NAME"]
     while True:
         while True:
-            new_date = convert_date(input("\tEnter a booking "
-                                          "date (dd-mm-yyyy): "))
+            new_date = input("\tEnter a booking date (dd-mm-yyyy): ")
             if new_date == "x":
                 break
-            if (validate_date_input(new_date) is True and
-                    check_duplicates(new_date, name) is False):
+            valid_date = validate_date_input(new_date)
+            if valid_date and check_duplicates(valid_date, name) is False:
                 bookings = active(get_data("bookings"))
-                print_bookings(bookings, new_date, new_date)
+                print_bookings(bookings, valid_date, valid_date)
                 break
             print(f"\tInvalid input: '{new_date}'.\n"
-                  f"\tPlease, enter a valid date.\n")
+                  "\tPlease, enter a valid date.\n")
         if new_date == "x":
             break
         while True:
@@ -142,17 +132,16 @@ def new_booking(user, customer):
             if validate_time_input(new_time) is True:
                 break
             print(f"\tInvalid input: '{new_time}'.\n"
-                  f"\tPlease, enter valid time.\n")
+                  "\tPlease, enter valid time.\n")
         if new_time == "x":
             break
         ppl = input("\tHow many people: ")
         if ppl == "x":
             break
-        new = [new_date, new_time, name, ppl, created, "-", ""]
+        new = [valid_date, new_time, name, ppl, created, "-", ""]
         update_worksheet(new, "bookings")
         increment_bookings(customer)
-        print_bookings([dict(zip(KEYS, new))],
-                       new_date, "".join(new_date))
+        print_bookings([dict(zip(KEYS, new))], valid_date, valid_date)
         break
 
 
@@ -257,18 +246,18 @@ def pick_booking(bookings):
     """
     target = None
     while True:
-        user_date = convert_date(input("\n\t\tDate of a booking "
-                                       "to edit (dd-mm-yyyy): "))
+        user_date = input("\n\t\tDate of a booking to edit (dd-mm-yyyy): ")
         if user_date == "x":
             break
-        if validate_date_input(user_date) is False:
-            print(f"\t\tInvalid input: '{user_date}'.\n"
+        valid_date = validate_date_input(user_date)
+        if valid_date is False:
+            print(f"\t\tInvalid input: '{user_date}'. "
                   "Please, enter a correct date.")
             continue
-        target = search(user_date, "DATE", bookings)
+        target = search(valid_date, "DATE", bookings)
         if target is not None:
             break
-        print(f"There are no bookings for {user_date}")
+        print(f"There are no bookings for {valid_date}.")
     return target
 
 
@@ -289,8 +278,8 @@ def reschedule(booking):
     """
     while True:
         while True:
-            new_date = convert_date(input("\t\tNew date (dd-mm-yyyy) "
-                                          "(leave empty if no change): "))
+            new_date = input("\t\tNew date (dd-mm-yyyy) "
+                             "(leave empty if no change): ")
             if new_date == "x":
                 break
             if ((validate_date_input(new_date) is True or new_date == "") and
