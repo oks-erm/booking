@@ -9,7 +9,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
-from booking.spreadsheet import get_worksheet, SCOPED_CRED
+from booking_sys.spreadsheet import get_worksheet, SCOPED_CRED
 
 
 def upload(my_file, folder):
@@ -23,7 +23,8 @@ def upload(my_file, folder):
         file_metadata = {'name': str(date.today())+'_stats.pdf',
                          'parents': [folder]}
         media = MediaFileUpload(my_file, mimetype='application/pdf')
-        file = service.files().create(body=file_metadata,  # pylint: disable=maybe-no-member
+        # pylint: disable=maybe-no-member
+        file = service.files().create(body=file_metadata,
                                       media_body=media,
                                       fields='id').execute()
     except HttpError as error:
@@ -64,7 +65,8 @@ def customers_stats():
     # histogram with age
     plt.figure()
     plt.hist(dataframe["BD"], bins=20, color="#4285f4", edgecolor="black")
-    plt.gca().yaxis.set_major_formatter(plt.FuncFormatter('{}%'.format))  # pylint: disable=consider-using-f-string
+    # pylint: disable=consider-using-f-string
+    plt.gca().yaxis.set_major_formatter(plt.FuncFormatter('{}%'.format))
     plt.xlabel('Age')
 
     # pie chart with age groups
@@ -93,7 +95,8 @@ def customers_stats():
     plt.figure()
     plt.hist(dataframe['NUM OF BOOKINGS'], bins=20,
              color="#a6ceef", edgecolor="black")
-    plt.gca().yaxis.set_major_formatter(plt.FuncFormatter('{}%'.format))  # pylint: disable=consider-using-f-string
+    # pylint: disable=consider-using-f-string
+    plt.gca().yaxis.set_major_formatter(plt.FuncFormatter('{}%'.format))
     plt.xlabel('Number of bookings per customer')
 
     # save multiple figures to one pdf file

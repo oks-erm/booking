@@ -2,8 +2,7 @@
 Authorisation.
 """
 import getpass
-from booking.customer import search
-from booking.staff import create_staff
+import booking_sys.customer as customer
 
 
 def authorise(user):
@@ -25,19 +24,22 @@ def staff_login(data):
     """
     print("\n\n\t\tWelcome to Your Booking System!\n")
     while True:
-        entered_name = input("Enter your name or enter 'new'"
+        entered_name = input("Enter your name or enter 'new' "
                              "if you are a new member of staff: ")
-        user = search(entered_name, "NAME", data)
+        user = customer.search(entered_name, "NAME", data)
         if user is not None:
             if authorise(user) is not True:
                 continue
             break
         if entered_name.lower() == "new":
+            from booking_sys.staff import create_staff
             user = create_staff()
             if user is None:
                 continue
             break
         print(f"Sorry, there is no user '{entered_name}'.")
         print("If you want to create a new user, enter 'new'.\n")
-
+        
+    print(f"{user['NAME']} : {user['CONTACT']}")
     return user
+

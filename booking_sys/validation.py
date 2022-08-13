@@ -24,7 +24,7 @@ def convert_date(new_date):
     return re.sub('[/,.]', repl_delim, new_date)
 
 
-def validate_date_input(new_date):
+def date_input(new_date):
     """
     Validates if date is correct dd mm yyyy format and
     it's not from the past.
@@ -40,7 +40,7 @@ def validate_date_input(new_date):
         return False
 
 
-def validate_birthdate(new_date):
+def birthdate(new_date):
     """
     Validates if date is correct dd mm yyyy format.
     """
@@ -54,7 +54,7 @@ def validate_birthdate(new_date):
         return False
 
 
-def validate_time_input(new_time):
+def time_input(new_time):
     """
     Validates if time is correct hh:mm format and
     it's not from the past.
@@ -67,11 +67,11 @@ def validate_time_input(new_time):
         return False
 
 
-def validate_email(email):
+def email(user_email):
     """
     Checks if an email is a valid email address.
     """
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-    if re.fullmatch(regex, email):
+    if re.fullmatch(regex, user_email):
         return True
     return False
