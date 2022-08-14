@@ -10,57 +10,46 @@ import run
 KEYS = get_data("staff")[0]
 
 
-def staff_menu(user):
-    """
-    Displays staff menu.
-    """
-    while True:
-        user_input = input("\n\tpress x - <=="
-                           "\n\tpress 1 - Staff info"
-                           "\n\tpress 2 - Edit your info\n\t")
-        if user_input == "1":
-            all_staff = get_data("staff")
-            result = staff_info_menu(all_staff)
-            if result == "q":
-                break
-        elif user_input == "2":
-            result = edit_staff_menu(user)
-            if result == "q":
-                break
-        elif user_input == "x":
-            break
-        else:
-            print("\tInvalid input. Please, use options above.")
-    return True
-
-
 def create_staff():
     """
     Creates a new member of Staff
     """
-    while True:
-        print("\n~ ~ x - <== ~ ~")
-        user_name = input("Enter a name for a new member of staff: ")
-        if user_name == "x":
-            break
-        print(f"Hi, {user_name}!")
-        password = getpass.getpass("\n\tCreate a password: ")
-        if password == "x":
-            break
-        contact = new_phone()
-        if contact in ["x", "q"]:
-            break
-        user = [user_name, password, contact]
-        update_worksheet(user, "staff")
-        return dict(zip(KEYS, user))
+    print("\n~ ~ x - <== ~ ~")
+    user_name = input("Enter a name for a new member of staff: ")
+    if user_name == "x":
+        return None
+    print(f"Hi, {user_name}!")
+    password = getpass.getpass("\n\tCreate a password: ")
+    if password == "x":
+        return None
+    contact = new_phone()
+    if contact in ["x", "q"]:
+        return None
+    user = [user_name, password, contact]
+    update_worksheet(user, "staff")
+    return dict(zip(KEYS, user))
+
+
+@run.loop_menu_qx("\t",
+                  "x - <== ",
+                  "press 1 - Staff info\n\t"
+                  "press 2 - Edit your info\n\t",
+                  "Invalid input. Please, use options above.")
+def staff_menu(*args):
+    """
+    Displays staff menu.
+    """
+    user_input, user = (args)
+    if user_input == "1":
+        all_staff = get_data("staff")
+        return staff_info_menu(all_staff)
+    if user_input == "2":
+        return edit_staff_menu(user)
+    return False
 
 
 @run.loop_menu_qx("\t\t",
-                  # new line is necessary here, in most cases
-                  # it is not needed but for a couple occasions
-                  # it is needed, so after a new line, additional
-                  # indentation is required
-                  "\n\t\tx - <== // q - home",
+                  "x - <== // q - home",
                   "Enter 'all' to see the full list\n\t\t"
                   "Or enter a name to search by name: ",
                   "Invalid input. Please, use options above.")
@@ -68,19 +57,15 @@ def staff_info_menu(*args):
     """
     Prints info about members of staff: search by name of a full list.
     """
-    user_input, data = (args)
-    if user_input in [dict['NAME'] for dict in data] or user_input == "all":
-        print_staff_info(user_input, data)
+    name, data = (args)
+    if name in [dict['NAME'] for dict in data] or name == "all":
+        print_staff_info(name, data)
         return True
     return False
 
 
 @run.loop_menu_qx("\t\t",
-                  # new line is necessary here, in most cases
-                  # it is not needed but for a couple occasions
-                  # it is needed, so after a new line, additional
-                  # indentation is required
-                  "\n\t\tx - <== // q - home",
+                  "x - <== // q - home",
                   "press 1 - Change password\n\t\t"
                   "press 2 - Change contact\n\t\t",
                   "Invalid input. Please, use options above.")

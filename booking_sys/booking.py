@@ -45,41 +45,31 @@ def cust_bookings(name):
     return [item for item in active(bookings) if item["NAME"] == name]
 
 
-def bookings_menu(user):
+@run.loop_menu_qx("\t",
+                  "x - <== ",
+                  "press 1 - View bookings\n\t"
+                  "press 2 - Add a booking\n\t"
+                  "press 3 - Edit bookings\n\t",
+                  "Invalid input. Please, use options above.")
+def bookings_menu(*args):
     """
     Displays booking menu
     """
-    while True:
-        user_inp = input("\n\tpress x - <==\n"
-                         "\tpress 1 - View bookings\n"
-                         "\tpress 2 - Add a booking\n"
-                         "\tpress 3 - Edit bookings\n\t")
-        if user_inp == "1":
-            result = view_bookings_menu(user)
-            if result == "q":
-                break
-        elif user_inp == "2":
-            customer = cust.find_customer()
-            if customer is None:
-                continue
-            if customer == "q":
-                break
-            result = new_booking(user, customer)
-            if result == "q":
-                break
-        elif user_inp == "3":
-            result = edit_bookings()
-            if result == "q":
-                break
-        elif user_inp == "x":
-            break
-        else:
-            print("\tInvalid input. Please, use options above.")
-    return True
+    user_input, user = (args)
+    if user_input == "1":
+        return view_bookings_menu(user)
+    if user_input == "2":
+        customer = cust.find_customer()
+        if customer in [None, "q", "x"]:
+            return customer
+        return new_booking(user, customer)
+    if user_input == "3":
+        return edit_bookings()
+    return False
 
 
 @run.loop_menu_qx("\t\t",
-                  "\n\t\tx - <== // q - home",
+                  "x - <== // q - home",
                   "press 1 - Today\n\t\t"
                   "press 2 - Tomorrow\n\t\t"
                   "press 3 - Next 7 days\n\t\t"
@@ -201,30 +191,22 @@ def new_booking(user, customer):
     """
     name = customer["NAME"]
     created = user["NAME"]
-    while True:
-        day = new_date(customer)
-        if day == "x":
-            break
-        if day == "q":
-            return day
 
-        time = new_time(user)
-        if time == "x":
-            break
-        if time == "q":
-            return time
+    day = new_date(customer)
+    if day in ["x", "q"]:
+        return day
+    time = new_time(user)
+    if time in ["x", "q"]:
+        return time
+    num = num_of_people(user)
+    if num in ["x", "q"]:
+        return num
 
-        num = num_of_people(user)
-        if num == "x":
-            break
-        if num == "q":
-            return num
-
-        new = [day, time, name, num, created, "-", ""]
-        spsheet.update_worksheet(new, "bookings")
-        increment_bookings(customer)
-        print_bookings([dict(zip(KEYS, new))], day, day)
-        return True
+    new = [day, time, name, num, created, "-", ""]
+    spsheet.update_worksheet(new, "bookings")
+    increment_bookings(customer)
+    print_bookings([dict(zip(KEYS, new))], day, day)
+    return None  # to stay in the loop of bookings_menu
 
 
 def to_confirm(data):
@@ -251,27 +233,18 @@ def edit_bookings(*args):
     """
     user_input = args[0]
     bookings_data = active(spsheet.get_data("bookings"))
-
     if user_input == "1":
-        # not_confirmed = to_confirm(bookings_data)
-        result = confirm(to_confirm(bookings_data))
-        if result == "q":
-            return result
-        if result == "x":
-            return None
-    elif user_input in ["2", "3"]:
+        return confirm(to_confirm(bookings_data))
+    if user_input in ["2", "3"]:
         booking = find_bookings()
-        if booking in ["x", 0]:
+        if booking in ["x", 0, None]:
             return None
         if booking == "q":
             return booking
         if user_input == "2":
-            reschedule(booking)
-        else:
-            cancel(booking)
-        return None
-    else:
-        return False
+            return reschedule(booking)
+        return cancel(booking)
+    return False
 
 
 def confirm(bookings):
@@ -283,26 +256,23 @@ def confirm(bookings):
     if len(bookings) == 0:
         return False
     for booking in bookings:
-        while True:
-            print_bookings([booking], today, "today")
-            user_inp = input("\n\t\t\tx - <== // q - home"
-                             "\n\t\t\tpress 1 - Confirmed"
-                             "\n\t\t\tpress 2 - Skip"
-                             "\n\t\t\tpress 3 - Cancel\n\t\t\t")
-            if user_inp == "1":
-                booking.update({"CONF": "yes"})
-                spsheet.update_data("bookings", booking, "CONF", "yes")
-                break
-            if user_inp in ["2", "x"]:
-                break
-            if user_inp == "3":
-                cancel(booking)
-                break
-            if user_inp == "q":
-                return user_inp
+        print_bookings([booking], today, "today")
+        user_inp = input("\n\t\t\t" + "x - <== // q - home\n\t\t\t"
+                         "press 1 - Confirmed\n\t\t\t"
+                         "press 2 - Skip\n\t\t\t"
+                         "press 3 - Cancel\n\t\t\t")
+        if user_inp == "1":
+            booking.update({"CONF": "yes"})
+            spsheet.update_data("bookings", booking, "CONF", "yes")
+        elif user_inp == "2":
+            continue
+        elif user_inp == "3":
+            cancel(booking)
+        elif user_inp in ["q", "x"]:
+            return user_inp
+        else:
             print("\t\t\tInvalid input. ** Please, use options above.")
-        if user_inp == "x":
-            break
+    return None
 
 
 @run.loop_menu_qx("\t\t",
@@ -332,23 +302,18 @@ def reschedule(booking):
     """
     Updates booking data about date or time.
     """
-    while True:
-        user_date = update_date(booking)
-        if user_date == "x":
-            break
-        if user_date == "q":
-            return user_date
-        bookings = active(spsheet.get_data("bookings"))
-        print_bookings(bookings, user_date, user_date)
+    user_date = update_date(booking)
+    if user_date in ["x", "q"]:
+        return user_date
+    bookings = active(spsheet.get_data("bookings"))
+    print_bookings(bookings, user_date, user_date)
 
-        user_time = new_time()
-        if user_time == "x":
-            break
-        if user_time == "q":
-            return user_time
-        spsheet.update_data("bookings", booking, "DATE", user_date)
-        spsheet.update_data("bookings", booking, "TIME", user_time)
-        return True
+    user_time = new_time()
+    if user_time in ["x", "q"]:
+        return user_time
+    spsheet.update_data("bookings", booking, "DATE", user_date)
+    spsheet.update_data("bookings", booking, "TIME", user_time)
+    return None
 
 
 @run.loop_menu_qx("\t\t",
@@ -367,9 +332,12 @@ def find_bookings(*args):
         all_time = [dct["DATE"] for dct in bookings]
         print_bookings(bookings, all_time, "all time")
         if len(bookings) == 0:
-            print("There are no active bookings for this customer.")
+            print("\t\tThere are no active bookings for this customer.")
             return 0
-        return pick_booking(bookings)
+        result = pick_booking(bookings)
+        if result != "x":
+            return result
+        return True
     return False
 
 
@@ -387,7 +355,7 @@ def pick_booking(*args):
     valid_date = valid.date_input(user_input)
     if valid_date is False:
         print(f"\t\tInvalid input: '{user_input}'. "
-              "Please, enter a correct date.")
+              "Please, enter a valid date.")
         return None
     target = cust.search(valid_date, "DATE", bookings)
     if target is None:
@@ -404,7 +372,6 @@ def cancel(booking):
     customer = cust.get_customer(booking["NAME"])
     new_value = str(int(customer["CANCELLED"]) + 1)
     spsheet.update_data("customers", customer, "CANCELLED", new_value)
-    return True
 
 
 def has_duplicates(user_date, name):
