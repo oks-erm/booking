@@ -3,7 +3,7 @@ Includes staff specific functions.
 """
 import getpass
 from booking_sys.spreadsheet import update_worksheet, get_data, update_data
-from booking_sys.customer import pretty_print
+from booking_sys.customer import pretty_print, new_phone
 import run
 
 
@@ -34,19 +34,25 @@ def staff_menu(user):
     return True
 
 
-@run.loop_menu_x("",
-                 "Enter a name for a new member of staff: ")
-def create_staff(*args):
+def create_staff():
     """
     Creates a new member of Staff
     """
-    user_name = args[0]
-    print(f"Hi, {user_name}!")
-    password = getpass.getpass("Create a password: ")
-    contact = input("Awesome! Enter your contact number: ")
-    user = [user_name, password, contact]
-    update_worksheet(user, "staff")
-    return dict(zip(KEYS, user))
+    while True:
+        print("\n~ ~ x - <== ~ ~")
+        user_name = input("Enter a name for a new member of staff: ")
+        if user_name == "x":
+            break
+        print(f"Hi, {user_name}!")
+        password = getpass.getpass("\n\tCreate a password: ")
+        if password == "x":
+            break
+        contact = new_phone()
+        if contact in ["x", "q"]:
+            break
+        user = [user_name, password, contact]
+        update_worksheet(user, "staff")
+        return dict(zip(KEYS, user))
 
 
 @run.loop_menu_qx("\t\t",

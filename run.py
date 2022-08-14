@@ -3,7 +3,6 @@ Main module, includes ...
 """
 import sys
 import os
-# import pdb
 from booking_sys.spreadsheet import get_data
 from booking_sys import booking
 from booking_sys import customer
@@ -66,7 +65,7 @@ def loop_menu_qx(indentation, xq_text, input_prompt, warning):
     return decorator
 
 
-def loop_menu_x(indentation, input_prompt):
+def loop_menu_x(input_prompt):
     """
     Places a function inside a While Loop,
     which breaks if input is "x" and warns
@@ -77,13 +76,13 @@ def loop_menu_x(indentation, input_prompt):
         def wrap_func(*args):
             while True:
                 result = None
-                print("\n" + indentation + "x - <==")
+                print("\nx - <==")
                 user_inp = input(input_prompt)
                 if user_inp == "x":
                     break
                 result = func(user_inp, *args)
                 if result is False:
-                    print(indentation + "Invalid input. "
+                    print("Invalid input. "
                           "Please, use options above.")
                 else:
                     break

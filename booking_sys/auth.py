@@ -24,7 +24,7 @@ def staff_login(data):
     """
     print("\n\n\t\tWelcome to Your Booking System!\n")
     while True:
-        entered_name = input("Enter your name or enter 'new' "
+        entered_name = input("\nEnter your name or enter 'new' "
                              "if you are a new member of staff: ")
         user = customer.search(entered_name, "NAME", data)
         if user is not None:
@@ -34,7 +34,7 @@ def staff_login(data):
         if entered_name.lower() == "new":
             from booking_sys.staff import create_staff
             user = create_staff()
-            if user == "x":
+            if user is None:
                 continue
             break
         print(f"Sorry, there is no user '{entered_name}'.")
