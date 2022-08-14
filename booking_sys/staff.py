@@ -50,9 +50,13 @@ def create_staff(*args):
 
 
 @run.loop_menu_qx("\t\t",
-                  "x - <== // q - home",
-                  "Enter 'all' to see the full list\n"
-                  "\t\tOr enter a name to search by name: ",
+                  # new line is necessary here, in most cases
+                  # it is not needed but for a couple occasions
+                  # it is needed, so after a new line, additional
+                  # indentation is required
+                  "\n\t\tx - <== // q - home",
+                  "Enter 'all' to see the full list\n\t\t"
+                  "Or enter a name to search by name: ",
                   "Invalid input. Please, use options above.")
 def staff_info_menu(*args):
     """
@@ -66,9 +70,13 @@ def staff_info_menu(*args):
 
 
 @run.loop_menu_qx("\t\t",
-                  "x - <== // q - home",
-                  "press 1 - Change password\n"
-                  "\t\tpress 2 - Change contact\n\t\t",
+                  # new line is necessary here, in most cases
+                  # it is not needed but for a couple occasions
+                  # it is needed, so after a new line, additional
+                  # indentation is required
+                  "\n\t\tx - <== // q - home",
+                  "press 1 - Change password\n\t\t"
+                  "press 2 - Change contact\n\t\t",
                   "Invalid input. Please, use options above.")
 def edit_staff_menu(*args):
     """

@@ -39,7 +39,7 @@ def customers_menu():
                            "\n\tpress 2 - List of customers"
                            "\n\tpress 3 - Stats\n\t")
         if user_input == "1":
-            user_input = input("\n\tx - <== // q - home\n\tEnter name: ")
+            user_input = input("\n\t\tx - <== // q - home\n\t\tEnter name: ")
             if user_input == "q":
                 break
             if user_input == "x":
@@ -71,7 +71,7 @@ def view_customer(name):
         for item in customers:
             print_customer(item)
     else:
-        print(f"\tCustomer '{name}' doesn't exist.")
+        print(f"\t\tCustomer '{name}' doesn't exist.")
 
 
 def pretty_print(func):
@@ -131,7 +131,7 @@ def find_customer():
     return customer
 
 
-@run.loop_menu_qx("\t",
+@run.loop_menu_qx("\t\t",
                   "",
                   "Contact number: ",
                   "Invalid input. Please, enter a valid phone number.")
@@ -144,7 +144,7 @@ def new_phone(*args):
     return False
 
 
-@run.loop_menu_qx("\t",
+@run.loop_menu_qx("\t\t",
                   "",
                   "Email to receive reminders: ",
                   "Invalid input. Please, enter a valid email.")
@@ -157,7 +157,7 @@ def new_email(*args):
     return False
 
 
-@run.loop_menu_qx("\t",
+@run.loop_menu_qx("\t\t",
                   "",
                   "Date of birth: ",
                   "Invalid input. Please, enter a valid date.")
@@ -177,7 +177,7 @@ def create_customer(name):
     it to the spreadsheet.
     """
     new_name = name
-    print("\n\tCreate a new customer:")
+    print("\n\t\tCreate a new customer:")
     while True:
         phone = new_phone()
         if phone == "x":

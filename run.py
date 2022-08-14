@@ -48,7 +48,7 @@ def loop_menu_qx(indentation, xq_text, input_prompt, warning):
         def wrap_func(*args):
             while True:
                 result = None
-                print("\n" + indentation + xq_text)
+                print(indentation + xq_text)
                 user_inp = input(indentation + input_prompt)
                 if user_inp in ["x", "q"]:
                     break

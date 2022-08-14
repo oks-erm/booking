@@ -79,7 +79,7 @@ def bookings_menu(user):
 
 
 @run.loop_menu_qx("\t\t",
-                  "x - <== // q - home",
+                  "\n\t\tx - <== // q - home",
                   "press 1 - Today\n\t\t"
                   "press 2 - Tomorrow\n\t\t"
                   "press 3 - Next 7 days\n\t\t"
@@ -176,7 +176,7 @@ def new_time(*args):
     return False
 
 
-@run.loop_menu_qx("\t",
+@run.loop_menu_qx("\t\t",
                   "",
                   "How many people: ",
                   "Not a number. Please, use a number.")
@@ -235,7 +235,7 @@ def to_confirm(data):
                      != "yes" and item["DATE"] == today)])
     if len(not_confirmed) == 0:
         print("\n\t\tAll bookings are confirmed! Chill!")
-        return False
+        return []
     return not_confirmed
 
 
@@ -253,13 +253,13 @@ def edit_bookings(*args):
     bookings_data = active(spsheet.get_data("bookings"))
 
     if user_input == "1":
-        not_confirmed = to_confirm(bookings_data)
-        result = confirm(not_confirmed)
+        # not_confirmed = to_confirm(bookings_data)
+        result = confirm(to_confirm(bookings_data))
         if result == "q":
             return result
         if result == "x":
             return None
-    if user_input in ["2", "3"]:
+    elif user_input in ["2", "3"]:
         booking = find_bookings()
         if booking in ["x", 0]:
             return None
@@ -270,7 +270,8 @@ def edit_bookings(*args):
         else:
             cancel(booking)
         return None
-    return False
+    else:
+        return False
 
 
 def confirm(bookings):
@@ -279,6 +280,8 @@ def confirm(bookings):
     with contact numbers one by one to confirm or
     skip.
     """
+    if len(bookings) == 0:
+        return False
     for booking in bookings:
         while True:
             print_bookings([booking], today, "today")
@@ -297,7 +300,7 @@ def confirm(bookings):
                 break
             if user_inp == "q":
                 return user_inp
-            print("\t\t\tInvalid input. Please, use options above.")
+            print("\t\t\tInvalid input. ** Please, use options above.")
         if user_inp == "x":
             break
 
@@ -390,30 +393,6 @@ def pick_booking(*args):
     if target is None:
         return False
     return target
-
-
-# def pick_booking(bookings):
-#     """
-#     Picks one booking from the list based on
-#     user input.
-#     """
-#     target = None
-#     while True:
-#         user_date = input("\n\t\tDate of a booking to edit (dd-mm-yyyy): ")
-#         if user_date == "x":
-#             break
-#         if user_date == "q":
-#             return user_date
-#         valid_date = valid.date_input(user_date)
-#         if valid_date is False:
-#             print(f"\t\tInvalid input: '{user_date}'. "
-#                   "Please, enter a correct date.")
-#             continue
-#         target = cust.search(valid_date, "DATE", bookings)
-#         if target is not None:
-#             break
-#         print(f"There are no bookings for {valid_date}.")
-#     return target
 
 
 def cancel(booking):
