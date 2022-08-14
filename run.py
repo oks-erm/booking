@@ -5,10 +5,9 @@ import sys
 import os
 # import pdb
 from booking_sys.spreadsheet import get_data
-import booking_sys.booking as booking
-import booking_sys.customer as customer
-import booking_sys.auth as auth
-# from booking_sys import new
+from booking_sys import booking
+from booking_sys import customer
+from booking_sys import auth
 
 
 def start_menu(user):
@@ -17,25 +16,24 @@ def start_menu(user):
     """
     print(f"\nWhat do you want to do, {user['NAME']}?")
     while True:
-        user_inp = input("press 1 - Bookings\n"
+        user_inp = input("\npress 1 - Bookings\n"
                          "press 2 - Customers\n"
                          "press 3 - Staff info\n"
                          "press x - Exit\n")
         if user_inp == "1":
             booking.bookings_menu(user)
-            break
+            continue
         if user_inp == "2":
-            customer.customers_menu(user)
-            print("Customers")
-            break
+            customer.customers_menu()
+            continue
         if user_inp == "3":
             from booking_sys.staff import staff_menu
             staff_menu(user)
-            break
+            continue
         if user_inp == "x":
             cleanup()
             sys.exit()
-        print("Invalid input. Please, use options above.\n")
+        print("Computer says no. Please, use options above.")
 
 
 def loop_menu_qx(indentation, xq_text, input_prompt, warning):
@@ -51,22 +49,18 @@ def loop_menu_qx(indentation, xq_text, input_prompt, warning):
             while True:
                 result = None
                 print("\n" + indentation + xq_text)
-                user_inp = input(input_prompt)
+                user_inp = input(indentation + input_prompt)
                 if user_inp in ["x", "q"]:
                     break
                 result = func(user_inp, *args)
-                # function returns a dict with the user instead False
-                # so it can be used to call start_menu when q is pressed
-                if isinstance(result, dict) or result is False:
+                if result is None:
+                    continue
+                if result is False:
                     print(indentation + warning)
                 else:
                     break
-            if user_inp == "x":
-                return None
-            if user_inp == "q":
-                result = func(user_inp, *args)
-                start_menu(result)
-                return None
+            if user_inp in ["x", "q"]:
+                return user_inp
             return result
         return wrap_func
     return decorator
@@ -94,7 +88,7 @@ def loop_menu_x(indentation, input_prompt):
                 else:
                     break
             if user_inp == "x":
-                return None
+                return user_inp
             return result
         return wrap_func
     return decorator

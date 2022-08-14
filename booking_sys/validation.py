@@ -75,3 +75,15 @@ def email(user_email):
     if re.fullmatch(regex, user_email):
         return True
     return False
+
+
+def phone_num(user_phone):
+    """
+    Validates phone number. Force start with a plus
+    or two zeros. White space, brackets, minus and
+    point are optional, no other characters allowed.
+    """
+    regex = r'^(\+|00)[1-9][0-9 \-\(\)\.]{7,16}$'
+    if re.fullmatch(regex, user_phone):
+        return True
+    return False

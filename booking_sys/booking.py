@@ -55,30 +55,35 @@ def bookings_menu(user):
                          "\tpress 2 - Add a booking\n"
                          "\tpress 3 - Edit bookings\n\t")
         if user_inp == "1":
-            view_bookings_menu(user)
-            continue
-        if user_inp == "2":
-            customer = cust.find_customer(user)
+            result = view_bookings_menu(user)
+            if result == "q":
+                break
+        elif user_inp == "2":
+            customer = cust.find_customer()
             if customer is None:
                 continue
-            new_booking(user, customer)
-            continue
-        if user_inp == "3":
-            edit_bookings(user)
-            continue
-        if user_inp == "x":
-            run.start_menu(user)
+            if customer == "q":
+                break
+            result = new_booking(user, customer)
+            if result == "q":
+                break
+        elif user_inp == "3":
+            result = edit_bookings()
+            if result == "q":
+                break
+        elif user_inp == "x":
             break
-        print("\tInvalid input. Please, use options above.")
+        else:
+            print("\tInvalid input. Please, use options above.")
     return True
 
 
 @run.loop_menu_qx("\t\t",
                   "x - <== // q - home",
-                  "\t\tpress 1 - Today\n"
-                  "\t\tpress 2 - Tomorrow\n"
-                  "\t\tpress 3 - Next 7 days\n"
-                  "\t\tpress 4 - All\n\t\t",
+                  "press 1 - Today\n\t\t"
+                  "press 2 - Tomorrow\n\t\t"
+                  "press 3 - Next 7 days\n\t\t"
+                  "press 4 - All\n\t\t",
                   "Invalid input. Please, use options above.")
 def view_bookings_menu(*args):
     """
@@ -93,8 +98,7 @@ def view_bookings_menu(*args):
     for i in range(1, 7):
         week.append(dd_mm_yyyy(str(date.today() + timedelta(days=i))))
     all_time = [dct['DATE'] for dct in bookings_data]
-    #  unpack args
-    user_input, user = (args)
+    user_input = args[0]
 
     if user_input == "1":
         print_bookings(bookings_data, today, "today")
@@ -105,7 +109,7 @@ def view_bookings_menu(*args):
     elif user_input == "4":
         print_bookings(bookings_data, all_time, "all time")
     else:
-        return user
+        return False
     return True
 
 
@@ -136,7 +140,7 @@ def print_bookings(data, period, string):
 
 @run.loop_menu_qx("\t",
                   "",
-                  "\tEnter a booking date (dd-mm-yyyy): ",
+                  "Enter a booking date (dd-mm-yyyy): ",
                   "Invalid date.")
 def new_date(*args):
     """
@@ -145,44 +149,47 @@ def new_date(*args):
     and a customer doesn't have duplicate bookings for
     the same date.
     """
-    user_input, customer, user = (args)
+    user_input, customer = (args)
     valid_date = valid.date_input(user_input)
-    if valid_date and has_duplicates(valid_date, customer["NAME"]) is False:
+    duplicates = has_duplicates(valid_date, customer["NAME"])
+    if valid_date and duplicates is False:
         bookings = active(spsheet.get_data("bookings"))
         print_bookings(bookings, valid_date, valid_date)
         return valid_date
-    return user
+    if duplicates:
+        return None
+    return False
 
 
-@run.loop_menu_qx("\t",
+@run.loop_menu_qx("\t\t",
                   "",
-                  "\tNew time (hh:mm): ",
+                  "New time (hh:mm): ",
                   "Invalid time.")
 def new_time(*args):
     """
     Accepts user input and validates time,
     checking if it's correect format.
     """
-    user_input, user = (args)
+    user_input = args[0]
     if valid.time_input(user_input) is True:
         return user_input
-    return user
+    return False
 
 
 @run.loop_menu_qx("\t",
                   "",
-                  "\tHow many people: ",
+                  "How many people: ",
                   "Not a number. Please, use a number.")
 def num_of_people(*args):
     """
     Accepts number of people, validates that
     it is a number.
     """
-    user_input, user = (args)
+    user_input = args[0]
     try:
         num = int(user_input)
     except ValueError:
-        return user
+        return False
     else:
         return num
 
@@ -195,59 +202,78 @@ def new_booking(user, customer):
     name = customer["NAME"]
     created = user["NAME"]
     while True:
-        date = new_date(customer, user)
-        if date is None:
+        day = new_date(customer)
+        if day == "x":
             break
+        if day == "q":
+            return day
+
         time = new_time(user)
-        if time is None:
+        if time == "x":
             break
+        if time == "q":
+            return time
+
         num = num_of_people(user)
-        if num is None:
+        if num == "x":
             break
-        new = [date, time, name, num, created, "-", ""]
+        if num == "q":
+            return num
+
+        new = [day, time, name, num, created, "-", ""]
         spsheet.update_worksheet(new, "bookings")
         increment_bookings(customer)
-        print_bookings([dict(zip(KEYS, new))], date, date)
-        break
+        print_bookings([dict(zip(KEYS, new))], day, day)
+        return True
 
 
-def edit_bookings(user):
+def to_confirm(data):
+    """
+    Picks bookings to confirm from active data.
+    """
+    not_confirmed = ([item for item in data if (item["CONF"]
+                     != "yes" and item["DATE"] == today)])
+    if len(not_confirmed) == 0:
+        print("\n\t\tAll bookings are confirmed! Chill!")
+        return False
+    return not_confirmed
+
+
+@run.loop_menu_qx("\t\t",
+                  "x - <== // q - home",
+                  "press 1 - Confirm\n\t\t"
+                  "press 2 - Reschedule\n\t\t"
+                  "press 3 - Cancel\n\t\t",
+                  "Invalid input. Please, use options above.")
+def edit_bookings(*args):
     """
     Displays Edit Bookings menu.
     """
-    while True:
-        bookings_data = active(spsheet.get_data("bookings"))
-        user_inp = input("\n\t\tx - <== // q - home"
-                         "\n\t\tpress 1 - Confirm"
-                         "\n\t\tpress 2 - Reschedule"
-                         "\n\t\tpress 3 - Cancel\n\t\t")
-        if user_inp == "1":
-            not_confirmed = ([item for item in bookings_data if (item["CONF"]
-                             != "yes" and item["DATE"] == today)])
-            if len(not_confirmed) == 0:
-                print("\n\t\tAll bookings are confirmed! Chill!")
-            confirm(not_confirmed, user)
-            continue
-        if user_inp == "2":
-            booking = find_bookings(user)
-            if booking is None:
-                continue
-            reschedule(booking, user)
-            continue
-        if user_inp == "3":
-            booking = find_bookings(user)
-            if booking is None:
-                continue
+    user_input = args[0]
+    bookings_data = active(spsheet.get_data("bookings"))
+
+    if user_input == "1":
+        not_confirmed = to_confirm(bookings_data)
+        result = confirm(not_confirmed)
+        if result == "q":
+            return result
+        if result == "x":
+            return None
+    if user_input in ["2", "3"]:
+        booking = find_bookings()
+        if booking in ["x", 0]:
+            return None
+        if booking == "q":
+            return booking
+        if user_input == "2":
+            reschedule(booking)
+        else:
             cancel(booking)
-            continue
-        if user_inp == "x":
-            break
-        if user_inp == "q":
-            run.start_menu(user)
-        print("\t\tInvalid input. Please, use options above.")
+        return None
+    return False
 
 
-def confirm(bookings, user):
+def confirm(bookings):
     """
     Finds not confirmed bookings and prints them
     with contact numbers one by one to confirm or
@@ -264,32 +290,67 @@ def confirm(bookings, user):
                 booking.update({"CONF": "yes"})
                 spsheet.update_data("bookings", booking, "CONF", "yes")
                 break
-            if user_inp == "2":
+            if user_inp in ["2", "x"]:
                 break
             if user_inp == "3":
                 cancel(booking)
                 break
-            if user_inp == "x":
-                break
             if user_inp == "q":
-                run.start_menu(user)
+                return user_inp
             print("\t\t\tInvalid input. Please, use options above.")
         if user_inp == "x":
             break
 
 
-def increment_bookings(customer):
+@run.loop_menu_qx("\t\t",
+                  "",
+                  "Enter a new date(dd-/.mm-/.yyyy) "
+                  "(leave empty if no change): ",
+                  "Invalid date.")
+def update_date(*args):
     """
-    Increments number of bookings a customer has, when
-    a new booking is created.
+    Accepts user input and validates date,
+    checking if it's correect format, not from the past
+    and a customer doesn't have duplicate bookings for
+    the same date.
     """
-    new_number = str(int(customer["NUM OF BOOKINGS"]) + 1)
-    spsheet.update_data("customers", customer, "NUM OF BOOKINGS", new_number)
+    user_input, booking = (args)
+    old_date = booking["DATE"]
+    if user_input != "":
+        valid_date = valid.date_input(user_input)
+        duplicates = has_duplicates(valid_date, booking["NAME"])
+        if (valid_date and duplicates is False):
+            return valid_date
+        return False
+    return old_date
+
+
+def reschedule(booking):
+    """
+    Updates booking data about date or time.
+    """
+    while True:
+        user_date = update_date(booking)
+        if user_date == "x":
+            break
+        if user_date == "q":
+            return user_date
+        bookings = active(spsheet.get_data("bookings"))
+        print_bookings(bookings, user_date, user_date)
+
+        user_time = new_time()
+        if user_time == "x":
+            break
+        if user_time == "q":
+            return user_time
+        spsheet.update_data("bookings", booking, "DATE", user_date)
+        spsheet.update_data("bookings", booking, "TIME", user_time)
+        return True
 
 
 @run.loop_menu_qx("\t\t",
                   "~ ~ x - <== // q - home ~ ~",
-                  "\t\tEnter a customer's name: ",
+                  "Enter a customer's name: ",
                   "Computer says no. Customer does not exist.")
 def find_bookings(*args):
     """
@@ -297,39 +358,62 @@ def find_bookings(*args):
     accepts user input with a name to search.
     """
     customers = spsheet.get_data("customers")
-    user_input, user = (args)
+    user_input = args[0]
     if user_input in [dct["NAME"] for dct in customers]:
         bookings = cust_bookings(user_input)
         all_time = [dct["DATE"] for dct in bookings]
         print_bookings(bookings, all_time, "all time")
         if len(bookings) == 0:
-            return None
-        return [pick_booking(bookings, user)]
-    return user
+            print("There are no active bookings for this customer.")
+            return 0
+        return pick_booking(bookings)
+    return False
 
 
-def pick_booking(bookings, user):
+@run.loop_menu_qx("\t\t",
+                  "",
+                  "Date of a booking to edit (dd-mm-yyyy): ",
+                  "There are no bookings for this date.")
+def pick_booking(*args):
     """
     Picks one booking from the list based on
     user input.
     """
     target = None
-    while True:
-        user_date = input("\n\t\tDate of a booking to edit (dd-mm-yyyy): ")
-        if user_date == "x":
-            break
-        if user_date == "q":
-            run.start_menu(user)
-        valid_date = valid.date_input(user_date)
-        if valid_date is False:
-            print(f"\t\tInvalid input: '{user_date}'. "
-                  "Please, enter a correct date.")
-            continue
-        target = cust.search(valid_date, "DATE", bookings)
-        if target is not None:
-            break
-        print(f"There are no bookings for {valid_date}.")
+    user_input, bookings = (args)
+    valid_date = valid.date_input(user_input)
+    if valid_date is False:
+        print(f"\t\tInvalid input: '{user_input}'. "
+              "Please, enter a correct date.")
+        return None
+    target = cust.search(valid_date, "DATE", bookings)
+    if target is None:
+        return False
     return target
+
+
+# def pick_booking(bookings):
+#     """
+#     Picks one booking from the list based on
+#     user input.
+#     """
+#     target = None
+#     while True:
+#         user_date = input("\n\t\tDate of a booking to edit (dd-mm-yyyy): ")
+#         if user_date == "x":
+#             break
+#         if user_date == "q":
+#             return user_date
+#         valid_date = valid.date_input(user_date)
+#         if valid_date is False:
+#             print(f"\t\tInvalid input: '{user_date}'. "
+#                   "Please, enter a correct date.")
+#             continue
+#         target = cust.search(valid_date, "DATE", bookings)
+#         if target is not None:
+#             break
+#         print(f"There are no bookings for {valid_date}.")
+#     return target
 
 
 def cancel(booking):
@@ -341,48 +425,7 @@ def cancel(booking):
     customer = cust.get_customer(booking["NAME"])
     new_value = str(int(customer["CANCELLED"]) + 1)
     spsheet.update_data("customers", customer, "CANCELLED", new_value)
-
-
-def reschedule(booking, user):
-    """
-    Updates booking data about date or time.
-    """
-    while True:
-        while True:
-            user_date = input("\t\tNew date (dd-mm-yyyy) "
-                              "(leave empty if no change): ")
-            if user_date in ["x", "q"]:
-                break
-            if ((valid.date_input(user_date) is True or user_date == "") and
-                    has_duplicates(user_date, booking["NAME"]) is False):
-                bookings = active(spsheet.get_data("bookings"))
-                if user_date != "":
-                    print_bookings(bookings, user_date, user_date)
-                else:
-                    print_bookings(bookings, booking["DATE"], booking["DATE"])
-                break
-            print(f"\t\tInvalid input: '{user_date}'.\n"
-                  "\t\tPlease, enter a valid date.\n")
-        if user_date == "x":
-            break
-        if user_date == "q":
-            run.start_menu(user)
-        while True:
-            user_time = input("\t\tNew time (hh:mm): ")
-            if user_time in ["x", "q"]:
-                break
-            if valid.time_input(user_time) is True:
-                break
-            print(f"\t\tInvalid input: '{user_time}'.\n"
-                  "\t\tPlease, enter valid time.\n")
-        if user_time == "x":
-            break
-        if user_time == "q":
-            run.start_menu(user)
-        if user_date != "":
-            spsheet.update_data("bookings", booking, "DATE", user_date)
-        spsheet.update_data("bookings", booking, "TIME", user_time)
-        break
+    return True
 
 
 def has_duplicates(user_date, name):
@@ -392,10 +435,19 @@ def has_duplicates(user_date, name):
     """
     customer_bookings = cust_bookings(name)
     if user_date in [dct["DATE"] for dct in customer_bookings]:
-        print(f"\n\t!!!Booking for {user_date} already exists!!!")
+        print(f"\n\t\t!!!Booking for {user_date} already exists!!!")
         print_bookings(customer_bookings, user_date, user_date)
         return True
     return False
+
+
+def increment_bookings(customer):
+    """
+    Increments number of bookings a customer has, when
+    a new booking is created.
+    """
+    new_number = str(int(customer["NUM OF BOOKINGS"]) + 1)
+    spsheet.update_data("customers", customer, "NUM OF BOOKINGS", new_number)
 
 
 today = dd_mm_yyyy(str(date.today()))

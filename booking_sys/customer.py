@@ -29,7 +29,7 @@ def get_customer(name):
     return search(name, "NAME", customers)
 
 
-def customers_menu(user):
+def customers_menu():
     """
     Displays Customers Menu.
     """
@@ -39,67 +39,39 @@ def customers_menu(user):
                            "\n\tpress 2 - List of customers"
                            "\n\tpress 3 - Stats\n\t")
         if user_input == "1":
-            user_input = input("\n\tEnter name or leave empty to go back: ")
-            view_customer(user_input, user)
+            user_input = input("\n\tx - <== // q - home\n\tEnter name: ")
+            if user_input == "q":
+                break
+            if user_input == "x":
+                continue
+            view_customer(user_input)
         elif user_input == "2":
-            view_customer("all", user)
+            view_customer("all")
         elif user_input == "3":
             stats.data_for_stats()
             stats.customers_stats()
             print("\tYour stats is ready! Check your Reports folder.")
         elif user_input == "x":
-            run.start_menu(user)
             break
         else:
             print("\tInvalid input. Please, use options above.")
     return True
 
 
-def create_customer(name, user):
+def view_customer(name):
     """
-    Creates a new customer with a parameter 'name' and writes
-    it to the spreadsheet.
+    Checks the request and to print out the customer
+    and calls print_customer.
     """
-    new_name = name
-    print("\n\tCreate a new customer:\n")
-    while True:
-        # input contact number
-        phone = input("\tContact number: ")
-        # escape
-        if phone == "x":
-            break
-        if phone == "q":
-            run.start_menu(user)
-        # input and validate email
-        while True:
-            email = input("\tEmail to receive reminders: ").encode('utf-8')
-            if valid.email(email.decode('utf-8')) is True or email == "x":
-                break
-            print(f"\tInvalid input: '{email.decode('utf-8')}'."
-                  "\tEnter a valid email.\n")
-            if email.decode('utf-8') == "x":
-                break
-        # escape
-        if email.decode('utf-8') == "x":
-            break
-        if email.decode('utf-8') == "q":
-            run.start_menu(user)
-        # input and validate birthdate
-        while True:
-            bday = input("\tDate of birth (dd-mm-yyyy): ")
-            valid_date = valid.birthdate(bday)
-            if valid_date is True or bday == "x":
-                break
-            print(f"\tInvalid input: '{bday}'. Enter a valid date.\n")
-        # escape
-        if bday == "x":
-            break
-        if bday == "q":
-            run.start_menu(user)
-        # process data and update spreadsheet 
-        new_data = [new_name, phone, email.decode('utf-8'), valid_date, 1, 0]
-        spsheet.update_worksheet(new_data, "customers")
-        return dict(zip(KEYS, new_data))
+    customers = spsheet.get_data("customers")
+    customer = get_customer(name)
+    if customer is not None:
+        print_customer(customer)
+    elif name == "all":
+        for item in customers:
+            print_customer(item)
+    else:
+        print(f"\tCustomer '{name}' doesn't exist.")
 
 
 def pretty_print(func):
@@ -114,25 +86,6 @@ def pretty_print(func):
     return wrap_func
 
 
-def view_customer(name, user):
-    """
-    Checks the request and to print out the customer
-    and calls print_customer.
-    """
-    if name == "q":
-        from run import start_menu
-        start_menu(user)
-    customers = spsheet.get_data("customers")
-    customer = get_customer(name)
-    if customer is not None:
-        print_customer(customer)
-    elif name == "all":
-        for item in customers:
-            print_customer(item)
-    else:
-        print(f"\tCustomer '{name}' doesn't exist.")
-
-
 @pretty_print
 def print_customer(customer):
     """
@@ -144,7 +97,7 @@ def print_customer(customer):
           f"cancelled: {customer['CANCELLED']}")
 
 
-def find_customer(user):
+def find_customer():
     """
     Returns a customer if exists or offers to create a new one.
     Allows to input again in case of a typo.
@@ -153,17 +106,17 @@ def find_customer(user):
     while True:
         print("\n\t~'x' - one level up // 'q' - to the start menu ~")
         name = input("\n\tEnter a customer's name: ")
-        customer = get_customer(name)
         if name == "x":
             break
         if name == "q":
-            run.start_menu(user)
+            return name
+        customer = get_customer(name)
         if customer is None:
             print(f"\tCustomer '{name}' does not exist.")
             while True:
                 user_inp = input(f"\tCreate a new customer '{name}'? y/n\n\t")
                 if user_inp == "y":
-                    customer = create_customer(name, user)
+                    customer = create_customer(name)
                     break
                 if user_inp == "n":
                     break
@@ -176,3 +129,72 @@ def find_customer(user):
             break
 
     return customer
+
+
+@run.loop_menu_qx("\t",
+                  "",
+                  "Contact number: ",
+                  "Invalid input. Please, enter a valid phone number.")
+def new_phone(*args):
+    """
+    Accepts user input and validates phone number.
+    """
+    if valid.phone_num(args[0]):
+        return args[0]
+    return False
+
+
+@run.loop_menu_qx("\t",
+                  "",
+                  "Email to receive reminders: ",
+                  "Invalid input. Please, enter a valid email.")
+def new_email(*args):
+    """
+    Accepts user input and validates email.
+    """
+    if valid.email(args[0]):
+        return args[0]
+    return False
+
+
+@run.loop_menu_qx("\t",
+                  "",
+                  "Date of birth: ",
+                  "Invalid input. Please, enter a valid date.")
+def new_birthdate(*args):
+    """
+    Accepts user input and validates email.
+    """
+    bday = valid.birthdate(args[0])
+    if bday:
+        return bday
+    return False
+
+
+def create_customer(name):
+    """
+    Creates a new customer with a parameter 'name' and writes
+    it to the spreadsheet.
+    """
+    new_name = name
+    print("\n\tCreate a new customer:")
+    while True:
+        phone = new_phone()
+        if phone == "x":
+            break
+        if phone == "q":
+            return phone
+        email = new_email()
+        if email == "x":
+            break
+        if email == "q":
+            return email
+        birthday = new_birthdate()
+        if birthday == "x":
+            break
+        if birthday == "q":
+            return birthday
+        # process data and update spreadsheet
+        new_data = [new_name, phone, email, birthday, 1, 0]
+        spsheet.update_worksheet(new_data, "customers")
+        return dict(zip(KEYS, new_data))

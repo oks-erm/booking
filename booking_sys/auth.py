@@ -34,7 +34,7 @@ def staff_login(data):
         if entered_name.lower() == "new":
             from booking_sys.staff import create_staff
             user = create_staff()
-            if user is None:
+            if user == "x":
                 continue
             break
         print(f"Sorry, there is no user '{entered_name}'.")
