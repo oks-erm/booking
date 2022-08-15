@@ -61,8 +61,8 @@ def test_date_input():
     assert date_input("10,10,2023") == "10-10-2023"
     assert date_input("10.10.2021") is False
     assert date_input("1.10.2022") is False
-    
-    
+
+
 def test_date_input_data_formats():
     """
     Test different data formats.

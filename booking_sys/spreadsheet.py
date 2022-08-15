@@ -25,12 +25,12 @@ def get_worksheet(worksheet):
         data = SHEET.worksheet(worksheet).get_all_values()
         # data reorganised by columns
         return data
-    except gspread.exceptions.GSpreadException:
+    except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError):
         print("\nSorry, something went wrong accessing database.")
-        inp = input("press 1 - Try again\npress x - Exit\n")
-        if inp == "1":
+        user_input = input("press 1 - Try again\npress x - Exit\n")
+        if user_input == "1":
             get_worksheet(worksheet)
-        if inp == "x":
+        if user_input == "x":
             sys.exit()
 
 
@@ -40,8 +40,14 @@ def update_worksheet(data, worksheet):
     """
     try:
         SHEET.worksheet(worksheet).append_row(data)
-    except gspread.exceptions.GSpreadException:
+    except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError):
         print("\nDatabase is not available, I couldn't save your data")
+        user_input = input("press 1 - Try again\n"
+                           "press x - Continue without saving\n")
+        if user_input == "1":
+            update_worksheet(data, worksheet)
+        if user_input == "x":
+            pass
     else:
         print("\n\t\tSaved successfully!\n")
 

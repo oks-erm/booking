@@ -84,11 +84,7 @@ def cleanup():
             os.remove(file)
 
 
-def main():
+if __name__ == '__main__':
     all_staff = get_data("staff")
     the_user = auth.staff_login(all_staff)
     start_menu(the_user)
-
-
-if __name__ == '__main__':
-    main()

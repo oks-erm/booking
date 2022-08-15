@@ -26,7 +26,7 @@ def create_staff():
     if contact in ["x", "q"]:
         return None
     user = [user_name, password, contact]
-    update_worksheet(user, "staff")
+    update_worksheet(user, "staf")
     return dict(zip(KEYS, user))
 
 
