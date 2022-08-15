@@ -7,11 +7,11 @@ from datetime import datetime, date
 
 def to_date(string):
     """
-    Converts string date data to date format.
+    Converts a string date to date format.
     """
     try:
         return datetime.strptime(string, '%d-%m-%Y').date()
-    except ValueError:
+    except (ValueError, TypeError):
         return False
 
 
@@ -20,8 +20,10 @@ def convert_date(new_date):
     Converts a date with various date separators
     into a date separated with "-".
     """
-    repl_delim = '-'
-    return re.sub('[/,.]', repl_delim, new_date)
+    try:
+        return re.sub('[/,.]', '-', new_date)
+    except (ValueError, TypeError):
+        return False
 
 
 def date_input(new_date):
@@ -36,7 +38,7 @@ def date_input(new_date):
                 (to_date(f_date) < date.today())):
             raise ValueError
         return f_date
-    except ValueError:
+    except (ValueError, TypeError):
         return False
 
 
@@ -46,11 +48,12 @@ def birthdate(new_date):
     """
     try:
         f_date = convert_date(new_date)
-        if (f_date != datetime.strptime(f_date, "%d-%m-%Y")
-                .strftime("%d-%m-%Y")):
+        if ((f_date != datetime.strptime(f_date, "%d-%m-%Y")
+            .strftime("%d-%m-%Y")) or
+                (to_date(f_date) > date.today())):
             raise ValueError
         return f_date
-    except ValueError:
+    except (ValueError, TypeError):
         return False
 
 
@@ -63,7 +66,7 @@ def time_input(new_time):
         if new_time != datetime.strptime(new_time, "%H:%M").strftime("%H:%M"):
             raise ValueError
         return True
-    except ValueError:
+    except (ValueError, TypeError):
         return False
 
 
@@ -71,10 +74,13 @@ def email(user_email):
     """
     Checks if an email is a valid email address.
     """
-    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-    if re.fullmatch(regex, user_email):
-        return True
-    return False
+    try:
+        regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        if re.fullmatch(regex, user_email):
+            return True
+        raise ValueError
+    except (ValueError, TypeError):
+        return False
 
 
 def phone_num(user_phone):
@@ -83,7 +89,10 @@ def phone_num(user_phone):
     or two zeros. White space, brackets, minus and
     point are optional, no other characters allowed.
     """
-    regex = r'^(\+|00)[1-9][0-9 \-\(\)\.]{7,16}$'
-    if re.fullmatch(regex, user_phone):
-        return True
-    return False
+    try:
+        regex = r'^(\+|00)[1-9][0-9 \-\(\)\.]{7,16}$'
+        if re.fullmatch(regex, user_phone):
+            return True
+        raise ValueError
+    except (ValueError, TypeError):
+        return False
