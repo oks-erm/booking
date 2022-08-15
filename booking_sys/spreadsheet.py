@@ -71,15 +71,24 @@ def update_data(worksheet, obj, attr, value):
     arguments: (object to update, attribute to update,
     new value)).
     """
-    row = SHEET.worksheet(worksheet).find(obj["NAME"]).row
-    col = SHEET.worksheet(worksheet).find(attr).col
-    if worksheet == "bookings":
-        cell_list = SHEET.worksheet(worksheet).findall(obj["NAME"])
-        rows = [cell.row for cell in cell_list]
-        for r in rows:
-            if obj["DATE"] in SHEET.worksheet(worksheet).row_values(r):
-                row = r
-    SHEET.worksheet(worksheet).update_cell(row, col, ("'"+value))
-    print(f"\t\t{worksheet.capitalize()} info was successfully updated!")
-    obj[attr] = value
-    return obj
+    try:
+        row = SHEET.worksheet(worksheet).find(obj["NAME"]).row
+        col = SHEET.worksheet(worksheet).find(attr).col
+        if worksheet == "bookings":
+            cell_list = SHEET.worksheet(worksheet).findall(obj["NAME"])
+            rows = [cell.row for cell in cell_list]
+            for r in rows:
+                if obj["DATE"] in SHEET.worksheet(worksheet).row_values(r):
+                    row = r
+        SHEET.worksheet(worksheet).update_cell(row, col, ("'"+value))
+        print(f"\t\t{worksheet.capitalize()} info was successfully updated!")
+        obj[attr] = value
+        return obj
+    except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError):
+        print("\nDatabase is not available, I couldn't save your data")
+        user_input = input("press 1 - Try again\n"
+                           "press x - Continue without saving\n")
+        if user_input == "1":
+            update_data(worksheet, obj, attr, value)
+        if user_input == "x":
+            pass

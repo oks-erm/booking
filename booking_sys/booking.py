@@ -217,7 +217,7 @@ def to_confirm(data):
                      != "yes" and item["DATE"] == today)])
     if len(not_confirmed) == 0:
         print("\n\t\tAll bookings are confirmed! Chill!")
-        return []
+        return None
     return not_confirmed
 
 
@@ -232,8 +232,8 @@ def edit_bookings(*args):
     Displays Edit Bookings menu.
     """
     user_input = args[0]
-    bookings_data = active(spsheet.get_data("bookings"))
     if user_input == "1":
+        bookings_data = active(spsheet.get_data("bookings"))
         return confirm(to_confirm(bookings_data))
     if user_input in ["2", "3"]:
         booking = find_bookings()
@@ -253,8 +253,8 @@ def confirm(bookings):
     with contact numbers one by one to confirm or
     skip.
     """
-    if len(bookings) == 0:
-        return False
+    if bookings is None:
+        return bookings
     for booking in bookings:
         print_bookings([booking], today, "today")
         user_inp = input("\n\t\t\t" + "x - <== // q - home\n\t\t\t"
@@ -271,7 +271,7 @@ def confirm(bookings):
         elif user_inp in ["q", "x"]:
             return user_inp
         else:
-            print("\t\t\tInvalid input. ** Please, use options above.")
+            print("\t\t\tInvalid input. Please, use options above.")
     return None
 
 
