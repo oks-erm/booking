@@ -6,7 +6,7 @@ from datetime import datetime, date, timedelta
 from booking_sys import spreadsheet as spsheet
 from booking_sys import customer as cust
 from booking_sys import validation as valid
-import run
+from booking_sys.decorators import pretty_print, loop_menu_qx
 
 
 def dd_mm_yyyy(my_date):
@@ -45,12 +45,12 @@ def cust_bookings(name):
     return [item for item in active(bookings) if item["NAME"] == name]
 
 
-@run.loop_menu_qx("\t",
-                  "x - <== ",
-                  "press 1 - View bookings\n\t"
-                  "press 2 - Add a booking\n\t"
-                  "press 3 - Edit bookings\n\t",
-                  "Invalid input. Please, use options above.")
+@loop_menu_qx("\t",
+              "x - <== ",
+              "press 1 - View bookings\n\t"
+              "press 2 - Add a booking\n\t"
+              "press 3 - Edit bookings\n\t",
+              "Invalid input. Please, use options above.")
 def bookings_menu(*args):
     """
     Displays booking menu
@@ -68,13 +68,13 @@ def bookings_menu(*args):
     return False
 
 
-@run.loop_menu_qx("\t\t",
-                  "x - <== // q - home",
-                  "press 1 - Today\n\t\t"
-                  "press 2 - Tomorrow\n\t\t"
-                  "press 3 - Next 7 days\n\t\t"
-                  "press 4 - All\n\t\t",
-                  "Invalid input. Please, use options above.")
+@loop_menu_qx("\t\t",
+              "x - <== // q - home",
+              "press 1 - Today\n\t\t"
+              "press 2 - Tomorrow\n\t\t"
+              "press 3 - Next 7 days\n\t\t"
+              "press 4 - All\n\t\t",
+              "Invalid input. Please, use options above.")
 def view_bookings_menu(*args):
     """
     Displays menu to choose bookings for what period
@@ -103,7 +103,7 @@ def view_bookings_menu(*args):
     return True
 
 
-@cust.pretty_print
+@pretty_print
 def print_bookings(data, period, string):
     """
     Select bookings data out of given range and prints it.
@@ -128,10 +128,10 @@ def print_bookings(data, period, string):
                   f"{cust.get_customer(item['NAME'])['PHONE']}\n")
 
 
-@run.loop_menu_qx("\t",
-                  "",
-                  "Enter a booking date (dd-mm-yyyy): ",
-                  "Invalid date.")
+@loop_menu_qx("\t",
+              "",
+              "Enter a booking date (dd-mm-yyyy): ",
+              "Invalid date.")
 def new_date(*args):
     """
     Accepts user input and validates date,
@@ -151,10 +151,10 @@ def new_date(*args):
     return False
 
 
-@run.loop_menu_qx("\t\t",
-                  "",
-                  "New time (hh:mm): ",
-                  "Invalid time.")
+@loop_menu_qx("\t\t",
+              "",
+              "New time (hh:mm): ",
+              "Invalid time.")
 def new_time(*args):
     """
     Accepts user input and validates time,
@@ -166,10 +166,10 @@ def new_time(*args):
     return False
 
 
-@run.loop_menu_qx("\t\t",
-                  "",
-                  "How many people: ",
-                  "Not a number. Please, use a number.")
+@loop_menu_qx("\t\t",
+              "",
+              "How many people: ",
+              "Not a number. Please, use a number.")
 def num_of_people(*args):
     """
     Accepts number of people, validates that
@@ -221,12 +221,12 @@ def to_confirm(data):
     return not_confirmed
 
 
-@run.loop_menu_qx("\t\t",
-                  "x - <== // q - home",
-                  "press 1 - Confirm\n\t\t"
-                  "press 2 - Reschedule\n\t\t"
-                  "press 3 - Cancel\n\t\t",
-                  "Invalid input. Please, use options above.")
+@loop_menu_qx("\t\t",
+              "x - <== // q - home",
+              "press 1 - Confirm\n\t\t"
+              "press 2 - Reschedule\n\t\t"
+              "press 3 - Cancel\n\t\t",
+              "Invalid input. Please, use options above.")
 def edit_bookings(*args):
     """
     Displays Edit Bookings menu.
@@ -275,11 +275,11 @@ def confirm(bookings):
     return None
 
 
-@run.loop_menu_qx("\t\t",
-                  "",
-                  "Enter a new date(dd-/.mm-/.yyyy) "
-                  "(leave empty if no change): ",
-                  "Invalid date.")
+@loop_menu_qx("\t\t",
+              "",
+              "Enter a new date(dd-/.mm-/.yyyy) "
+              "(leave empty if no change): ",
+              "Invalid date.")
 def update_date(*args):
     """
     Accepts user input and validates date,
@@ -316,10 +316,10 @@ def reschedule(booking):
     return None
 
 
-@run.loop_menu_qx("\t\t",
-                  "~ ~ x - <== // q - home ~ ~",
-                  "Enter a customer's name: ",
-                  "Computer says no. Customer does not exist.")
+@loop_menu_qx("\t\t",
+              "~ ~ x - <== // q - home ~ ~",
+              "Enter a customer's name: ",
+              "Computer says no. Customer does not exist.")
 def find_bookings(*args):
     """
     Finds and returns all bookings of a customer,
@@ -341,10 +341,10 @@ def find_bookings(*args):
     return False
 
 
-@run.loop_menu_qx("\t\t",
-                  "",
-                  "Date of a booking to edit (dd-mm-yyyy): ",
-                  "There are no bookings for this date.")
+@loop_menu_qx("\t\t",
+              "",
+              "Date of a booking to edit (dd-mm-yyyy): ",
+              "There are no bookings for this date.")
 def pick_booking(*args):
     """
     Picks one booking from the list based on

@@ -3,19 +3,19 @@ Includes staff specific functions.
 """
 import getpass
 from booking_sys.spreadsheet import update_worksheet, get_data, update_data
-from booking_sys.customer import pretty_print, new_phone
-import run
+from booking_sys.customer import new_phone
+from booking_sys.decorators import pretty_print, loop_menu_qx
 
 
 KEYS = get_data("staff")[0]
 
 
-def create_staff():
+def create_staff(data):
     """
     Creates a new member of Staff
     """
     print("\n~ ~ x - <== ~ ~")
-    user_name = input("Enter a name for a new member of staff: ")
+    user_name = get_name(data)
     if user_name == "x":
         return None
     print(f"Hi, {user_name}!")
@@ -30,11 +30,26 @@ def create_staff():
     return dict(zip(KEYS, user))
 
 
-@run.loop_menu_qx("\t",
-                  "x - <== ",
-                  "press 1 - Staff info\n\t"
-                  "press 2 - Edit your info\n\t",
-                  "Invalid input. Please, use options above.")
+def get_name(data):
+    """
+    Accepts user input and checks if it is empty
+    or already exists.
+    """
+    while True:
+        name = input("Enter a name for a new member of staff: ")
+        if name == "":
+            print("Please, enter your name!\n")
+            continue
+        if name not in [dict['NAME'] for dict in data]:
+            return name
+        print(f"'{name}' already exists. Try something else.\n")
+
+
+@loop_menu_qx("\t",
+              "x - <== ",
+              "press 1 - Staff info\n\t"
+              "press 2 - Edit your info\n\t",
+              "Invalid input. Please, use options above.")
 def staff_menu(*args):
     """
     Displays staff menu.
@@ -48,11 +63,11 @@ def staff_menu(*args):
     return False
 
 
-@run.loop_menu_qx("\t\t",
-                  "x - <== // q - home",
-                  "Enter 'all' to see the full list\n\t\t"
-                  "Or enter a name to search by name: ",
-                  "Invalid input. Please, use options above.")
+@loop_menu_qx("\t\t",
+              "x - <== // q - home",
+              "Enter 'all' to see the full list\n\t\t"
+              "Or enter a name to search by name: ",
+              "Invalid input. Please, use options above.")
 def staff_info_menu(*args):
     """
     Prints info about members of staff: search by name of a full list.
@@ -64,11 +79,11 @@ def staff_info_menu(*args):
     return False
 
 
-@run.loop_menu_qx("\t\t",
-                  "x - <== // q - home",
-                  "press 1 - Change password\n\t\t"
-                  "press 2 - Change contact\n\t\t",
-                  "Invalid input. Please, use options above.")
+@loop_menu_qx("\t\t",
+              "x - <== // q - home",
+              "press 1 - Change password\n\t\t"
+              "press 2 - Change contact\n\t\t",
+              "Invalid input. Please, use options above.")
 def edit_staff_menu(*args):
     """
     Edits the current user: password or contact.

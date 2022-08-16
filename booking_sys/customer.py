@@ -4,7 +4,7 @@ Includes customers specific functions.
 from booking_sys import spreadsheet as spsheet
 from booking_sys import validation as valid
 from booking_sys import stats
-import run
+from booking_sys.decorators import pretty_print, loop_menu_qx
 
 
 KEYS = spsheet.get_data("customers")[0]
@@ -29,23 +29,11 @@ def get_customer(name):
     return search(name, "NAME", customers)
 
 
-def pretty_print(func):
-    """
-    A decorator to print output framed with lines of * symbol.
-    """
-    def wrap_func(*args, **kwargs):
-        print("")
-        print('*' * 65)
-        func(*args, **kwargs)
-        print("*" * 65)
-    return wrap_func
-
-
-@run.loop_menu_qx("\t",
-                  "press x - <==",
-                  "press 1 - View customers\n\t"
-                  "press 2 - Stats\n\t",
-                  "Invalid input. Please, use options above.")
+@loop_menu_qx("\t",
+              "press x - <==",
+              "press 1 - View customers\n\t"
+              "press 2 - Stats\n\t",
+              "Invalid input. Please, use options above.")
 def customers_menu(*args):
     """
     Displays Customers Menu.
@@ -61,11 +49,11 @@ def customers_menu(*args):
     return False
 
 
-@run.loop_menu_qx("\t\t",
-                  "x - <== // q - home",
-                  "Enter 'all' to see the full list\n\t\t"
-                  "Or enter a name to search by name: ",
-                  "Customer doesn't exist.")
+@loop_menu_qx("\t\t",
+              "x - <== // q - home",
+              "Enter 'all' to see the full list\n\t\t"
+              "Or enter a name to search by name: ",
+              "Customer doesn't exist.")
 def view_customer(*args):
     """
     Checks the request and to print out the customer
@@ -95,10 +83,10 @@ def print_customer(customer):
           f"cancelled: {customer['CANCELLED']}")
 
 
-@run.loop_menu_qx("\t",
-                  "~'x' - one level up // 'q' - to the start menu ~\n\t",
-                  "Enter a customer's name: ",
-                  "Invalid input. Please, use options above.")
+@loop_menu_qx("\t",
+              "~'x' - one level up // 'q' - to the start menu ~\n\t",
+              "Enter a customer's name: ",
+              "Invalid input. Please, use options above.")
 def find_customer(*args):
     """
     Returns a customer if exists or offers to create a new one.
@@ -121,10 +109,10 @@ def find_customer(*args):
     return customer
 
 
-@run.loop_menu_qx("\t\t",
-                  "",
-                  "Contact number: ",
-                  "Invalid input. Please, enter a valid phone number.")
+@loop_menu_qx("\t\t",
+              "",
+              "Contact number: ",
+              "Invalid input. Please, enter a valid phone number.")
 def new_phone(*args):
     """
     Accepts user input and validates phone number.
@@ -134,10 +122,10 @@ def new_phone(*args):
     return False
 
 
-@run.loop_menu_qx("\t\t",
-                  "",
-                  "Email to receive reminders: ",
-                  "Invalid input. Please, enter a valid email.")
+@loop_menu_qx("\t\t",
+              "",
+              "Email to receive reminders: ",
+              "Invalid input. Please, enter a valid email.")
 def new_email(*args):
     """
     Accepts user input and validates email.
@@ -147,10 +135,10 @@ def new_email(*args):
     return False
 
 
-@run.loop_menu_qx("\t\t",
-                  "",
-                  "Date of birth: ",
-                  "Invalid input. Please, enter a valid date.")
+@loop_menu_qx("\t\t",
+              "",
+              "Date of birth: ",
+              "Invalid input. Please, enter a valid date.")
 def new_birthdate(*args):
     """
     Accepts user input and validates email.

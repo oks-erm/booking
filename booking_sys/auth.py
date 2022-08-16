@@ -2,20 +2,29 @@
 Authorisation.
 """
 import getpass
-import booking_sys.customer as customer
+
+
+def check_password(user, password):
+    """
+    Checks the user's password
+    """
+    if user["PASSWORD"] == password:
+        print("All good!\n")
+        return True
+    return False
 
 
 def authorise(user):
     """
-    Checks the user's password
+    Accepts the user's input and runs the loop for 3 attempts.
     """
-    for i in range(4):
-        print(f"Attempt {i+1} of 4")
+    for i in range(3):
+        print(f"Attempt {i+1} of 3")
         password = getpass.getpass("Password:")
-        if user["PASSWORD"] == password:
-            print("All good!\n")
+        if check_password(user, password):
             return True
         print("The password is not correct! Try again!\n")
+    return False
 
 
 def staff_login(data):
@@ -26,6 +35,7 @@ def staff_login(data):
     while True:
         entered_name = input("\nEnter your name or enter 'new' "
                              "if you are a new member of staff: ")
+        import booking_sys.customer as customer
         user = customer.search(entered_name, "NAME", data)
         if user is not None:
             if authorise(user) is not True:
@@ -33,13 +43,11 @@ def staff_login(data):
             break
         if entered_name.lower() == "new":
             from booking_sys.staff import create_staff
-            user = create_staff()
+            user = create_staff(data)
             if user is None:
                 continue
             break
         print(f"Sorry, there is no user '{entered_name}'.")
         print("If you want to create a new user, enter 'new'.\n")
-        
-    print(f"{user['NAME']} : {user['CONTACT']}")
-    return user
 
+    return user
