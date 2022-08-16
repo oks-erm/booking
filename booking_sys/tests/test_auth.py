@@ -1,3 +1,6 @@
+"""
+Tests for auth module.
+"""
 from unittest import mock
 from booking_sys.auth import authorise, check_password, staff_login
 

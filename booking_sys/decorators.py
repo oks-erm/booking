@@ -21,10 +21,10 @@ def loop_menu_qx(indentation, qx_text, input_prompt, warning):
             while True:
                 result = None
                 print("\n" + indentation + qx_text)
-                user_inp = input(indentation + input_prompt)
-                if user_inp in ["x", "q"]:
+                user_input = input(indentation + input_prompt)
+                if user_input in ["x", "q"]:
                     break
-                result = func(user_inp, *args)
+                result = func(user_input, *args)
                 if result == "q":
                     return result
                 if result is False:
@@ -33,8 +33,8 @@ def loop_menu_qx(indentation, qx_text, input_prompt, warning):
                 if result in [None, "x"]:
                     continue
                 break
-            if user_inp in ["x", "q"]:
-                return user_inp
+            if user_input in ["x", "q"]:
+                return user_input
             if result is not True:
                 return result
             return None
