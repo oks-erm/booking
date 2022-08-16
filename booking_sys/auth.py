@@ -6,7 +6,8 @@ import getpass
 
 def check_password(user, password):
     """
-    Checks the user's password
+    Checks the user's password. Takes user(dict) and
+    string with a password.
     """
     if user["PASSWORD"] == password:
         print("All good!\n")
@@ -17,6 +18,7 @@ def check_password(user, password):
 def authorise(user):
     """
     Accepts the user's input and runs the loop for 3 attempts.
+    Takes user(dict).
     """
     for i in range(3):
         print(f"Attempt {i+1} of 3")
@@ -29,7 +31,8 @@ def authorise(user):
 
 def staff_login(data):
     """
-    Logs in a member of staff.
+    Logs in a member of staff. Takes staff data
+    list of dictionaries.
     """
     print("\n\n\t\tWelcome to Your Booking System!\n")
     while True:
