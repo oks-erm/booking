@@ -5,11 +5,11 @@ from unittest import mock
 from booking_sys.decorators import loop_menu_qx
 
 
-@mock.patch('builtins.input', return_value='x')
-def test_loop_menu_qx_for_x(input):
+def test_loop_menu_qx_for_x():
     """
     if user input is "x".
     """
+    @mock.patch('builtins.input', return_value='x')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
     def func():
         return True
@@ -17,11 +17,11 @@ def test_loop_menu_qx_for_x(input):
     assert func() == "x"
 
 
-@mock.patch('builtins.input', return_value='q')
-def test_loop_menu_qx_for_q(input):
+def test_loop_menu_qx_for_q():
     """
     if user input is "q".
     """
+    @mock.patch('builtins.input', return_value='q')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
     def func():
         return True
@@ -29,11 +29,11 @@ def test_loop_menu_qx_for_q(input):
     assert func() == "q"
 
 
-@mock.patch('builtins.input', return_value='1')
-def test_loop_menu_qx_for_input_return_true(input):
+def test_loop_menu_qx_for_input_return_true():
     """
     if user input is not "x" or "q" and function returns True.
     """
+    @mock.patch('builtins.input', return_value='1')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
     def func(*args):
         return True
@@ -41,11 +41,11 @@ def test_loop_menu_qx_for_input_return_true(input):
     assert func() is None
 
 
-@mock.patch('builtins.input', return_value='1')
-def test_loop_menu_qx_for_input_return_q(input):
+def test_loop_menu_qx_for_input_return_q():
     """
     if user input is not "x" or "q" and function returns "q".
     """
+    @mock.patch('builtins.input', return_value='1')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
     def func(*args):
         return "q"
@@ -53,11 +53,11 @@ def test_loop_menu_qx_for_input_return_q(input):
     assert func() == "q"
 
 
-@mock.patch('builtins.input', return_value='1')
-def test_loop_menu_qx_for_return_string(input):
+def test_loop_menu_qx_for_return_string():
     """
     if user input is not "x" or "q" and function returns a string.
     """
+    @mock.patch('builtins.input', return_value='1')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
     def func(*args):
         return "string"
@@ -65,11 +65,11 @@ def test_loop_menu_qx_for_return_string(input):
     assert func() == "string"
 
 
-@mock.patch('builtins.input', return_value='1')
-def test_loop_menu_qx_for_return_int(input):
+def test_loop_menu_qx_for_return_int():
     """
     if user input is not "x" or "q" and function returns an integer.
     """
+    @mock.patch('builtins.input', return_value='1')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
     def func(*args):
         return 42
@@ -77,23 +77,23 @@ def test_loop_menu_qx_for_return_int(input):
     assert func() == 42
 
 
-@mock.patch('builtins.input', return_value='1')
-def test_loop_menu_qx_for_return_list(input):
+def test_loop_menu_qx_for_return_list():
     """
     if user input is not "x" or "q" and function returns a list.
     """
+    @mock.patch('builtins.input', return_value='1')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
     def func(*args):
         return ["li", "st"]
-  
+
     assert func() == ["li", "st"]
 
 
-@mock.patch('builtins.input', return_value='1')
-def test_loop_menu_qx_for_return_dict(input):
+def test_loop_menu_qx_for_return_dict():
     """
     if user input is not "x" or "q" and function returns a dictionary.
     """
+    @mock.patch('builtins.input', return_value='1')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
     def func(*args):
         return {"dict": "ionary"}
