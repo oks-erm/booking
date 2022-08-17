@@ -51,7 +51,7 @@ def test_staff_login_for_new(input, create_staff):
 
 @mock.patch("booking_sys.auth.authorise", return_value=True)
 @mock.patch('builtins.input', return_value='Bob')
-def test_staff_login_for_existing(input, authorise):
+def test_staff_login_for_existing(*args):
     """
     Tests a function for an existing user.
     """

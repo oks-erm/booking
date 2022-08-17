@@ -22,8 +22,8 @@ def get_worksheet(worksheet):
     Fetches staff data from Google Spreadsheet
     """
     try:
+        print(SHEET.worksheet(worksheet))
         data = SHEET.worksheet(worksheet).get_all_values()
-        # data reorganised by columns
         return data
     except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError):
         print("\nSorry, something went wrong accessing database.")
