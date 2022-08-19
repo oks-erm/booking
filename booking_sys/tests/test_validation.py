@@ -1,6 +1,7 @@
 """
 Tests for validation module.
 """
+import pytest
 from datetime import date
 from booking_sys.validation import (to_date, convert_date, date_input,
                                     birthdate, time_input, email, phone_num)
@@ -29,16 +30,18 @@ def test_to_date_data_formats():
         assert to_date(item) is False
 
 
-def test_convert_date():
+@pytest.mark.parametrize("a, expected",
+                         [("10/10/2022", "10-10-2022"),
+                          ("10.10.2022", "10-10-2022"),
+                          ("10,10,2022", "10-10-2022"),
+                          ("10\10\2022", "10\10\2022"),
+                          ("string", "string")])
+def test_convert_date(a, expected):
     """
     Test different date formats and input
     with nothing to substitute.
     """
-    assert convert_date("10/10/2022") == "10-10-2022"
-    assert convert_date("10.10.2022") == "10-10-2022"
-    assert convert_date("10,10,2022") == "10-10-2022"
-    assert convert_date("10\10\2022") == "10\10\2022"
-    assert convert_date("string") == "string"
+    assert convert_date(a) == expected
 
 
 def test_convert_date_data_formats():

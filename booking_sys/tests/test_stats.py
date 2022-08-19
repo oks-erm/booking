@@ -25,9 +25,9 @@ def test_calculate_age(a, expected):
     assert stats.calculate_age(a) == expected
 
 
-@mock.patch("booking_sys.stats.get_worksheet",
-            return_value=[['NAME', 'PHONE', 'EMAIL', 'BIRTHDATE'],
-                          ['Bob', '003543243422', "q@w.er", "10-10-1976"],
-                          ['Kelly', '+44 6734657788', "t@y.ui", "10-11-1987"]])
-def test_data_for_stats(*args): 
-    assert os.path.exists("stats.csv") is True
+# @mock.patch("booking_sys.stats.get_worksheet",
+#             return_value=[['NAME', 'PHONE', 'EMAIL', 'BIRTHDATE'],
+#                           ['Bob', '003543243422', "q@w.er", "10-10-1976"],
+#                           ['Kelly', '+44 6734657788', "t@y.ui", "10-11-1987"]])
+# def test_data_for_stats(*args): 
+#     assert os.path.exists("stats.csv") is True

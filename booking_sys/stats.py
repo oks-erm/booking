@@ -37,10 +37,18 @@ def calculate_age(birthdate):
     """
     Calculates age based on birthdate.
     """
-    today = date.today()
-    age = (today.year - birthdate.year
-           - ((today.month, today.day) < (birthdate.month, birthdate.day)))
-    return str(age)
+    try:
+        bddate = datetime.strptime(birthdate, "%d-%m-%Y").date()
+        today = date.today()
+        if bddate > today:
+            return "This date is from the future. Can't calculate age."
+        age = (today.year - bddate.year
+               - ((today.month, today.day) < (bddate.month, bddate.day)))
+        return str(age)
+    except TypeError:
+        return "Argument should be str"
+    except ValueError:
+        return "Make sure you use dd-mm-yyyy format"
 
 
 def data_for_stats():
@@ -49,7 +57,7 @@ def data_for_stats():
     """
     data = get_worksheet("customers")
     for item in data[1:]:
-        item[3] = calculate_age(datetime.strptime(item[3], "%d-%m-%Y").date())
+        item[3] = calculate_age(item[3])
     with open("stats.csv", "w", newline="") as file:
         file.truncate()
         writer = csv.writer(file)

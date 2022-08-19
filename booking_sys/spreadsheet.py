@@ -22,13 +22,14 @@ def get_worksheet(worksheet):
     Fetches staff data from Google Spreadsheet
     """
     try:
-        print(SHEET.worksheet(worksheet))
-        data = SHEET.worksheet(worksheet).get_all_values()
+        data = SHEET.worksheet(worksheet).get_values()
         return data
-    except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError):
+    except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError,
+            gspread.exceptions.WorksheetNotFound):
         print("\nSorry, something went wrong accessing database.")
         user_input = input("press 1 - Try again\npress x - Exit\n")
         if user_input == "1":
+            print("Trying...")
             get_worksheet(worksheet)
         if user_input == "x":
             sys.exit()
@@ -40,14 +41,16 @@ def update_worksheet(data, worksheet):
     """
     try:
         SHEET.worksheet(worksheet).append_row(data)
-    except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError):
+    except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError,
+            gspread.exceptions.WorksheetNotFound):
         print("\nDatabase is not available, I couldn't save your data")
         user_input = input("press 1 - Try again\n"
                            "press x - Continue without saving\n")
         if user_input == "1":
+            print("Trying...")
             update_worksheet(data, worksheet)
         if user_input == "x":
-            pass
+            print("Your data was not saved.")
     else:
         print("\n\t\tSaved successfully!\n")
 
@@ -66,9 +69,8 @@ def get_data(worksheet):
 
 def update_data(worksheet, obj, attr, value):
     """
-    Updates attributes of instance of Staff and
-    writes updates to spreadsheet. Takes three
-    arguments: (object to update, attribute to update,
+    Updates values of given objects on given worksheet.
+    Takes three arguments: (object to update, attribute to update,
     new value)).
     """
     try:
@@ -84,11 +86,13 @@ def update_data(worksheet, obj, attr, value):
         print(f"\t\t{worksheet.capitalize()} info was successfully updated!")
         obj[attr] = value
         return obj
-    except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError):
+    except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError,
+            gspread.exceptions.WorksheetNotFound):
         print("\nDatabase is not available, I couldn't save your data")
         user_input = input("press 1 - Try again\n"
                            "press x - Continue without saving\n")
         if user_input == "1":
+            print("Trying...")
             update_data(worksheet, obj, attr, value)
         if user_input == "x":
-            pass
+            print("Your data was not saved.")
