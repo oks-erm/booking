@@ -1,5 +1,7 @@
 from unittest.mock import patch, call
-from booking_sys.staff import create_staff, get_name, staff_menu, staff_info_menu, edit_staff_menu, print_staff_info
+from booking_sys.staff import (create_staff, get_name, staff_menu,
+                               staff_info_menu, edit_staff_menu,
+                               print_staff_info)
 
 
 def test_create_staff_name_returns_x():
