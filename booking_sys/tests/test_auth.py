@@ -9,7 +9,7 @@ def test_check_password():
     """
     Test check_password on different values.
     """
-    user = {'NAME': 'Bob', 'PASSWORD': '123', 'CONTACT': '001111111111'}
+    user = {'NAME': 'Bob', 'PASSWORD': '123', 'CONTACT': ''}
     password = "123"
     assert check_password(user, password) is True
 
@@ -25,7 +25,7 @@ def test_authorise_seq(getpass):
     """
     Test authorisation on different sequences of values.
     """
-    user = {'NAME': 'Bob', 'PASSWORD': '123', 'CONTACT': '001111111111'}
+    user = {'NAME': 'Bob', 'PASSWORD': '123', 'CONTACT': ''}
     getpass.side_effect = ["11", "123", "12"]
     assert authorise(user) is True
 
@@ -43,7 +43,7 @@ def test_staff_login_for_new(input, create_staff):
     """
     Tests a function for a new user.
     """
-    data = [{'NAME': 'Bob', 'PASSWORD': '123', 'CONTACT': '001111111111'}]
+    data = [{'NAME': 'Bob', 'PASSWORD': '123', 'CONTACT': ''}]
     result = staff_login(data)
     assert isinstance(result, dict) is True
     assert result == create_staff.return_value
@@ -55,7 +55,7 @@ def test_staff_login_for_existing(*args):
     """
     Tests a function for an existing user.
     """
-    data = [{'NAME': 'Bob', 'PASSWORD': '123', 'CONTACT': '001111111111'}]
+    data = [{'NAME': 'Bob', 'PASSWORD': '123', 'CONTACT': ''}]
     result = staff_login(data)
     assert isinstance(result, dict) is True
     assert result == data[0]

@@ -3,7 +3,7 @@ Includes staff specific functions.
 """
 import getpass
 from booking_sys.spreadsheet import update_worksheet, get_data, update_data
-from booking_sys.customer import new_phone
+from booking_sys.customer import new_phone, search
 from booking_sys.decorators import pretty_print, loop_menu_qx
 
 
@@ -113,5 +113,5 @@ def print_staff_info(user_input, staff):
         for item in staff:
             print(f"\t{item['NAME']} : {item['CONTACT']}")
     else:
-        result = [item for item in staff if item["NAME"] == user_input]
-        print(f"\t{result[0]['NAME']} : {result[0]['CONTACT']}")
+        result = search(user_input, "NAME", staff)
+        print(f"\t{result['NAME']} : {result['CONTACT']}")

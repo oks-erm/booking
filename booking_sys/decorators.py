@@ -1,6 +1,7 @@
 """
 Decorators used throughout the package.
 """
+from functools import wraps
 
 
 def loop_menu_qx(indentation, qx_text, input_prompt, warning):
@@ -17,6 +18,7 @@ def loop_menu_qx(indentation, qx_text, input_prompt, warning):
         warning(str, text to warn the user if input is invalid)
     """
     def decorator(func):
+        @wraps(func)
         def wrap_func(*args):
             while True:
                 result = None
@@ -46,6 +48,7 @@ def pretty_print(func):
     """
     A decorator to print output framed with lines of * symbol.
     """
+    @wraps(func)
     def wrap_func(*args, **kwargs):
         print("")
         print('*' * 65)

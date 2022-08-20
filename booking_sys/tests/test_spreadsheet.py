@@ -1,7 +1,7 @@
 """
 Tests for spreadsheet module.
 """
-from unittest.mock import patch
+from unittest.mock import patch, call
 from gspread import Worksheet, exceptions, Cell
 from booking_sys.spreadsheet import (SHEET, get_worksheet, get_data,
                                      update_worksheet, update_data)
@@ -53,7 +53,7 @@ def test_get_worksheet_exception(*args):
         with patch('builtins.print') as print_mock:
             get_worksheet("name")
             mock_inp.assert_called_with(exc_msg)
-            print_mock.has_calls_with("Trying...")
+            print_mock.assert_has_calls([call('Trying...')], any_order=False)
 
 
 @patch(WORKSHEET_PATH, **worksheet_config)
@@ -87,7 +87,7 @@ def test_update_worksheet_exception(*args):
         with patch('builtins.print') as print_mock:
             update_worksheet([[]], "name")
             mock_inp.assert_called_with(exc_msg)
-            print_mock.has_calls_with("Trying...")
+            print_mock.assert_has_calls([call('Trying...')], any_order=False)
 
 
 def test_get_data(*args):
@@ -121,7 +121,7 @@ def test_update_data(*args):
             update_data(worksheet, test_obj, attr, new_value)
             assert test_obj[attr] == new_value
             assert update_data("name", test_obj, attr, new_value) == test_obj
-            print_mock.has_calls_with(msg)
+            print_mock.assert_called_with(msg)
             mock_upd.assert_called()
 
 
@@ -144,6 +144,7 @@ def test_update_data_exception(*args):
     test_obj = {'CONTACT': '003543243422', 'NAME': 'Bob', 'PASSWORD': '123'}
     attr = "PASSWORD"
     new_value = "321"
+    exc_print = "\nDatabase is not available, I couldn't save your data"
     exc_msg = "press 1 - Try again\npress x - Continue without saving\n"
     with patch("builtins.input", return_value="x", autospec=True) as mock_inp:
         with patch('builtins.print') as print_mock:
@@ -156,4 +157,5 @@ def test_update_data_exception(*args):
 
             update_data(worksheet, test_obj, attr, new_value)
             mock_inp.assert_called_with(exc_msg)
-            print_mock.has_calls_with("Trying...")
+            print_mock.assert_has_calls([call(exc_print), call('Trying...')],
+                                        any_order=False)
