@@ -146,9 +146,9 @@ def test_new_email():
     with patch("builtins.input", return_value="test") as mock_input:
         with patch("booking_sys.validation.email") as mock_email:
             user_input = mock_input.return_value
-
+            result = user_input.encode('utf-8')
             mock_email.return_value = True
-            assert new_email.__wrapped__(user_input) == user_input.encode('utf-8')
+            assert new_email.__wrapped__(user_input) == result
 
             mock_email.return_value = False
             assert new_email.__wrapped__(user_input) is False
@@ -234,7 +234,8 @@ def test_create_customer_completed(*args):
             with patch("booking_sys.customer.new_birthdate") as mock_birthdate:
                 with patch("builtins.print") as mock_print:
                     phone = mock_new_phone.return_value = "0011111111"
-                    email = mock_new_email.return_value = "test@te.st".encode('utf-8')
+                    mock_new_email.return_value = "test@te.st".encode('utf-8')
+                    email = mock_new_email.return_value
                     birthdate = mock_birthdate.return_value = "10-10-2000"
                     result = create_customer(name)
 
