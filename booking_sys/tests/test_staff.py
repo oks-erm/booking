@@ -64,7 +64,7 @@ def test_create_staff_phone_returns_x():
 
 def test_create_staff_phone_returns_q():
     """
-    Tests create_staff if new_phone returns "x".
+    Tests create_staff if new_phone returns "q".
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
@@ -88,7 +88,7 @@ def test_create_staff_phone_returns_q():
 @patch("booking_sys.staff.update_worksheet", autospec=True)
 def test_create_staff_completed(*args):
     """
-    Tests create_staff if new_phone returns "x".
+    Tests create_staff if completed successfully.
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]

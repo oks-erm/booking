@@ -29,7 +29,8 @@ def convert_date(new_date):
 def date_input(new_date):
     """
     Validates if date is correct dd mm yyyy format and
-    it's not from the past.
+    it's not from the past. Returns valid date in a valid
+    format or False.
     """
     try:
         f_date = convert_date(new_date)
@@ -45,6 +46,7 @@ def date_input(new_date):
 def birthdate(new_date):
     """
     Validates if date is correct dd mm yyyy format.
+    Returns valid date in a valid format or False.
     """
     try:
         f_date = convert_date(new_date)
@@ -60,7 +62,7 @@ def birthdate(new_date):
 def time_input(new_time):
     """
     Validates if time is correct hh:mm format and
-    it's not from the past.
+    it's not from the past. Returns boolean.
     """
     try:
         if new_time != datetime.strptime(new_time, "%H:%M").strftime("%H:%M"):
@@ -73,6 +75,7 @@ def time_input(new_time):
 def email(user_email):
     """
     Checks if an email is a valid email address.
+    Returns boolean.
     """
     try:
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
@@ -88,6 +91,7 @@ def phone_num(user_phone):
     Validates phone number. Force start with a plus
     or two zeros. White space, brackets, minus and
     point are optional, no other characters allowed.
+    Returns boolean.
     """
     try:
         regex = r'^(\+|00)[1-9][0-9 \-\(\)\.]{7,16}$'

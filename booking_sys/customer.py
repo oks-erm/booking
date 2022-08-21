@@ -1,13 +1,13 @@
 """
 Includes customers specific functions.
 """
-from booking_sys import spreadsheet as spsheet
+from booking_sys.spreadsheet import get_data, update_worksheet
 from booking_sys import validation as valid
 from booking_sys import stats
 from booking_sys.decorators import pretty_print, loop_menu_qx
 
 
-KEYS = spsheet.get_data("customers")[0]
+KEYS = get_data("customers")[0]
 
 
 def search(value, attr, data):
@@ -25,7 +25,7 @@ def get_customer(name):
     """
     Returns a dictionary with a customer of a given name.
     """
-    customers = spsheet.get_data("customers")
+    customers = get_data("customers")
     return search(name, "NAME", customers)
 
 
@@ -60,7 +60,7 @@ def view_customer(*args):
     and calls print_customer.
     """
     name = args[0]
-    customers = spsheet.get_data("customers")
+    customers = get_data("customers")
     customer = get_customer(name)
     if customer is not None:
         print_customer(customer)
@@ -167,5 +167,5 @@ def create_customer(name):
         return birthday
     # process data and update spreadsheet
     new_data = [new_name, phone, email.decode('utf-8'), birthday, 1, 0]
-    spsheet.update_worksheet(new_data, "customers")
+    update_worksheet(new_data, "customers")
     return dict(zip(KEYS, new_data))
