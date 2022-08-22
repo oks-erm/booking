@@ -3,8 +3,8 @@ Includes bookings specific functions.
 """
 import re
 from datetime import datetime, date, timedelta
-from booking_sys import spreadsheet as spsheet
-from booking_sys import customer as cust
+from booking_sys.spreadsheet import get_data, update_worksheet, update_data
+from booking_sys.customer import find_customer, get_customer, search
 from booking_sys import validation as valid
 from booking_sys.decorators import pretty_print, loop_menu_qx
 
@@ -14,17 +14,23 @@ def dd_mm_yyyy(my_date):
     Changes date format from YYYY-MM-DD to DD-MM-YYYY.
     Returns date in the new format.
     """
-    return re.sub(r'(\d{4})-(\d{1,2})-(\d{1,2})', '\\3-\\2-\\1', my_date)
+    try:
+        return re.sub(r'(\d{4})-(\d{1,2})-(\d{1,2})', '\\3-\\2-\\1', my_date)
+    except TypeError:
+        print(f"{my_date} is {type(my_date)}. This method requires str.")
 
 
 def active(data):
     """
     Filters out past and cancelled bookings.
     """
-    filtered = [item for item in data if
-                (valid.to_date(item["DATE"]) >= date.today()) and
-                (item["CANC"] != "yes")]
-    return filtered
+    try:
+        filtered = [item for item in data if
+                    (valid.to_date(item["DATE"]) >= date.today()) and
+                    (item["CANC"] != "yes")]
+        return filtered
+    except (TypeError, ValueError):
+        print(f"{data} is {type(data)}. Argument should be a list.")
 
 
 def confirmed(booking):
@@ -32,16 +38,19 @@ def confirmed(booking):
     Checks if booking is confirmed and
     returns a corresponding symbol.
     """
-    if booking["CONF"] == "yes":
-        return "\\/"
-    return "--"
+    try:
+        if booking["CONF"] == "yes":
+            return "\\/"
+        return "--"
+    except (TypeError, ValueError):
+        print(f"{booking} is {type(booking)}. Argument should be a dict.")
 
 
 def cust_bookings(name):
     """
     Selects all active bookings of a customer.
     """
-    bookings = spsheet.get_data("bookings")
+    bookings = get_data("bookings")
     return [item for item in active(bookings) if item["NAME"] == name]
 
 
@@ -59,7 +68,7 @@ def bookings_menu(*args):
     if user_input == "1":
         return view_bookings_menu(user)
     if user_input == "2":
-        customer = cust.find_customer()
+        customer = find_customer()
         if customer in [None, "q", "x"]:
             return customer
         return new_booking(user, customer)
@@ -81,7 +90,7 @@ def view_bookings_menu(*args):
     you want to print. Accepts the user's choice.
     """
     # get the latest bookings data
-    bookings_data = active(spsheet.get_data("bookings"))
+    bookings_data = active(get_data("bookings"))
     # time periods
     tomorrow = dd_mm_yyyy(str(date.today() + timedelta(days=1)))
     week = [today]
@@ -125,7 +134,7 @@ def print_bookings(data, period, string):
               f"{confirmed(item)}")
         if string == "today" and item["CONF"] != "yes":
             print(f"\t!!! confirm this booking: "
-                  f"{cust.get_customer(item['NAME'])['PHONE']}\n")
+                  f"{get_customer(item['NAME'])['PHONE']}\n")
 
 
 @loop_menu_qx("\t",
@@ -143,7 +152,7 @@ def new_date(*args):
     valid_date = valid.date_input(user_input)
     duplicates = has_duplicates(valid_date, customer["NAME"])
     if valid_date and duplicates is False:
-        bookings = active(spsheet.get_data("bookings"))
+        bookings = active(get_data("bookings"))
         print_bookings(bookings, valid_date, valid_date)
         return valid_date
     if duplicates:
@@ -203,7 +212,7 @@ def new_booking(user, customer):
         return num
 
     new = [day, time, name, num, created, "-", ""]
-    spsheet.update_worksheet(new, "bookings")
+    update_worksheet(new, "bookings")
     increment_bookings(customer)
     print_bookings([dict(zip(KEYS, new))], day, day)
     return None  # to stay in the loop of bookings_menu
@@ -233,7 +242,7 @@ def edit_bookings(*args):
     """
     user_input = args[0]
     if user_input == "1":
-        bookings_data = active(spsheet.get_data("bookings"))
+        bookings_data = active(get_data("bookings"))
         return confirm(to_confirm(bookings_data))
     if user_input in ["2", "3"]:
         booking = find_bookings()
@@ -263,7 +272,7 @@ def confirm(bookings):
                          "press 3 - Cancel\n\t\t\t")
         if user_inp == "1":
             booking.update({"CONF": "yes"})
-            spsheet.update_data("bookings", booking, "CONF", "yes")
+            update_data("bookings", booking, "CONF", "yes")
         elif user_inp == "2":
             continue
         elif user_inp == "3":
@@ -305,14 +314,14 @@ def reschedule(booking):
     user_date = update_date(booking)
     if user_date in ["x", "q"]:
         return user_date
-    bookings = active(spsheet.get_data("bookings"))
+    bookings = active(get_data("bookings"))
     print_bookings(bookings, user_date, user_date)
 
     user_time = new_time()
     if user_time in ["x", "q"]:
         return user_time
-    spsheet.update_data("bookings", booking, "DATE", user_date)
-    spsheet.update_data("bookings", booking, "TIME", user_time)
+    update_data("bookings", booking, "DATE", user_date)
+    update_data("bookings", booking, "TIME", user_time)
     return None
 
 
@@ -325,7 +334,7 @@ def find_bookings(*args):
     Finds and returns all bookings of a customer,
     accepts user input with a name to search.
     """
-    customers = spsheet.get_data("customers")
+    customers = get_data("customers")
     user_input = args[0]
     if user_input in [dct["NAME"] for dct in customers]:
         bookings = cust_bookings(user_input)
@@ -357,7 +366,7 @@ def pick_booking(*args):
         print(f"\t\tInvalid input: '{user_input}'. "
               "Please, enter a valid date.")
         return None
-    target = cust.search(valid_date, "DATE", bookings)
+    target = search(valid_date, "DATE", bookings)
     if target is None:
         return False
     return target
@@ -368,10 +377,10 @@ def cancel(booking):
     Updates bookings spreadsheet with new booking status
     and increments the customer's stats of cancelled bookings.
     """
-    spsheet.update_data("bookings", booking, "CANC", "yes")
-    customer = cust.get_customer(booking["NAME"])
+    update_data("bookings", booking, "CANC", "yes")
+    customer = get_customer(booking["NAME"])
     new_value = str(int(customer["CANCELLED"]) + 1)
-    spsheet.update_data("customers", customer, "CANCELLED", new_value)
+    update_data("customers", customer, "CANCELLED", new_value)
 
 
 def has_duplicates(user_date, name):
@@ -393,8 +402,8 @@ def increment_bookings(customer):
     a new booking is created.
     """
     new_number = str(int(customer["NUM OF BOOKINGS"]) + 1)
-    spsheet.update_data("customers", customer, "NUM OF BOOKINGS", new_number)
+    update_data("customers", customer, "NUM OF BOOKINGS", new_number)
 
 
 today = dd_mm_yyyy(str(date.today()))
-KEYS = spsheet.get_data("bookings")[0]
+KEYS = get_data("bookings")[0]
