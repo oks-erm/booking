@@ -148,16 +148,19 @@ def test_get_name_valid_name():
 def test_staff_menu_invalid_input():
     with patch("builtins.input", return_value="0") as mock_input:
         user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
-        assert staff_menu.__wrapped__(mock_input.return_value, user) is False
+        user_input = mock_input.return_value
+        assert staff_menu.__wrapped__(user_input, user) is False
 
 
 def test_staff_menu_input_1():
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
     with patch("builtins.input", return_value="1") as mock_input:
         with patch("booking_sys.staff.staff_info_menu") as mock_staff_info:
-            user_input = mock_input.return_value
-            result = mock_staff_info.return_value = [{}, {}, {}]
-            assert staff_menu.__wrapped__(user_input, user) == result
+            with patch('booking_sys.staff.get_data') as mock_get_data:
+                user_input = mock_input.return_value
+                result = mock_staff_info.return_value = [{}, {}, {}]
+                assert staff_menu.__wrapped__(user_input, user) == result
+                mock_get_data.assert_called()
 
 
 def test_staff_menu_input_2():
