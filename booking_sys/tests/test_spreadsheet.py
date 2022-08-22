@@ -15,7 +15,6 @@ WORKSHEET_PATH = 'booking_sys.spreadsheet.SHEET.worksheet'
 FIND_PATH = 'booking_sys.spreadsheet.gspread.worksheet.Worksheet.find'
 UPD_CELL_PATH = ('booking_sys.spreadsheet.gspread'
                  '.worksheet.Worksheet.update_cell')
-SHEET_PATH = 'booking_sys.spreadsheet.SHEET'
 get_values_config = {"return_value": [[]], "autospec": True}
 config_exception = {"side_effect": [exceptions.GSpreadException,
                                     exceptions.GSpreadException,
@@ -27,7 +26,8 @@ worksheet_config = {"return_value": Worksheet(SHEET,
 
 @patch(GET_VALUES_PATH, **get_values_config)
 @patch(WORKSHEET_PATH, **worksheet_config)
-@patch(SHEET_PATH, autospec=True)
+@patch("gspread.client", autospec=True)
+@patch("gspread.authorize", autospec=True)
 def test_get_worksheet(*args):
     """
     Test get_worksheet: if it returns correct data.
@@ -37,7 +37,8 @@ def test_get_worksheet(*args):
 
 @patch(GET_VALUES_PATH, **config_exception)
 @patch(WORKSHEET_PATH, **worksheet_config)
-@patch(SHEET_PATH, autospec=True)
+@patch("gspread.client", autospec=True)
+@patch("gspread.authorize", autospec=True)
 def test_get_worksheet_exception(*args):
     """
     Test get_worksheet handling exceptions.
@@ -57,7 +58,8 @@ def test_get_worksheet_exception(*args):
 
 
 @patch(WORKSHEET_PATH, **worksheet_config)
-@patch(SHEET_PATH, autospec=True)
+@patch("gspread.client", autospec=True)
+@patch("gspread.authorize", autospec=True)
 def test_update_worksheet(*args):
     """
     Test update_worksheet successful scenario.
@@ -71,7 +73,8 @@ def test_update_worksheet(*args):
 
 @patch(APPEND_ROW_PATH, **config_exception)
 @patch(WORKSHEET_PATH, **worksheet_config)
-@patch(SHEET_PATH, autospec=True)
+@patch("gspread.client", autospec=True)
+@patch("gspread.authorize", autospec=True)
 def test_update_worksheet_exception(*args):
     """
     Test update_worksheet handling exceptions.
@@ -90,6 +93,8 @@ def test_update_worksheet_exception(*args):
             print_mock.assert_has_calls([call('Trying...')], any_order=False)
 
 
+@patch("gspread.client", autospec=True)
+@patch("gspread.authorize", autospec=True)
 def test_get_data(*args):
     """
     Tests if spreadsheet response is converted to dictionary.
@@ -106,7 +111,8 @@ def test_get_data(*args):
 
 @patch(FIND_PATH, return_value=Cell(row=2, col=1, value="Bob"), autospec=True)
 @patch(WORKSHEET_PATH, **worksheet_config)
-@patch(SHEET_PATH, autospec=True)
+@patch("gspread.client", autospec=True)
+@patch("gspread.authorize", autospec=True)
 def test_update_data(*args):
     """
     Test update_data successful scenario.
@@ -135,7 +141,8 @@ config_exception = {"side_effect": [exceptions.GSpreadException,
 @patch(FIND_PATH, **config_exception)
 @patch(UPD_CELL_PATH, autospec=True)
 @patch(WORKSHEET_PATH, **worksheet_config)
-@patch(SHEET_PATH, autospec=True)
+@patch("gspread.client", autospec=True)
+@patch("gspread.authorize", autospec=True)
 def test_update_data_exception(*args):
     """
     Test update_data handling exceptions.
@@ -151,7 +158,7 @@ def test_update_data_exception(*args):
             update_data(worksheet, test_obj, attr, new_value)
             mock_inp.assert_called_with(exc_msg)
             print_mock.assert_called_with("Your data was not saved.")
-           
+
     with patch("builtins.input", return_value="1", autospec=True) as mock_inp:
         with patch('builtins.print') as print_mock:
 
