@@ -1,8 +1,8 @@
 """
 Tests for validation module.
 """
-import pytest
 from datetime import date
+import pytest
 from booking_sys.validation import (to_date, convert_date, date_input,
                                     birthdate, time_input, email, phone_num)
 
