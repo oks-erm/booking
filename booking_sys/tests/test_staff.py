@@ -12,7 +12,7 @@ def test_create_staff_name_returns_x(*args):
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
-    mock_print, mock_get_name = (args)
+    (mock_print, mock_get_name) = args
     mock_get_name.return_value = "x"
 
     assert create_staff(test_data) is None
@@ -29,7 +29,7 @@ def test_create_staff_password_returns_x(*args):
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
-    mock_print, mock_get_name, mock_getpass = (args)
+    (mock_print, mock_get_name, mock_getpass) = args
 
     name = mock_get_name.return_value = "name"
     mock_getpass.return_value = "x"
@@ -52,7 +52,7 @@ def test_create_staff_phone_returns_x(*args):
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
-    mock_print, mock_get_name, mock_getpass, mock_phone = (args)
+    (mock_print, mock_get_name, mock_getpass, mock_phone) = args
 
     name = mock_get_name.return_value = "name"
     mock_getpass.return_value = "1"
@@ -77,7 +77,7 @@ def test_create_staff_phone_returns_q(*args):
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
-    mock_print, mock_get_name, mock_getpass, mock_phone = (args)
+    (mock_print, mock_get_name, mock_getpass, mock_phone) = args
 
     name = mock_get_name.return_value = "name"
     mock_getpass.return_value = "1"
@@ -103,7 +103,7 @@ def test_create_staff_completed(*args):
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
-    mock_print, mock_get_name, mock_getpass, mock_phone, mock_update = (args)
+    (mock_print, mock_get_name, mock_getpass, mock_phone, mock_update) = args
 
     name = mock_get_name.return_value = "name"
     mock_getpass.return_value = "1"
@@ -131,7 +131,7 @@ def test_get_name_empty_string(*args):
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
-    mock_input, mock_print = (args)
+    (mock_input, mock_print) = args
     mock_input.side_effect = ["", "break_loop"]
 
     get_name(test_data)
@@ -147,7 +147,7 @@ def test_get_name_existing_name(*args):
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
-    mock_input, mock_print = (args)
+    (mock_input, mock_print) = args
     mock_input.side_effect = ["Name1", "break_loop"]
 
     get_name(test_data)
@@ -165,7 +165,7 @@ def test_get_name_valid_name(*args):
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
-    mock_input, mock_print = (args)
+    (mock_input, mock_print) = args
     mock_input.return_value = "TestName"
 
     assert get_name(test_data) == mock_input.return_value
@@ -179,7 +179,7 @@ def test_staff_menu_invalid_input(*args):
     Test staff_menu if user input is invalid.
     """
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
-    mock_input = args[0]
+    (mock_input, ) = args
     user_input = mock_input.return_value = "0"
 
     assert staff_menu.__wrapped__(user_input, user) is False
@@ -193,7 +193,7 @@ def test_staff_menu_input_1(*args):
     Test staff_menu if user input is "1".
     """
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
-    mock_input, mock_get_data, mock_staff_info = (args)
+    (mock_input, mock_get_data, mock_staff_info) = args
     user_input = mock_input.return_value = "1"
     result = mock_staff_info.return_value = [{}, {}, {}]
 
@@ -208,7 +208,7 @@ def test_staff_menu_input_2(*args):
     Test staff_menu if user input is "2".
     """
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
-    mock_input, mock_edit_info = (args)
+    (mock_input, mock_edit_info) = args
     user_input = mock_input.return_value = "2"
     result = mock_edit_info.return_value = True
 
@@ -221,7 +221,7 @@ def test_staff_info_menu_invalid_input(*args):
     """
     Test staff_info_menu if user input is invalid.
     """
-    mock_input = args[0]
+    (mock_input, ) = args
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
     user_input = mock_input.return_value = "invalid_value"
@@ -235,7 +235,7 @@ def test_staff_info_menu_valid_input(*args):
     """
     Test staff_info_menu if user input is valid.
     """
-    mock_input, mock_print_info = (args)
+    (mock_input, mock_print_info) = args
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
 
@@ -253,7 +253,7 @@ def test_edit_staff_menu_invalid_input(*args):
     """
     Test edit_staff_menu if user input is invalid.
     """
-    mock_input = args[0]
+    (mock_input, ) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
 
     user_input = mock_input.return_value = "0"
@@ -267,7 +267,7 @@ def test_edit_staff_menu_input_1(*args):
     """
     Test edit_staff_menu if user input is "1".
     """
-    mock_input, mock_getpass, mock_update = (args)
+    (mock_input, mock_getpass, mock_update) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
     user_input = mock_input.return_value = "1"
 
@@ -282,7 +282,7 @@ def test_edit_staff_menu_input_2(*args):
     """
     Test edit_staff_menu if user input is "2".
     """
-    mock_input, mock_update = (args)
+    (mock_input, mock_update) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
 
     user_input = mock_input.return_value
@@ -297,7 +297,7 @@ def test_print_staff_info(*args):
     """
     Test print_staff_info with differetn arguments.
     """
-    mock_print, mock_search = (args)
+    (mock_print, mock_search) = args
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
     user_input = "Name1"
