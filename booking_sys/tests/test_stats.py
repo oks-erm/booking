@@ -1,9 +1,9 @@
 """
-
+Tests for stats module.
 """
-import pytest
 import os
-from unittest import mock
+from unittest.mock import patch
+import pytest
 from booking_sys.stats import data_for_stats, calculate_age
 from run import cleanup
 
@@ -29,14 +29,16 @@ def test_calculate_age(a, expected):
     assert calculate_age(a) == expected
 
 
-@mock.patch("booking_sys.stats.get_worksheet",
-            return_value=[['NAME', 'PHONE', 'EMAIL', 'BIRTHDATE'],
-                          ['Bob', '003543243422', "q@w.er", "10-10-1976"],
-                          ['Kelly', '+44 6734657788', "t@y.ui", "10-11-1987"]])
-def test_data_for_stats(*args): 
+@patch("booking_sys.stats.get_worksheet")
+def test_data_for_stats(*args):
     """
     Test if a file with required data is created.
     """
+    (mock_worksheet, ) = args
+    test_data = [['NAME', 'PHONE', 'EMAIL', 'BIRTHDATE'],
+                 ['Bob', '003543243422', "q@w.er", "10-10-1976"],
+                 ['Kelly', '+44 6734657788', "t@y.ui", "10-11-1987"]]
+    mock_worksheet.return_value = test_data
     data_for_stats()
     if os.path.exists("stats.csv"):
         with open("stats.csv", 'r') as file:
