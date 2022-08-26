@@ -64,7 +64,7 @@ def bookings_menu(*args):
     """
     Displays booking menu
     """
-    user_input, user = (args)
+    (user_input, user) = args
     if user_input == "1":
         return view_bookings_menu(user)
     if user_input == "2":
@@ -97,7 +97,7 @@ def view_bookings_menu(*args):
     for i in range(1, 7):
         week.append(dd_mm_yyyy(str(date.today() + timedelta(days=i))))
     all_time = [dct['DATE'] for dct in bookings_data]
-    user_input = args[0]
+    (user_input, ) = args
 
     if user_input == "1":
         print_bookings(bookings_data, today, "today")
@@ -148,7 +148,7 @@ def new_date(*args):
     and a customer doesn't have duplicate bookings for
     the same date.
     """
-    user_input, customer = (args)
+    (user_input, customer) = args
     valid_date = valid.date_input(user_input)
     duplicates = has_duplicates(valid_date, customer["NAME"])
     if valid_date and duplicates is False:
@@ -169,7 +169,7 @@ def new_time(*args):
     Accepts user input and validates time,
     checking if it's correect format.
     """
-    user_input = args[0]
+    (user_input, ) = args
     if valid.time_input(user_input) is True:
         return user_input
     return False
@@ -184,7 +184,7 @@ def num_of_people(*args):
     Accepts number of people, validates that
     it is a number.
     """
-    user_input = args[0]
+    (user_input, ) = args
     try:
         num = int(user_input)
     except ValueError:
@@ -240,7 +240,7 @@ def edit_bookings(*args):
     """
     Displays Edit Bookings menu.
     """
-    user_input = args[0]
+    (user_input, ) = args
     if user_input == "1":
         bookings_data = active(get_data("bookings"))
         return confirm(to_confirm(bookings_data))
@@ -296,7 +296,7 @@ def update_date(*args):
     and a customer doesn't have duplicate bookings for
     the same date.
     """
-    user_input, booking = (args)
+    (user_input, booking) = args
     old_date = booking["DATE"]
     if user_input != "":
         valid_date = valid.date_input(user_input)
@@ -335,7 +335,7 @@ def find_bookings(*args):
     accepts user input with a name to search.
     """
     customers = get_data("customers")
-    user_input = args[0]
+    (user_input, ) = args
     if user_input in [dct["NAME"] for dct in customers]:
         bookings = cust_bookings(user_input)
         all_time = [dct["DATE"] for dct in bookings]
@@ -360,7 +360,7 @@ def pick_booking(*args):
     user input.
     """
     target = None
-    user_input, bookings = (args)
+    (user_input, bookings) = args
     valid_date = valid.date_input(user_input)
     if valid_date is False:
         print(f"\t\tInvalid input: '{user_input}'. "
