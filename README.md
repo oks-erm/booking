@@ -1,31 +1,42 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Restaurant Booking System CLI app(Milestone Project 3)
+![](readme/mockup.png)
 
-Welcome oks-erm,
+## Table of contents
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
+* [Purpose](#purpose)
 
-## Reminders
+* [UX Design](#UX-Design)
+  * [User Stories](#User-Stories)
+  * [Structure](#Structure)
+  * [Design](#Design)
 
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
+* [Features](#Features)
+  * [Existing Features](#Existing-Features)
+  * [Feature Considerations](#Feature-Considerations)
 
-## Creating the Heroku app
+* [Technologies](#Technologies)
+  * [Languages](#Languages)
+  * [Programs, frameworks, libraries](#Programs,-frameworks,-libraries)
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+* [Deployment](#Deployment)
 
-1. `heroku/python`
-2. `heroku/nodejs`
+* [Testing](#Testing)
+  * [User Story Testing](#User-Story-Testing)
+  * [Manual Testing](#Manual-Testing)
+  * [Unit Testing](#Unit-Testing)
+  * [Automated Testing](#Automated-Testing)
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+* [Credits](#Credits)
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+# Purpose
+This project is a CLI app - Reataurant [Booking System](https://my-wicked-booking-sys.herokuapp.com/). The app provides all the essential features, such as creating, editing and viewing reservations, additionally it allows to log in a member of staff and holds a database of staff members and customers, also it involves some basic data science to generates statictics reports.
 
-Connect your GitHub repository and deploy as normal.
+The core purposes of the app:
+- optimise a process of booking tables and keeping track of reservations.
+- collect and store customers' data for future marketing purposes.
+- provide staticstical insights into an enterprise current state.  
 
-## Constraints
+The website is built using Python, with little HTML and CSS, as a Milestone Project#3 for the Code Institute's Full Stack Developer course.  
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
-
------
-Happy coding!
+[The live website is available here](https://my-wicked-booking-sys.herokuapp.com/)
+___
