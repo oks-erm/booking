@@ -66,7 +66,7 @@ def bookings_menu(*args):
     """
     (user_input, user) = args
     if user_input == "1":
-        return view_bookings_menu(user)
+        return view_bookings_menu()
     if user_input == "2":
         customer = find_customer()
         if customer in [None, "q", "x"]:
@@ -204,10 +204,10 @@ def new_booking(user, customer):
     day = new_date(customer)
     if day in ["x", "q"]:
         return day
-    time = new_time(user)
+    time = new_time()
     if time in ["x", "q"]:
         return time
-    num = num_of_people(user)
+    num = num_of_people()
     if num in ["x", "q"]:
         return num
 
@@ -320,7 +320,8 @@ def reschedule(booking):
     user_time = new_time()
     if user_time in ["x", "q"]:
         return user_time
-    update_data("bookings", booking, "DATE", user_date)
+    if user_date != booking["DATE"]:
+        update_data("bookings", booking, "DATE", user_date)
     update_data("bookings", booking, "TIME", user_time)
     return None
 
