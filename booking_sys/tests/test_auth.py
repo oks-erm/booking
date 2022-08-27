@@ -1,7 +1,7 @@
 """
 Tests for auth module.
 """
-from unittest import mock
+from unittest.mock import patch
 from booking_sys.auth import authorise, check_password, staff_login
 
 
@@ -20,7 +20,7 @@ def test_check_password():
     assert check_password(user, password) is False
 
 
-@mock.patch("getpass.getpass")
+@patch("getpass.getpass")
 def test_authorise_seq(getpass):
     """
     Tests authorise() on different sequences of values.
@@ -36,8 +36,8 @@ def test_authorise_seq(getpass):
     assert authorise(user) is False
 
 
-@mock.patch("booking_sys.staff.create_staff")
-@mock.patch('builtins.input')
+@patch("booking_sys.staff.create_staff")
+@patch('builtins.input')
 def test_staff_login_for_new(*args):
     """
     Tests taff_login() for a new user.
@@ -54,8 +54,8 @@ def test_staff_login_for_new(*args):
     assert result == mock_create.return_value
 
 
-@mock.patch("booking_sys.auth.authorise")
-@mock.patch('builtins.input')
+@patch("booking_sys.auth.authorise")
+@patch('builtins.input')
 def test_staff_login_for_existing(*args):
     """
     Tests taff_login() for an existing user.

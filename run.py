@@ -31,7 +31,7 @@ def start_menu(user):
             continue
         if user_inp == "x":
             cleanup()
-            sys.exit()
+            return sys.exit()
         print("Computer says no. Please, use options above.")
 
 
