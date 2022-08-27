@@ -18,7 +18,7 @@ from booking_sys.validation import (to_date, convert_date, date_input,
                           ("10-10-22", False)])
 def test_to_date_date_formats(a, expected):
     """
-    Test date formats.
+    Tests date formats.
     """
     assert to_date(a) == expected
 
@@ -34,7 +34,7 @@ def test_to_date_date_formats(a, expected):
                           (False, False)])
 def test_to_date_data_formats(a, expected):
     """
-    Test data formats.
+    Tests data formats.
     """
     assert to_date(a) == expected
 
@@ -47,7 +47,7 @@ def test_to_date_data_formats(a, expected):
                           ("string", "string")])
 def test_convert_date(a, expected):
     """
-    Test different date formats and input
+    Tests different date formats and input
     with nothing to substitute.
     """
     assert convert_date(a) == expected
@@ -64,7 +64,7 @@ def test_convert_date(a, expected):
                           (False, False)])
 def test_convert_date_data_formats(a, expected):
     """
-    Test different data formats.
+    Tests different data formats.
     """
     assert convert_date(a) == expected
 
@@ -78,7 +78,7 @@ def test_convert_date_data_formats(a, expected):
                           ("1.10.2022", False)])
 def test_date_input(a, expected):
     """
-    Test different date formats.
+    Tests different date formats.
     """
     assert date_input(a) == expected
 
@@ -94,7 +94,7 @@ def test_date_input(a, expected):
                           (False, False)])
 def test_date_input_data_formats(a, expected):
     """
-    Test different data formats.
+    Tests different data formats.
     """
     assert date_input(a) == expected
 
@@ -108,7 +108,7 @@ def test_date_input_data_formats(a, expected):
                           ("1.10.2022", False)])
 def test_birthdate(a, expected):
     """
-    Test different date formats.
+    Tests different date formats.
     """
     assert birthdate(a) == expected
 
@@ -124,7 +124,7 @@ def test_birthdate(a, expected):
                           (False, False)])
 def test_birthdate_data_formats(a, expected):
     """
-    Test different data formats.
+    Tests different data formats.
     """
     assert birthdate(a) == expected
 
@@ -136,7 +136,7 @@ def test_birthdate_data_formats(a, expected):
                           ("111:00", False)])
 def test_time_inpit(a, expected):
     """
-    Test different time formats.
+    Tests different time formats.
     """
     assert time_input(a) == expected
 
@@ -152,7 +152,7 @@ def test_time_inpit(a, expected):
                           (False, False)])
 def test_time_input_data_formats(a, expected):
     """
-    Test different data formats.
+    Tests different data formats.
     """
     assert time_input(a) == expected
 
@@ -170,7 +170,7 @@ def test_time_input_data_formats(a, expected):
                           ("@str@in.g", False)])
 def test_email(a, expected):
     """
-    Test different email formats.
+    Tests different email formats.
     """
     assert email(a) == expected
 
@@ -186,7 +186,7 @@ def test_email(a, expected):
                           (False, False)])
 def test_email_data_formats(a, expected):
     """
-    Test different data formats.
+    Tests different data formats.
     """
     assert email(a) == expected
 
@@ -221,7 +221,7 @@ for item in invalid:
                          pairs_valid)
 def test_phone_num_valid(a, expected):
     """
-    Test valid phone formats.
+    Tests valid phone formats.
     """
     assert phone_num(a) == expected
 
@@ -230,7 +230,7 @@ def test_phone_num_valid(a, expected):
                          pairs_invalid)
 def test_phone_num_invalid(a, expected):
     """
-    Test invalid phone formats.
+    Tests invalid phone formats.
     """
     assert phone_num(a) == expected
 
@@ -245,6 +245,6 @@ def test_phone_num_invalid(a, expected):
                           (False, False)])
 def test_phone_num_data_formats(a, expected):
     """
-    Test different data formats.
+    Tests different data formats.
     """
     assert phone_num(a) == expected

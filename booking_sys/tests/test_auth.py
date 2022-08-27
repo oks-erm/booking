@@ -7,7 +7,7 @@ from booking_sys.auth import authorise, check_password, staff_login
 
 def test_check_password():
     """
-    Tests check_password on different values.
+    Tests check_password() on different values.
     """
     user = {'NAME': 'Bob', 'PASSWORD': '123', 'CONTACT': ''}
     password = "123"
@@ -23,7 +23,7 @@ def test_check_password():
 @mock.patch("getpass.getpass")
 def test_authorise_seq(getpass):
     """
-    Tests authorisation on different sequences of values.
+    Tests authorise() on different sequences of values.
     """
     user = {'NAME': 'Bob', 'PASSWORD': '123', 'CONTACT': ''}
     getpass.side_effect = ["11", "123", "12"]
@@ -40,7 +40,7 @@ def test_authorise_seq(getpass):
 @mock.patch('builtins.input')
 def test_staff_login_for_new(*args):
     """
-    Tests a function for a new user.
+    Tests taff_login() for a new user.
     """
     (mock_input, mock_create) = args
     mock_input.return_value = 'new'
@@ -58,7 +58,7 @@ def test_staff_login_for_new(*args):
 @mock.patch('builtins.input')
 def test_staff_login_for_existing(*args):
     """
-    Tests a function for an existing user.
+    Tests taff_login() for an existing user.
     """
     (mock_input, mock_auth) = args
     mock_input.return_value = 'Bob'

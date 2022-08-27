@@ -35,7 +35,7 @@ def test_loop_menu_qx_for_input_return_true():
     """
     @mock.patch('builtins.input', return_value='1')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
-    def func(*args):
+    def func(*_):
         return True
 
     assert func() is None
@@ -47,7 +47,7 @@ def test_loop_menu_qx_for_input_return_q():
     """
     @mock.patch('builtins.input', return_value='1')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
-    def func(*args):
+    def func(*_):
         return "q"
 
     assert func() == "q"
@@ -59,7 +59,7 @@ def test_loop_menu_qx_for_return_string():
     """
     @mock.patch('builtins.input', return_value='1')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
-    def func(*args):
+    def func(*_):
         return "string"
 
     assert func() == "string"
@@ -71,7 +71,7 @@ def test_loop_menu_qx_for_return_int():
     """
     @mock.patch('builtins.input', return_value='1')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
-    def func(*args):
+    def func(*_):
         return 42
 
     assert func() == 42
@@ -83,7 +83,7 @@ def test_loop_menu_qx_for_return_list():
     """
     @mock.patch('builtins.input', return_value='1')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
-    def func(*args):
+    def func(*_):
         return ["li", "st"]
 
     assert func() == ["li", "st"]
@@ -95,7 +95,7 @@ def test_loop_menu_qx_for_return_dict():
     """
     @mock.patch('builtins.input', return_value='1')
     @loop_menu_qx("indentation", "qx_text", "input_prompt", "warning")
-    def func(*args):
+    def func(*_):
         return {"dict": "ionary"}
 
     assert func() == {"dict": "ionary"}

@@ -15,11 +15,10 @@ WORKSHEET_PATH = 'booking_sys.spreadsheet.SHEET.worksheet'
 FIND_PATH = 'booking_sys.spreadsheet.gspread.worksheet.Worksheet.find'
 UPD_CELL_PATH = ('booking_sys.spreadsheet.gspread'
                  '.worksheet.Worksheet.update_cell')
-get_values_config = {"return_value": [[]], "autospec": True}
+get_values_config = {"return_value": [[]]}
 config_exception = {"side_effect": [exceptions.GSpreadException,
                                     exceptions.GSpreadException,
-                                    [[]]],
-                    "autospec": True}
+                                    [[]]]}
 worksheet_config = {"return_value": Worksheet(SHEET,
                     properties={"sheetId": "12345", "title": "name"})}
 
@@ -64,7 +63,7 @@ def test_get_worksheet_exception(*args):
 
 
 @patch('builtins.print')
-@patch(APPEND_ROW_PATH, autospec=True)
+@patch(APPEND_ROW_PATH)
 @patch(WORKSHEET_PATH, **worksheet_config)
 @patch("gspread.client", autospec=True)
 @patch("gspread.authorize", autospec=True)
@@ -123,8 +122,8 @@ def test_get_data(*args):
 
 
 @patch('builtins.print')
-@patch(UPD_CELL_PATH, autospec=True)
-@patch(FIND_PATH, return_value=Cell(row=2, col=1, value="Bob"), autospec=True)
+@patch(UPD_CELL_PATH)
+@patch(FIND_PATH, return_value=Cell(row=2, col=1, value="Bob"))
 @patch(WORKSHEET_PATH, **worksheet_config)
 @patch("gspread.client", autospec=True)
 @patch("gspread.authorize", autospec=True)
@@ -151,14 +150,13 @@ def test_update_data(*args):
 config_exception = {"side_effect": [exceptions.GSpreadException,
                                     exceptions.GSpreadException,
                                     Cell(2, 1, value="Bob"),
-                                    Cell(2, 1, value="Bob")],
-                    "autospec": True}
+                                    Cell(2, 1, value="Bob")]}
 
 
 @patch("builtins.print")
 @patch("builtins.input")
 @patch(FIND_PATH, **config_exception)
-@patch(UPD_CELL_PATH, autospec=True)
+@patch(UPD_CELL_PATH)
 @patch(WORKSHEET_PATH, **worksheet_config)
 @patch("gspread.client", autospec=True)
 @patch("gspread.authorize", autospec=True)

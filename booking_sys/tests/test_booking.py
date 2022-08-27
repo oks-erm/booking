@@ -47,7 +47,7 @@ customer_bookings = [{'DATE': tomorrow, 'TIME': '20:00',
 
 def test_dd_mm_yyyy():
     """
-    Test dd_mm_yyyy with different formats and types of data.
+    Tests dd_mm_yyyy() with different formats and types of data.
     """
     assert dd_mm_yyyy("2022-08-20") == "20-08-2022"
     assert dd_mm_yyyy("2022/08/20") == "2022/08/20"
@@ -60,7 +60,7 @@ def test_dd_mm_yyyy():
 
 def test_active():
     """
-    Test active with different formats and types of data.
+    Tests active() with different formats and types of data.
     """
     test = [{'DATE': '10-10-2022', 'TIME': '20:00',
              'NAME': 'Name', 'PEOPLE': '1', 'CREATED': "Bob",
@@ -81,7 +81,7 @@ def test_active():
 
 def test_confirmed():
     """
-    Test confirmed with different formats and types of data.
+    Tests confirmed() with different formats and types of data.
     """
     test_data_conf = {'DATE': '10-10-2022', 'TIME': '20:00',
                       'NAME': 'Name', 'PEOPLE': '1', 'CREATED': "Bob",
@@ -102,7 +102,7 @@ def test_confirmed():
 @patch("booking_sys.booking.get_data")
 def test_cust_bookings(*args):
     """
-    Test cust_bookings with different formats and types of data.
+    Tests cust_bookings() with different formats and types of data.
     """
     (mock_data, mock_active) = args
     data = [{'DATE': '10-10-2022', 'TIME': '20:00',
@@ -129,7 +129,7 @@ def test_cust_bookings(*args):
 
 def test_bookings_menu_invalid_input():
     """
-    Test bookings_menu if user input is invalid.
+    Tests bookings_menu() if user input is invalid.
     """
     with patch("builtins.input", return_value="0") as mock_input:
         user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
@@ -141,7 +141,7 @@ def test_bookings_menu_invalid_input():
 @patch("builtins.input")
 def test_bookings_menu_input_1(*args):
     """
-    Test bookings_menu if user input is "1".
+    Tests bookings_menu() if user input is "1".
     """
     (mock_input, mock_view) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
@@ -157,7 +157,7 @@ def test_bookings_menu_input_1(*args):
 @patch("builtins.input")
 def test_bookings_menu_input_2(*args):
     """
-    Test bookings_menu if user input is "2".
+    Tests bookings_menu() if user input is "2".
     """
     (mock_input, mock_find, mock_new) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
@@ -183,7 +183,7 @@ def test_bookings_menu_input_2(*args):
 @patch("builtins.input")
 def test_bookings_menu_input_3(*args):
     """
-    Test bookings_menu if user input is "3".
+    Tests bookings_menu() if user input is "3".
     """
     (mock_input, mock_edit) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
@@ -199,7 +199,7 @@ def test_bookings_menu_input_3(*args):
 @patch("builtins.input")
 def test_view_bookings_menu_invalid_input(*args):
     """
-    Test view_bookings_menu if user input is invalid.
+    Tests view_bookings_menu() if user input is invalid.
     """
     (mock_input, mock_get_data, mock_dd_mm_yyyy, mock_active) = args
     user_input = mock_input.return_value = "0"
@@ -219,7 +219,7 @@ def test_view_bookings_menu_invalid_input(*args):
 @patch("builtins.input")
 def test_view_bookings_menu_input_1(*args):
     """
-    Test view_bookings_menu if user input is "1".
+    Tests view_bookings_menu() if user input is "1".
     """
     (mock_input, mock_get_data, mock_ddmmyyyy, mock_active, mock_print) = args
     mock_active.return_value = test_data
@@ -239,7 +239,7 @@ def test_view_bookings_menu_input_1(*args):
 @patch("builtins.input")
 def test_view_bookings_menu_input_2(*args):
     """
-    Test view_bookings_menu if user input is "2".
+    Tests view_bookings_menu() if user input is "2".
     """
     (mock_input, mock_get_data, mock_ddmmyyyy, mock_active, mock_print) = args
     mock_active.return_value = test_data
@@ -259,7 +259,7 @@ def test_view_bookings_menu_input_2(*args):
 @patch("builtins.input")
 def test_view_bookings_menu_input_3(*args):
     """
-    Test view_bookings_menu if user input is "3".
+    Tests view_bookings_menu() if user input is "3".
     """
     (mock_input, mock_get_data, mock_ddmmyyyy, mock_active, mock_print) = args
     mock_active.return_value = test_data
@@ -282,7 +282,7 @@ def test_view_bookings_menu_input_3(*args):
 @patch("builtins.input")
 def test_view_bookings_menu_input_4(*args):
     """
-    Test view_bookings_menu if user input is "4".
+    Tests view_bookings_menu() if user input is "4".
     """
     (mock_input, mock_get_data, mock_ddmmyyyy, mock_active, mock_print) = args
     mock_active.return_value = test_data
@@ -300,7 +300,7 @@ def test_view_bookings_menu_input_4(*args):
 @patch("builtins.print")
 def test_print_bookings(*args):
     """
-    Test print_bookings if booking is confirmed.
+    Tests print_bookings() if booking is confirmed.
     """
     (mock_print, mock_customer) = args
     test_data_conf = [{'DATE': today, 'TIME': '20:00', 'NAME': 'Name2',
@@ -325,7 +325,7 @@ def test_print_bookings(*args):
 @patch("builtins.print")
 def test_print_bookings_not_conf(*args):
     """
-    Test print_bookings if booking is not confirmed.
+    Tests print_bookings if booking is not confirmed.
     """
     (mock_print, mock_customer) = args
     mock_customer.return_value = {'NAME': 'Name2', 'PHONE': '00 11111111111',
@@ -344,7 +344,7 @@ def test_print_bookings_not_conf(*args):
 @patch("builtins.input")
 def test_new_date_invalid_input(*args):
     """
-    Test new_date if user input is invalid.
+    Tests new_date() if user input is invalid.
     """
     (mock_input, mock_date, mock_dup) = args
     cust = {'NAME': 'Test Name'}
@@ -364,7 +364,7 @@ def test_new_date_invalid_input(*args):
 @patch("builtins.input")
 def test_new_date_valid_input(*args):
     """
-    Test new_date if user input is valid.
+    Tests new_date() if user input is valid.
     """
     (mock_input, mock_date, mock_dup, mock_active,
      mock_get_data, mock_print) = args
@@ -389,7 +389,7 @@ def test_new_date_valid_input(*args):
 @patch("builtins.input")
 def test_new_time_invalid_input(*args):
     """
-    Test new_time if user input is invalid.
+    Tests new_time() if user input is invalid.
     """
     (mock_input, mock_time) = args
     mock_time.return_value = False
@@ -402,7 +402,7 @@ def test_new_time_invalid_input(*args):
 @patch("builtins.input")
 def test_new_time_valid_input(*args):
     """
-    Test new_time if user input is valid.
+    Tests new_time() if user input is valid.
     """
     (mock_input, mock_time) = args
     user_input = mock_input.return_value = "10:00"
@@ -414,7 +414,7 @@ def test_new_time_valid_input(*args):
 
 def test_num_of_people_invalid_input():
     """
-    Test num_of_people if user input is invalid.
+    Tests num_of_people() if user input is invalid.
     """
     with patch("builtins.input") as mock_input:
         user_input = mock_input.return_value = "test"
@@ -423,7 +423,7 @@ def test_num_of_people_invalid_input():
 
 def test_num_of_people_valid_input():
     """
-    Test num_of_people if user input is valid.
+    Tests num_of_people() if user input is valid.
     """
     with patch("builtins.input") as mock_input:
         user_input = mock_input.return_value = "2"
@@ -432,7 +432,7 @@ def test_num_of_people_valid_input():
 
 def test_new_booking_date_returns_qx():
     """
-    Test new_booking if new_date returns "x" or "q".
+    Tests new_booking() if new_date returns "x" or "q".
     """
     customer = {'NAME': 'Customer', 'PHONE': '00 11111111111',
                 'EMAIL': 'mail@te.st', 'BD': '14-03-1967',
@@ -451,7 +451,7 @@ def test_new_booking_date_returns_qx():
 @patch("booking_sys.booking.new_date")
 def test_new_booking_time_returns_qx(*args):
     """
-    Test new_booking if new_time returns "x" or "q".
+    Tests new_booking() if new_time returns "x" or "q".
     """
     (mock_date, mock_time) = args
     customer = {'NAME': 'Customer', 'PHONE': '00 11111111111',
@@ -472,7 +472,7 @@ def test_new_booking_time_returns_qx(*args):
 @patch("booking_sys.booking.new_date")
 def test_new_booking_num_of_people_returns_qx(*args):
     """
-    Test new_booking if num_of_people returns "x" or "q".
+    Tests new_booking() if num_of_people returns "x" or "q".
     """
     (mock_date, mock_time, mock_ppl) = args
     customer = {'NAME': 'Customer', 'PHONE': '00 11111111111',
@@ -497,7 +497,7 @@ def test_new_booking_num_of_people_returns_qx(*args):
 @patch("booking_sys.booking.new_date", return_value="12-12-2022")
 def test_new_booking_completed(*args):
     """
-    Test new_booking if completed.
+    Tests new_booking() if completed.
     """
     (mock_date, mock_time, mock_ppl, mock_upd,
      mock_increment, mock_print) = args
@@ -520,7 +520,7 @@ def test_new_booking_completed(*args):
 
 def test_to_confirm():
     """
-    Test to_confirm.
+    Tests to_confirm().
     """
     test_data_not_conf = [{'DATE': today, 'TIME': '20:00',
                            'NAME': 'Name1', 'PEOPLE': '1', 'CREATED': "Bob",
@@ -538,7 +538,7 @@ def test_to_confirm():
 
 def test_edit_bookings_invalid_input():
     """
-    Test edit_bookings if user input is invalid.
+    Tests edit_bookings() if user input is invalid.
     """
     with patch("builtins.input") as mock_input:
         user_input = mock_input.return_value = "0"
@@ -551,7 +551,7 @@ def test_edit_bookings_invalid_input():
 @patch('booking_sys.booking.get_data')
 def test_edit_bookings_input_1(*args):
     """
-    Test edit_bookings if user input is "1".
+    Tests edit_bookings() if user input is "1".
     """
     mock_data, mock_active, mock_to_confirm, mock_confirm = (args)
     with patch("builtins.input") as mock_input:
@@ -568,7 +568,7 @@ def test_edit_bookings_input_1(*args):
 @patch("builtins.input")
 def test_edit_bookings_input_2(*args):
     """
-    Test edit_bookings if user input is "2".
+    Tests edit_bookings() if user input is "2".
     """
     mock_input, mock_find, mock_reschedule = (args)
 
@@ -601,7 +601,7 @@ def test_edit_bookings_input_2(*args):
 @patch("builtins.input")
 def test_edit_bookings_input_3(*args):
     """
-    Test edit_bookings if user input is "3".
+    Tests edit_bookings() if user input is "3".
     """
     mock_input, mock_find, mock_cancel = (args)
 
@@ -631,7 +631,7 @@ def test_edit_bookings_input_3(*args):
 
 def test_confirm():
     """
-    Test confirm if the argument is None.
+    Tests confirm() if the argument is None.
     """
     assert confirm(None) is None
 
@@ -641,7 +641,8 @@ def test_confirm():
 @patch("booking_sys.booking.print_bookings")
 def test_confirm_input_1(*args):
     """
-    Test confirm if the argument is not None, not empty and user input is "1".
+    Tests confirm() if the argument is not None,
+    not empty and user input is "1".
     """
     (mock_print, mock_input, mock_upd) = args
     test_data_to_conf = [{'DATE': today, 'TIME': '20:00', 'NAME': 'Name1',
@@ -661,7 +662,8 @@ def test_confirm_input_1(*args):
 @patch("booking_sys.booking.print_bookings")
 def test_confirm_input_2(*args):
     """
-    Test confirm if the argument is not None, not empty and user input is "2".
+    Tests confirm() if the argument is not None,
+    not empty and user input is "2".
     """
     (mock_print, mock_input) = args
     test_data_to_conf = [{'DATE': today, 'TIME': '20:00', 'NAME': 'Name1',
@@ -679,7 +681,8 @@ def test_confirm_input_2(*args):
 @patch("booking_sys.booking.print_bookings")
 def test_confirm_input_3(*args):
     """
-    Test confirm if the argument is not None, not empty and user input is "3".
+    Tests confirm() if the argument is not None,
+    not empty and user input is "3".
     """
     (mock_print, mock_input, mock_cancel) = args
     test_data_to_conf = [{'DATE': today, 'TIME': '20:00', 'NAME': 'Name1',
@@ -697,7 +700,7 @@ def test_confirm_input_3(*args):
 @patch("booking_sys.booking.print_bookings")
 def test_confirm_input_qx(*args):
     """
-    Test confirm if the argument is not None, not empty
+    Tests confirm() if the argument is not None, not empty
     and user input is "x" or "q".
     """
     (mock_print, mock_input) = args
@@ -719,7 +722,8 @@ def test_confirm_input_qx(*args):
 @patch("booking_sys.booking.print_bookings")
 def test_confirm_invalid_input(*args):
     """
-    Test confirm if the argument is not None, not empty and user input is "2".
+    Tests confirm() if the argument is not None,
+    not empty and user input is "2".
     """
     (mock_print_bookings, mock_input, mock_print) = args
     test_data_to_conf = [{'DATE': today, 'TIME': '20:00', 'NAME': 'Name1',
@@ -739,7 +743,7 @@ def test_confirm_invalid_input(*args):
 @patch("builtins.input")
 def test_update_date(*args):
     """
-    Test update_date with all possible scenarios.
+    Tests update_date() with all possible scenarios.
     """
     (mock_input, mock_valid_date, mock_dups) = args
     old_date = test_data[0]["DATE"]
@@ -779,7 +783,7 @@ def test_update_date(*args):
 @patch("booking_sys.booking.update_date")
 def test_reschedule_date_xq(*args):
     """
-    Test reschedule if update_date returns "x" or "q".
+    Tests reschedule() if update_date returns "x" or "q".
     """
     (mock_date,) = args
 
@@ -797,7 +801,7 @@ def test_reschedule_date_xq(*args):
 @patch("booking_sys.booking.update_date")
 def test_reschedule_time_qx(*args):
     """
-    Test reschedule if new_time returns "x" or "q".
+    Tests reschedule() if new_time returns "x" or "q".
     """
     (mock_date, mock_data, mock_active, mock_print, mock_time) = args
     user_date = mock_date.return_value = "12-12-2023"
@@ -828,7 +832,7 @@ def test_reschedule_time_qx(*args):
 @patch("booking_sys.booking.update_date")
 def test_reschedule_completed(*args):
     """
-    Test reschedule if completed.
+    Tests reschedule() if completed.
     """
     (mock_date, mock_data, mock_active, mock_print, mock_time, mock_upd) = args
     user_date = mock_date.return_value = "12-12-2023"
@@ -850,7 +854,7 @@ def test_reschedule_completed(*args):
 @patch("builtins.input")
 def test_find_bookings_invalid_name(*args):
     """
-    Test find_bookings if entered name is not in customers data.
+    Tests find_bookings() if entered name is not in customers data.
     """
     (mock_input, mock_data) = args
     mock_data.return_value = customers
@@ -866,7 +870,7 @@ def test_find_bookings_invalid_name(*args):
 @patch("builtins.input")
 def test_find_bookings_no_bookings(*args):
     """
-    Test find_bookings if there are no bookings for a valid name.
+    Tests find_bookings() if there are no bookings for a valid name.
     """
     (mock_input, mock_data, mock_bookings, mock_print_b, mock_print) = args
     mock_data.return_value = customers
@@ -888,7 +892,7 @@ def test_find_bookings_no_bookings(*args):
 @patch("builtins.input")
 def test_find_bookings_pick_returns_x(*args):
     """
-    Test find_bookings if pick_booking returns "x".
+    Tests find_bookings() if pick_booking returns "x".
     """
     (mock_input, mock_data, mock_bookings, mock_print_b, mock_pick) = args
     mock_data.return_value = customers
@@ -911,7 +915,7 @@ def test_find_bookings_pick_returns_x(*args):
 @patch("builtins.input")
 def test_find_bookings_completed(*args):
     """
-    Test find_bookings if completed.
+    Tests find_bookings() if completed.
     """
     (mock_input, mock_data, mock_bookings, mock_print_b, mock_pick) = args
     mock_data.return_value = customers
@@ -932,7 +936,7 @@ def test_find_bookings_completed(*args):
 @patch("builtins.input")
 def test_pick_bookings_date_returns_false(*args):
     """
-    Test pick_bookings id date_input returns False.
+    Tests pick_bookings() id date_input returns False.
     """
     (mock_input, mock_date, mock_print) = args
     user_input = mock_input.return_value = "Name2"
@@ -949,7 +953,7 @@ def test_pick_bookings_date_returns_false(*args):
 @patch("builtins.input")
 def test_pick_bookings_search_returns_none(*args):
     """
-    Test pick_bookings if search returns None.
+    Tests pick_bookings() if search returns None.
     """
     (mock_input, mock_date, mock_search) = args
     user_input = mock_input.return_value = "Name2"
@@ -966,7 +970,7 @@ def test_pick_bookings_search_returns_none(*args):
 @patch("builtins.input")
 def test_pick_bookings(*args):
     """
-    Test pick_bookings if search is successful.
+    Tests pick_bookings() if search is successful.
     """
     (mock_input, mock_date, mock_search) = args
     user_input = mock_input.return_value = "Name2"
@@ -982,7 +986,7 @@ def test_pick_bookings(*args):
 @patch("booking_sys.booking.update_data")
 def test_cancel(*args):
     """
-    Test cancel().
+    Tests cancel().
     """
     (mock_upd, mock_get_customer) = args
     mock_get_customer.return_value = customers[0]
@@ -998,7 +1002,7 @@ def test_cancel(*args):
 @patch("booking_sys.booking.cust_bookings")
 def test_has_duplicates(*args):
     """
-    Test has_duplicates().
+    Tests has_duplicates().
     """
     (mock_cust_bookings, mock_print, mock_print_bookings) = args
     mock_cust_bookings.return_value = customer_bookings
@@ -1015,7 +1019,7 @@ def test_has_duplicates(*args):
 @patch("booking_sys.booking.update_data")
 def test_increment_bookings(*args):
     """
-    Test increment_bookings().
+    Tests increment_bookings().
     """
     (mock_upd, ) = args
     new_number = str(int(customers[0]["NUM OF BOOKINGS"]) + 1)

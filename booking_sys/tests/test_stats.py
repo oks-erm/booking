@@ -24,7 +24,7 @@ from run import cleanup
                                           "dd-mm-yyyy format"))])
 def test_calculate_age(a, expected):
     """
-    Test calculate_age on different values and data types.
+    Tests calculate_age() on different values and data types.
     """
     assert calculate_age(a) == expected
 
@@ -32,7 +32,7 @@ def test_calculate_age(a, expected):
 @patch("booking_sys.stats.get_worksheet")
 def test_data_for_stats(*args):
     """
-    Test if a file with required data is created.
+    Tests if a file with required data is created.
     """
     (mock_worksheet, ) = args
     test_data = [['NAME', 'PHONE', 'EMAIL', 'BIRTHDATE'],

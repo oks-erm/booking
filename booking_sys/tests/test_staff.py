@@ -8,7 +8,7 @@ from booking_sys.staff import (create_staff, get_name, staff_menu,
 @patch("builtins.print")
 def test_create_staff_name_returns_x(*args):
     """
-    Tests create_staff if get_name returns "x".
+    Tests create_staff() if get_name returns "x".
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
@@ -25,7 +25,7 @@ def test_create_staff_name_returns_x(*args):
 @patch("builtins.print")
 def test_create_staff_password_returns_x(*args):
     """
-    Tests create_staff if input for password is "x".
+    Tests create_staff() if input for password is "x".
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
@@ -48,7 +48,7 @@ def test_create_staff_password_returns_x(*args):
 @patch("builtins.print")
 def test_create_staff_phone_returns_x(*args):
     """
-    Tests create_staff if new_phone returns "x".
+    Tests create_staff() if new_phone returns "x".
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
@@ -73,7 +73,7 @@ def test_create_staff_phone_returns_x(*args):
 @patch("builtins.print")
 def test_create_staff_phone_returns_q(*args):
     """
-    Tests create_staff if new_phone returns "x".
+    Tests create_staff() if new_phone returns "x".
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
@@ -99,7 +99,7 @@ def test_create_staff_phone_returns_q(*args):
 @patch("builtins.print")
 def test_create_staff_completed(*args):
     """
-    Tests create_staff if completed successfully.
+    Tests create_staff() if completed successfully.
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
@@ -127,7 +127,7 @@ def test_create_staff_completed(*args):
 @patch("builtins.input")
 def test_get_name_empty_string(*args):
     """
-    Test get_name if user input is an empty string.
+    Test get_name() if user input is an empty string.
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
@@ -143,7 +143,7 @@ def test_get_name_empty_string(*args):
 @patch("builtins.input")
 def test_get_name_existing_name(*args):
     """
-    Test get_name if user input is an existing name.
+    Test get_name() if user input is an existing name.
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
                  {'NAME': 'Name2', 'PASSWORD': '222', 'CONTACT': ''}]
@@ -160,7 +160,7 @@ def test_get_name_existing_name(*args):
 @patch("builtins.input")
 def test_get_name_valid_name(*args):
     """
-    Test get_name if user input is valid and
+    Test get_name() if user input is valid and
     name does not exist in provided data.
     """
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
@@ -176,7 +176,7 @@ def test_get_name_valid_name(*args):
 @patch("builtins.input")
 def test_staff_menu_invalid_input(*args):
     """
-    Test staff_menu if user input is invalid.
+    Test staff_menu() if user input is invalid.
     """
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
     (mock_input, ) = args
@@ -190,7 +190,7 @@ def test_staff_menu_invalid_input(*args):
 @patch("builtins.input")
 def test_staff_menu_input_1(*args):
     """
-    Test staff_menu if user input is "1".
+    Test staff_menu() if user input is "1".
     """
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
     (mock_input, mock_get_data, mock_staff_info) = args
@@ -205,7 +205,7 @@ def test_staff_menu_input_1(*args):
 @patch("builtins.input")
 def test_staff_menu_input_2(*args):
     """
-    Test staff_menu if user input is "2".
+    Test staff_menu() if user input is "2".
     """
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
     (mock_input, mock_edit_info) = args
@@ -219,7 +219,7 @@ def test_staff_menu_input_2(*args):
 @patch("builtins.input")
 def test_staff_info_menu_invalid_input(*args):
     """
-    Test staff_info_menu if user input is invalid.
+    Test staff_info_menu() if user input is invalid.
     """
     (mock_input, ) = args
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
@@ -233,7 +233,7 @@ def test_staff_info_menu_invalid_input(*args):
 @patch("builtins.input")
 def test_staff_info_menu_valid_input(*args):
     """
-    Test staff_info_menu if user input is valid.
+    Test staff_info_menu() if user input is valid.
     """
     (mock_input, mock_print_info) = args
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
@@ -251,7 +251,7 @@ def test_staff_info_menu_valid_input(*args):
 @patch("builtins.input")
 def test_edit_staff_menu_invalid_input(*args):
     """
-    Test edit_staff_menu if user input is invalid.
+    Test edit_staff_menu() if user input is invalid.
     """
     (mock_input, ) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
@@ -265,7 +265,7 @@ def test_edit_staff_menu_invalid_input(*args):
 @patch("builtins.input")
 def test_edit_staff_menu_input_1(*args):
     """
-    Test edit_staff_menu if user input is "1".
+    Test edit_staff_menu() if user input is "1".
     """
     (mock_input, mock_getpass, mock_update) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
@@ -280,7 +280,7 @@ def test_edit_staff_menu_input_1(*args):
 @patch("builtins.input", return_value="2")
 def test_edit_staff_menu_input_2(*args):
     """
-    Test edit_staff_menu if user input is "2".
+    Test edit_staff_menu() if user input is "2".
     """
     (mock_input, mock_update) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
@@ -295,7 +295,7 @@ def test_edit_staff_menu_input_2(*args):
 @patch("builtins.print")
 def test_print_staff_info(*args):
     """
-    Test print_staff_info with differetn arguments.
+    Test print_staff_info() with differetn arguments.
     """
     (mock_print, mock_search) = args
     test_data = [{'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''},
