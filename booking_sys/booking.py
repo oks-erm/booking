@@ -190,7 +190,7 @@ def num_of_people(*args):
     except ValueError:
         return False
     else:
-        return num
+        return str(num)
 
 
 def new_booking(user, customer):
@@ -320,9 +320,15 @@ def reschedule(booking):
     user_time = new_time()
     if user_time in ["x", "q"]:
         return user_time
+
+    num = num_of_people()
+    if num in ["x", "q"]:
+        return num
+
     if user_date != booking["DATE"]:
         update_data("bookings", booking, "DATE", user_date)
     update_data("bookings", booking, "TIME", user_time)
+    update_data("bookings", booking, "PEOPLE", num)
     return None
 
 

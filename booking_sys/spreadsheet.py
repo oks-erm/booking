@@ -83,7 +83,8 @@ def update_data(worksheet, obj, attr, value):
                 if obj["DATE"] in SHEET.worksheet(worksheet).row_values(r):
                     row = r
         SHEET.worksheet(worksheet).update_cell(row, col, ("'"+value))
-        print(f"\t\t{worksheet.capitalize()} info was successfully updated!")
+        print(f"\t\t{worksheet.capitalize()}({attr}) info was "
+              "successfully updated!")
         obj[attr] = value
         return obj
     except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError,
