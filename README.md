@@ -146,3 +146,50 @@ Date, time, phone, email and number data is validated throughout the app to ensu
 - **Database**
 
 Google Spreadsheet API is used as a database for the app. There are three worksheets to organise data: "bookings", "customers" and "staff".
+
+## Feature Considerations
+
+### Email or SMS reminders
+
+Customers will be able to receive reminders of upcoming bookings by a chanel of their choice.
+
+### Congratulations
+
+Customers birthdates are collected so birthday greetings could be sent, as well as promo offers for the date. Unfortunately, it was not possible under Heroku limitations. However could be achieved by setting up [IronMQ](https://elements.heroku.com/addons/iron_mq) service.
+
+# Technologies
+## Languages
+- Python, HTML, CSS
+## Programs, frameworks, libraries
+- [Gitpod](https://gitpod.io/) IDE to develop the app.
+- [GitHub](https://GitHub.com/) to host the source code 
+- [Heroku](https://www.heroku.com/) to deploy and host the live app.
+- Git to provide version control (to commit and push code to the repository). 
+- [Google Spreadsheets API](https://developers.google.com/sheets/api) to store data.
+- [Google Drive](https://developers.google.com/drive) to write an app to process requests to Spreadsheets.
+- [Pandas](https://pandas.pydata.org/) and [Matplotlib](https://matplotlib.org/) for statistic reports.
+- [Pytest](https://docs.pytest.org/en/7.1.x/) Pytest for unit-testing.
+- [TinyJPG](https://tinyjpg.com/) to optimise images for readme. 
+- [Favicon.io](https://www.favicon.io/) to create the website favicon.
+- [Techsini](https://tecnisih.com) to create the Mockup image in this README.
+- [W3C HTML Markup Validator](https://validator.w3.org/) to validate HTML code.
+- [W3C Jigsaw CSS Validator](https://jigsaw.w3.org/css-validator/) to validate CSS code.
+- [Markdown Tables Generator](https://www.tablesgenerator.com/) to generate tables for the readme file.
+- [PEP 8](http://pep8online.com/) to validate python code.
+- Code Institute's Python Template to generate the workspace for the project.
+___
+
+# Deployment
+
+## Heroku
+
+### Steps for deployment:
+
+1. Fork or clone this repository.
+2. Log into your account on Heroku.
+3. Create a new Heroku app.
+4. Navigate to `Settings` tab.
+5. Set up config vars.
+5. Set the buildbacks to `python` and `NodeJS` in that order.
+6. Configure GitHub integration in the `Deploy` tab.
+6. Click `Deploy branch`.
