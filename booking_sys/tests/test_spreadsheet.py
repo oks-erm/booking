@@ -136,7 +136,8 @@ def test_update_data(*args):
     test_obj = {'CONTACT': '003543243422', 'NAME': 'Bob', 'PASSWORD': '123'}
     attr = "PASSWORD"
     new_value = "321"
-    msg = f"\t\t{worksheet.capitalize()} info was successfully updated!"
+    msg = (f"\t\t{worksheet.capitalize()}({attr}) "
+           "info was successfully updated!")
 
     update_data(worksheet, test_obj, attr, new_value)
     assert test_obj[attr] == new_value
