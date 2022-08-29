@@ -427,7 +427,7 @@ def test_num_of_people_valid_input():
     """
     with patch("builtins.input") as mock_input:
         user_input = mock_input.return_value = "2"
-        assert num_of_people.__wrapped__(user_input) == int(user_input)
+        assert num_of_people.__wrapped__(user_input) == user_input
 
 
 def test_new_booking_date_returns_qx():
@@ -825,6 +825,7 @@ def test_reschedule_time_qx(*args):
 
 
 @patch("booking_sys.booking.update_data")
+@patch("booking_sys.booking.num_of_people")
 @patch("booking_sys.booking.new_time")
 @patch("booking_sys.booking.print_bookings")
 @patch("booking_sys.booking.active")
@@ -834,10 +835,12 @@ def test_reschedule_completed(*args):
     """
     Tests reschedule() if completed.
     """
-    (mock_date, mock_data, mock_active, mock_print, mock_time, mock_upd) = args
+    (mock_date, mock_data, mock_active, mock_print, mock_time,
+     mock_num, mock_upd) = args
     user_date = mock_date.return_value = "12-12-2023"
     bookings = mock_active.return_value = test_data
     time = mock_time.return_value = "10:00"
+    mock_num.return_value = "22"
 
     assert reschedule(test_data[0]) is None
     mock_date.assert_called()
