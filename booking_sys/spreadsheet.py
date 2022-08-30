@@ -23,9 +23,11 @@ def get_worksheet(worksheet):
     """
     try:
         data = SHEET.worksheet(worksheet).get_values()
+        if data is None:
+            raise ValueError
         return data
     except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError,
-            gspread.exceptions.WorksheetNotFound):
+            gspread.exceptions.WorksheetNotFound, ValueError):
         print("\nSorry, something went wrong accessing database.")
         user_input = input("press 1 - Try again\npress x - Exit\n")
         if user_input == "1":
