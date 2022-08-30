@@ -270,7 +270,9 @@ ___
 The app was manually tested in Chrome, Safari and Firefox on MacBook.
 
 ### Bugs detected:
-- I often have issues with internet connection, normally it goes by handling exception scenario. However, sometimes when connection gets interrupted during the response from Spreadsheets that is considered successfull but the data is not received, so it does not fall under the exception and response results into None, which crashes the program. I could replicate it twice.
+#1 - I often have issues with internet connection, normally it goes by handling exception scenario. However, sometimes when connection gets interrupted during the response from Spreadsheets that is considered successfull but the data is not received, so it does not fall under the exception and response results into None, which crashes the program. I could replicate it twice.
+
+Solution: raise an Error if response is None, so it falls under exception.
 
 
 ## Unit testing
