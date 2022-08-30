@@ -12,8 +12,9 @@ KEYS = get_data("customers")[0]
 
 def search(value, attr, data):
     """
-    Find and returns an element from data
-    that has a requested value of NAME.
+    Finds and returns an element from data
+    that has a requested value of attr or
+    None if there are none.
     """
     for element in data:
         if element.get(attr) == value:
@@ -36,17 +37,17 @@ def get_customer(name):
               "Invalid input. Please, use options above.")
 def customers_menu(*args):
     """
-    Displays Customers Menu.
+    Displays Customers Menu. Takes in user_input(str).
     """
-    user_input = args[0]
+    (user_input, ) = args
     if user_input == "1":
         return view_customer(user_input)
     if user_input == "2":
         stats.data_for_stats()
         stats.customers_stats()
         print("\tYour stats is ready! Check your Reports folder.")
-        return None
-    return False
+        return None  # to stay in the loop of the current menu
+    return False  # for invalid input
 
 
 @loop_menu_qx("\t\t",
@@ -56,26 +57,31 @@ def customers_menu(*args):
               "Customer doesn't exist.")
 def view_customer(*args):
     """
-    Checks the request and to print out the customer
-    and calls print_customer.
+    Takes in a name(str). Checks the request and prints
+    out the customer info.
     """
-    name = args[0]
+    (name, ) = args
     customers = get_data("customers")
     customer = get_customer(name)
     if customer is not None:
         print_customer(customer)
         return True
+        # to make decorator return None and stay
+        # in the loop of the parent menu
     if name == "all":
         for item in customers:
             print_customer(item)
         return True
-    return False
+        # to make decorator return None and stay
+        # in the loop of the parent menu
+    return False  # for invalid input
 
 
 @pretty_print
 def print_customer(customer):
     """
-    Prints out information about the requested customer.
+    Takes in a customer(dict). Prints out information
+    about the requested customer.
     """
     print(f"\t{customer['NAME']} - {customer['PHONE']}, "
           f"birthday: {customer['BD']}\n"
@@ -89,10 +95,10 @@ def print_customer(customer):
               "Invalid input. Please, use options above.")
 def find_customer(*args):
     """
-    Returns a customer if exists or offers to create a new one.
-    Allows to input again in case of a typo.
+    Takes in iser_input(str). Returns a customer if exists
+    or offers to create a new one.
     """
-    name = args[0]
+    (name, ) = args
     customer = get_customer(name)
     if customer is None:
         print(f"\tCustomer '{name}' does not exist.")
@@ -101,10 +107,13 @@ def find_customer(*args):
             if user_input == "y":
                 customer = create_customer(name)
                 if customer == "x":
-                    return True  # if it returns x, the loop continues
+                    return True
+                    # if it returns x, the loop continues
+                    # to make decorator return None and stay
+                    # in the loop of the parent menu
                 return customer
             if user_input == "n":
-                return None
+                return None  # to stay in the current loop
             print("\n\tInvalid input. Please, use options above.\n")
     return customer
 
@@ -115,10 +124,12 @@ def find_customer(*args):
               "Invalid input. Please, enter a valid phone number.")
 def new_phone(*args):
     """
-    Accepts user input and validates phone number.
+    Takes in user_input(str) and validates phone number.
+    Returns valid phone number or False for invalid input.
     """
-    if valid.phone_num(args[0]):
-        return args[0]
+    (user_input, ) = args
+    if valid.phone_num(user_input):
+        return user_input
     return False
 
 
@@ -128,10 +139,12 @@ def new_phone(*args):
               "Invalid input. Please, enter a valid email.")
 def new_email(*args):
     """
-    Accepts user input and validates email.
+    Takes in user_input(str) and validates email.
+    Returns valid phone number or False for invalid input.
     """
-    if valid.email(args[0]):
-        return args[0].encode('utf-8')
+    (user_input, ) = args
+    if valid.email(user_input):
+        return user_input.encode('utf-8')
     return False
 
 
@@ -141,9 +154,11 @@ def new_email(*args):
               "Invalid input. Please, enter a valid date.")
 def new_birthdate(*args):
     """
-    Accepts user input and validates email.
+    Takes in user_input(str) and validates birthdate.
+    Returns valid phone number or False for invalid input.
     """
-    bday = valid.birthdate(args[0])
+    (user_input, ) = args
+    bday = valid.birthdate(user_input)
     if bday:
         return bday
     return False
@@ -151,10 +166,10 @@ def new_birthdate(*args):
 
 def create_customer(name):
     """
-    Creates a new customer with a parameter 'name' and writes
-    it to the spreadsheet.
+    Takes in a name(str). Creates a new customer with
+    a parameter 'name' and writes it to the Spreadsheet.
+    Returns a new customer(dict).
     """
-    new_name = name
     print("\n\t\tCreate a new customer:")
     phone = new_phone()
     if phone in ["x", "q"]:
@@ -166,6 +181,6 @@ def create_customer(name):
     if birthday in ["x", "q"]:
         return birthday
     # process data and update spreadsheet
-    new_data = [new_name, phone, email.decode('utf-8'), birthday, 1, 0]
+    new_data = [name, phone, email.decode('utf-8'), birthday, 1, 0]
     update_worksheet(new_data, "customers")
     return dict(zip(KEYS, new_data))

@@ -39,6 +39,8 @@ def loop_menu_qx(indentation, qx_text, input_prompt, warning):
                 return user_input
             if result is not True:
                 return result
+            # to break a current loop but stay
+            # in the loop of the parent menu
             return None
         return wrap_func
     return decorator

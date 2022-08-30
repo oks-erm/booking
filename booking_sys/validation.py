@@ -28,8 +28,8 @@ def convert_date(new_date):
 
 def date_input(new_date):
     """
-    Validates if date is correct dd mm yyyy format and
-    it's not from the past. Returns valid date in a valid
+    Validates if a date is correct dd mm yyyy format and
+    it's not from the past. Returns a valid date in a valid
     format or False.
     """
     try:
@@ -45,8 +45,8 @@ def date_input(new_date):
 
 def birthdate(new_date):
     """
-    Validates if date is correct dd mm yyyy format.
-    Returns valid date in a valid format or False.
+    Validates if a date is correct dd mm yyyy format.
+    Returns a valid date in a valid format or False.
     """
     try:
         f_date = convert_date(new_date)
@@ -88,7 +88,7 @@ def email(user_email):
 
 def phone_num(user_phone):
     """
-    Validates phone number. Force start with a plus
+    Validates a phone number. Force start with a plus
     or two zeros. White space, brackets, minus and
     point are optional, no other characters allowed.
     Returns boolean.

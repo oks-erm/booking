@@ -42,8 +42,8 @@ def calculate_age(birthdate):
         today = date.today()
         if bddate > today:
             return "This date is from the future. Can't calculate age."
-        age = (today.year - bddate.year
-               - ((today.month, today.day) < (bddate.month, bddate.day)))
+        age = (today.year - bddate.year -
+               ((today.month, today.day) < (bddate.month, bddate.day)))
         return str(age)
     except TypeError:
         return "Argument should be str"

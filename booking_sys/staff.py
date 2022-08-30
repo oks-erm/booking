@@ -12,7 +12,8 @@ KEYS = get_data("staff")[0]
 
 def create_staff(data):
     """
-    Creates a new member of Staff
+    Creates a new member of staff. Takes in current staff data.
+    Returns a new member of staff(dict).
     """
     print("\n~ ~ x - <== ~ ~")
     user_name = get_name(data)
@@ -32,8 +33,8 @@ def create_staff(data):
 
 def get_name(data):
     """
-    Accepts user input and checks if it is empty
-    or already exists.
+    Takes in staff data, accepts user input and checks if it
+    is empty or already exists. Returns a valid name.
     """
     while True:
         name = input("Enter a name for a new member of staff: ")
@@ -52,15 +53,15 @@ def get_name(data):
               "Invalid input. Please, use options above.")
 def staff_menu(*args):
     """
-    Displays staff menu.
+    Takes in user_input(str) and a user(dict). Displays staff menu.
     """
-    user_input, user = (args)
+    (user_input, user) = args
     if user_input == "1":
         all_staff = get_data("staff")
         return staff_info_menu(all_staff)
     if user_input == "2":
         return edit_staff_menu(user)
-    return False
+    return False  # for invalid input
 
 
 @loop_menu_qx("\t\t",
@@ -70,13 +71,17 @@ def staff_menu(*args):
               "Invalid input. Please, use options above.")
 def staff_info_menu(*args):
     """
-    Prints info about members of staff: search by name of a full list.
+    Takes in a name(str) and data(list of dictionaries).
+    Prints info about members of staff: searches by name
+    or a full list.
     """
-    name, data = (args)
+    (name, data) = args
     if name in [dict['NAME'] for dict in data] or name == "all":
         print_staff_info(name, data)
+        # to make decorator return None and stay
+        # in the loop of the parent menu
         return True
-    return False
+    return False  # for invalid input
 
 
 @loop_menu_qx("\t\t",
@@ -86,11 +91,11 @@ def staff_info_menu(*args):
               "Invalid input. Please, use options above.")
 def edit_staff_menu(*args):
     """
-    Edits the current user: password or contact.
-    Updates spreadsheet and returns an updated user
-    dictionary.
+    Takes in user_input(str) and a user(dict). Edits
+    the current user: password or contact. Updates the
+    Spreadsheet and returns an updated user dictionary.
     """
-    user_input, user = (args)
+    (user_input, user) = args
     if user_input in ["1", "2"]:
         if user_input == "2":
             attr = "CONTACT"
@@ -99,15 +104,17 @@ def edit_staff_menu(*args):
             attr = "PASSWORD"
             new_value = getpass.getpass("\n\t\tNew password: ")
         update_data("staff", user, attr, new_value)
+        # to make decorator return None and stay
+        # in the loop of the parent menu
         return True
-    return False
+    return False  # for invalid input
 
 
 @pretty_print
 def print_staff_info(user_input, staff):
     """
-    Prints a name and a contact number of a member
-    of staff. Takes user input and staff data as params.
+    Prints a name and a contact number of a member of staff.
+    Takes in user_input(str) and staff data(list of dictionaries).
     """
     if user_input == "all":
         for item in staff:

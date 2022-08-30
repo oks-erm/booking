@@ -19,7 +19,8 @@ SHEET = GSPREAD_CLIENT.open('My_booking')
 
 def get_worksheet(worksheet):
     """
-    Fetches staff data from Google Spreadsheet
+    Fetches staff data from Google Spreadsheet. Returns
+    a list of dictionaries.
     """
     try:
         data = SHEET.worksheet(worksheet).get_values()
@@ -39,7 +40,8 @@ def get_worksheet(worksheet):
 
 def update_worksheet(data, worksheet):
     """
-    Writes data passed as an argument to a worksheet passed as an argument.
+    Writes data passed as an argument to a worksheet
+    passed as an argument.
     """
     try:
         SHEET.worksheet(worksheet).append_row(data)
@@ -73,13 +75,14 @@ def update_data(worksheet, obj, attr, value):
     """
     Updates values of given objects on given worksheet.
     Takes three arguments: (object to update, attribute to update,
-    new value)).
+    new value).
     """
     try:
         row = SHEET.worksheet(worksheet).find(obj["NAME"]).row
         col = SHEET.worksheet(worksheet).find(attr).col
         if worksheet == "bookings":
             cell_list = SHEET.worksheet(worksheet).findall(obj["NAME"])
+            # find a row
             rows = [cell.row for cell in cell_list]
             for r in rows:
                 if obj["DATE"] in SHEET.worksheet(worksheet).row_values(r):
