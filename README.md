@@ -217,6 +217,7 @@ Customers birthdates are collected with a purpose of sending birthday greetings,
 - [W3C Jigsaw CSS Validator](https://jigsaw.w3.org/css-validator/) to validate CSS code.
 - [Markdown Tables Generator](https://www.tablesgenerator.com/) to generate tables for the readme file.
 - [PEP 8](http://pep8online.com/) to validate python code.
+- [LucidChart](https://lucid.app/documents#/dashboard)
 - Code Institute's Python Template to generate the workspace for the project.
 ___
 
@@ -236,8 +237,6 @@ ___
 6. Click `Deploy branch`.
 
 ___
-
-
 
 # Testing
 
@@ -277,7 +276,7 @@ Solution: raise an Error if response is None, so it falls under exception.
 
 ## Unit testing
 
-Feature testing was performed through automated unit testing using Pytest.
+Feature testing was performed through automated unit-testing using [Pytest](https://docs.pytest.org/en/7.1.x/contents.html).
 To run the tests: install the project's dependencies (`pip install -r requirements.txt`) and use the command `pytest` in the terminal. 
 
 Find the screenshots below:
@@ -298,3 +297,36 @@ CSS Stylesheet was run through CSS Validator. No errors were detected.
 3. **[PEP 8](http://pep8online.com/) - Python Validation**
 
 All pages were run through PEP 8. No errors were detected.
+
+
+___
+
+# Credits
+
+## Media
+
+- Background image is by @patrick-schneider from [Unsplash](https://unsplash.com).
+- favicon.ico was created by me. 
+
+## Code
+
+- Guidance on Python 3 was obtained from [Python Documentation](https://docs.python.org/3/).
+- Deeper understanding of Python and Data Science basics was obtained from [ZTM Python Course](https://zerotomastery.io/courses/learn-python/).
+- Deeper understanding of Python and testing was obtained from [CS50's Introduction to Programming with Python](https://cs50.harvard.edu/python/2022/weeks/5/).
+- Understanding of Google Spreadsheet API was obtained from [Gspred Documentation](https://docs.gspread.org/en/latest/index.html).
+- Understanding of Pytest was obtained from [Pytest Documentation](https://docs.pytest.org/en/7.1.x/contents.html).
+- Understanding of mocking was obtained from [Unittest Documentation](https://docs.python.org/3/library/unittest.mock.html#module-unittest.mock).
+- Guidance on mocking in Python testing was obtained from [realpython.com](https://realpython.com/python-mock-library/).
+- Guidance on mocking in Python testing was obtained from [toptal.com](https://www.toptal.com/python/an-introduction-to-mocking-in-python).
+- Code snippet for email validation was taken from [geeksforgeeks.org](https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/).
+- Code snippet for date string validation is taken from [Stackoverflow](https://stackoverflow.com/questions/16870663/how-do-i-validate-a-date-string-format-in-python).
+- Code snippet for phone number validation is taken from [Stackoverflow](https://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number).
+- Understanding of Matplotlib was obtained from [Matplotlib Documentation](https://matplotlib.org/stable/index.html).
+- Understanding of Matplotlib was obtained from [stackabuse.com](https://stackabuse.com/matplotlib-histogram-plot-tutorial-and-examples/).
+- Guidance on saving multiple figures in Matplotlib and code snippet were obtained from [here](https://www.tutorialspoint.com/saving-multiple-figures-to-one-pdf-file-in-matplotlib).
+- Understanding of different figures in Matplotlib were obtained from [here](https://books.google.pt/books?id=kOU6EAAAQBAJ&pg=RA2-PA15&lpg=RA2-PA15&dq=matplotlib+pie+chart+group+data+cut&source=bl&ots=2eoeGMK_OT&sig=ACfU3U2iv6akCDShJDhth9weHnROphlfYg&hl=en&sa=X&ved=2ahUKEwiq8uiyraj5AhUEgM4BHVUUAdUQ6AF6BAgmEAM#v=onepage&q=matplotlib%20pie%20chart%20group%20data%20cut&f=false).
+
+
+## Acknowledgements
+
+I would like to thank CI Slack Community and my mentor, Ronan McClelland, for guidance, moral support and patience. 
