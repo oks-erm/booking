@@ -124,7 +124,7 @@ def test_print_customer():
                  'NUM OF BOOKINGS': '14', 'CANCELLED': '8'}
     text = (f"\t{test_data['NAME']} - {test_data['PHONE']}, "
             f"birthday: {test_data['BD']}\n"
-            f"\tbookings history: {test_data['NUM OF BOOKINGS']},"
+            f"\tbookings history: {test_data['NUM OF BOOKINGS']}, "
             f"cancelled: {test_data['CANCELLED']}")
     with patch("builtins.print") as mock_print:
         print_customer.__wrapped__(test_data)
@@ -202,7 +202,7 @@ def test_new_email():
     """
     with patch("booking_sys.validation.email") as mock_email:
         user_input = "test"
-        result = user_input.encode('utf-8')
+        result = user_input
 
         mock_email.return_value = True
         assert new_email.__wrapped__(user_input) == result
@@ -302,14 +302,14 @@ def test_create_customer_completed(*args):
     name = "Name"
     text = "\n\t\tCreate a new customer:"
     phone = mock_new_phone.return_value = "0011111111"
-    mock_new_email.return_value = "test@te.st".encode('utf-8')
+    mock_new_email.return_value = "test@te.st"
     email = mock_new_email.return_value
     birthdate = mock_birthdate.return_value = "10-10-2000"
     result = create_customer(name)
 
     assert name in result.values()
     assert phone in result.values()
-    assert email.decode('utf-8') in result.values()
+    assert email in result.values()
     assert birthdate in result.values()
     assert isinstance(result, dict)
     mock_new_email.assert_called()

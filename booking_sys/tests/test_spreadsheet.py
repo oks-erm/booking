@@ -76,7 +76,7 @@ def test_update_worksheet(*args):
     update_worksheet([[]], "name")
     mock_worksheet.assert_called()
     mock_append.assert_called()
-    print_mock.assert_called_with("\n\t\tSaved successfully!\n")
+    print_mock.assert_called_with("\n\t\tSaved successfully!")
 
 
 @patch("builtins.print")

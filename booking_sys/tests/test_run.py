@@ -33,7 +33,7 @@ def test_start_menu_input_1(*args):
     """
     (mock_print, mock_input, mock_bookings, mock_exit) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
-    msg = f"\nWhat do you want to do, {user['NAME']}?"
+    msg = f"What do you want to do, {user['NAME']}?"
     mock_exit.return_value = False
     mock_input.side_effect = ["1", "x"]
 
@@ -52,7 +52,7 @@ def test_start_menu_input_2(*args):
     """
     (mock_print, mock_input, mock_customer, mock_exit) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
-    msg = f"\nWhat do you want to do, {user['NAME']}?"
+    msg = f"What do you want to do, {user['NAME']}?"
     mock_exit.return_value = False
     mock_input.side_effect = ["2", "x"]
 
@@ -71,7 +71,7 @@ def test_start_menu_input_3(*args):
     """
     (mock_print, mock_input, mock_staff, mock_exit) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
-    msg = f"\nWhat do you want to do, {user['NAME']}?"
+    msg = f"What do you want to do, {user['NAME']}?"
     mock_exit.return_value = False
     mock_input.side_effect = ["3", "x"]
 
@@ -90,7 +90,7 @@ def test_start_menu_input_x(*args):
     """
     (mock_print, mock_input, mock_cleanup, mock_exit) = args
     user = {'NAME': 'Name1', 'PASSWORD': '111', 'CONTACT': ''}
-    msg = f"\nWhat do you want to do, {user['NAME']}?"
+    msg = f"What do you want to do, {user['NAME']}?"
     mock_exit.return_value = False
     mock_input.return_value = "x"
 

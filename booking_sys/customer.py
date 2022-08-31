@@ -85,7 +85,7 @@ def print_customer(customer):
     """
     print(f"\t{customer['NAME']} - {customer['PHONE']}, "
           f"birthday: {customer['BD']}\n"
-          f"\tbookings history: {customer['NUM OF BOOKINGS']},"
+          f"\tbookings history: {customer['NUM OF BOOKINGS']}, "
           f"cancelled: {customer['CANCELLED']}")
 
 
