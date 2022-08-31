@@ -34,7 +34,7 @@ def staff_login(data):
     Logs in a member of staff. Takes staff data
     list of dictionaries. Returns user(dict).
     """
-    print("\n\n\t\tWelcome to Your Booking System!\n")
+    print("\n\t\tWelcome to Your Booking System!")
     while True:
         entered_name = input("\nEnter your name or enter 'new' "
                              "if you are a new member of staff: ")

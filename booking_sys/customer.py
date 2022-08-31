@@ -41,7 +41,7 @@ def customers_menu(*args):
     """
     (user_input, ) = args
     if user_input == "1":
-        return view_customer(user_input)
+        return view_customer()
     if user_input == "2":
         stats.data_for_stats()
         stats.customers_stats()
@@ -150,7 +150,7 @@ def new_email(*args):
 
 @loop_menu_qx("\t\t",
               "",
-              "Date of birth: ",
+              "Date of birth (dd-/.mm-/.yyyy): ",
               "Invalid input. Please, enter a valid date.")
 def new_birthdate(*args):
     """

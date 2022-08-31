@@ -14,7 +14,7 @@ def start_menu(user):
     Takes in a user(dict). Displays start menu after 
     the user is logged in.
     """
-    print(f"\nWhat do you want to do, {user['NAME']}?")
+    print(f"What do you want to do, {user['NAME']}?")
     while True:
         user_inp = input("\npress 1 - Bookings\n"
                          "press 2 - Customers\n"

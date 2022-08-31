@@ -340,6 +340,7 @@ def reschedule(booking):
     if num in ["x", "q"]:
         return num
 
+    print("\t\tSaving .....")
     if user_date != booking["DATE"]:
         update_data("bookings", booking, "DATE", user_date)
     update_data("bookings", booking, "TIME", user_time)
