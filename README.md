@@ -283,7 +283,7 @@ The app was manually tested in Chrome, Safari and Firefox on MacBook.
 
 Solution: raise an Error if a response is None, so it falls under the exception.
 
-#2 - If by mistake "£" symbol gets entered into requesting email input, even if is deleted and the correct "@" symbol is entered instead, the program throws `UnicodeDecodeError`. It looks like does not get deleted, because the error says it's there `0xC2`. 
+#2 - If by mistake "£" symbol gets entered into requesting email input, even if is deleted and the correct "@" symbol is entered instead, the program throws `UnicodeDecodeError`. 
 
 ![](readme/error.png)   
 
