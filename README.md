@@ -234,6 +234,8 @@ ___
 
 # Deployment
 
+
+
 ## Heroku
 
 ### Steps for deployment:
@@ -283,16 +285,6 @@ The app was manually tested in Chrome, Safari and Firefox on MacBook.
 
 Solution: raise an Error if a response is None, so it falls under the exception.
 
-#2 - If by mistake "£" symbol gets entered into requesting email input, even if is deleted and the correct "@" symbol is entered instead, the program throws `UnicodeDecodeError`. In UTF-8, the pound sign is encoded as two bytes: `0xc2 0xa3`, for some reason it is interpreted the way that each byte is mapped to a character instead, the following happens:
-
-0xc2 displays as Â
-0xa3 displays as £
-
-So here's `0xc2` that we have in the error.
-
-![](readme/error.png)   
-
-If you delete "£" and a preceding character and continue entering a valid email, everything is fine. 
 
 ## Unit testing
 
@@ -300,7 +292,9 @@ Feature testing was performed through automated unit-testing using [Pytest](http
 To run the tests: install the project's dependencies (`pip install -r requirements.txt`) and use the command `pytest` in the terminal. 
 Find the screenshots below:
 
-![tests](readme/features/tests.png)
+![tests](readme/tests.png)
+
+![coverage report](readme/cov_report.png)
 
 
 ## Automated Testing
