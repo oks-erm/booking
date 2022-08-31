@@ -299,7 +299,7 @@ def confirm(bookings):
 
 @loop_menu_qx("\t\t",
               "",
-              "Enter a new date(dd-/.mm-/.yyyy) "
+              "Enter a new date(dd-/.mm-/.yyyy)\n"
               "(leave empty if no change): ",
               "Invalid date.")
 def update_date(*args):
