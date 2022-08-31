@@ -203,6 +203,8 @@ ___
 
 # Flowchart
 
+![flowchart](readme/flowchart.png)
+
 ___
 
 # Technologies
