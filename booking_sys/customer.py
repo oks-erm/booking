@@ -144,7 +144,7 @@ def new_email(*args):
     """
     (user_input, ) = args
     if valid.email(user_input):
-        return user_input.encode('utf-8')
+        return user_input
     return False
 
 
@@ -181,6 +181,6 @@ def create_customer(name):
     if birthday in ["x", "q"]:
         return birthday
     # process data and update spreadsheet
-    new_data = [name, phone, email.decode('utf-8'), birthday, 1, 0]
+    new_data = [name, phone, email, birthday, 1, 0]
     update_worksheet(new_data, "customers")
     return dict(zip(KEYS, new_data))

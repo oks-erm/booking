@@ -11,7 +11,7 @@ from booking_sys import auth
 
 def start_menu(user):
     """
-    Takes in a user(dict). Displays start menu after 
+    Takes in a user(dict). Displays start menu after
     the user is logged in.
     """
     print(f"What do you want to do, {user['NAME']}?")
