@@ -58,7 +58,7 @@ def data_for_stats():
     data = get_worksheet("customers")
     for item in data[1:]:
         item[3] = calculate_age(item[3])
-    with open("stats.csv", "w", newline="") as file:
+    with open("stats.csv", "w", encoding='utf-8', newline="") as file:
         file.truncate()
         writer = csv.writer(file)
         writer.writerows(data)
