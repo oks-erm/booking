@@ -28,7 +28,7 @@ def get_worksheet(worksheet):
             raise ValueError
         return data
     except (gspread.exceptions.GSpreadException, gspread.exceptions.APIError,
-            gspread.exceptions.WorksheetNotFound, ValueError):
+            gspread.exceptions.WorksheetNotFound, ValueError, TypeError):
         print("\nSorry, something went wrong accessing database.")
         user_input = input("press 1 - Try again\npress x - Exit\n")
         if user_input == "1":
@@ -56,7 +56,7 @@ def update_worksheet(data, worksheet):
         if user_input == "x":
             print("Your data was not saved.")
     else:
-        print("\n\t\tSaved successfully!\n")
+        print("\n\t\tSaved successfully!")
 
 
 def get_data(worksheet):
