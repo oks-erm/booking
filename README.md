@@ -179,9 +179,9 @@ Allows changing the user's password or a contact phone number to ensure contact 
 
 Date, time, phone, email and number data are validated throughout the app to ensure only correct format valid data is saved to the database.
 
-- **Database**
+- **Google Spreadsheet**
 
-Google Spreadsheet API is used as a database for the app. There are three worksheets to organise data: "bookings", "customers", and "staff".
+Google Spreadsheet API is used to persist data for the app. There are three worksheets to organise data: "bookings", "customers", and "staff".
 
 - **Web page**
 
@@ -203,6 +203,9 @@ Customers' birthdates are collected to send birthday greetings as well as promo 
 ___
 
 # Flowchart
+
+`x` - one step back to the previous menu
+`q` - back 'home' to the start menu
 
 ![flowchart](readme/flowchart.png)
 
@@ -234,9 +237,28 @@ ___
 
 # Deployment
 
+## Github
+The project was created by navigating to the CI template and clicking 'Use this template'. After a new repository was given a name, I navigated to Gitpod, where the entire project was developed. 
 
+## Version control
+Git was used for version control. The following commands were used throughout the project:
+
+dit add . - new (or untracked), deleted and modified files are added to Git staging area
+git add <filename> - a specified file is added to Git staging area
+git reset - to unstage all files (remove from Git staging area)
+git reset -- <filename> - to unstage a specified file
+git commit -m "commit message" - to commit changes to the local repository
+git push - to push all committed changes to the GitHub repository
+git pull - to pull the changes from the remote branch and integrate them with the current local branch
+git status - to display the state of the working directory and the staging area
+git branch - to display all of the branches in the repository
+git checkout -b <branch-name> - to create a new branch
+git checkout <branchname> - to switch to the specified branch
+git log - to display commits
+git revert <first 6 digits of the commit ref>- to "undo" changes, the revert command adds a new commit at the end of the chain to "cancel" changes to the state of the specified commit. This prevents Git from losing history, which is important for the integrity of your revision history and for reliable collaboration.
 
 ## Heroku
+Heroku was used to host the app. Heroku is a container-based cloud Platform for building, deploying and managing apps. 
 
 ### Steps for deployment:
 
@@ -244,9 +266,9 @@ ___
 2. Log into your account on Heroku.
 3. Create a new Heroku app.
 4. Navigate to `Settings` tab.
-5. Set up config vars.
+5. Set up environmental variables in `config vars` section. In this case, it's CREDS(credentials of Google service account) and PORT(value 8000).
 5. Set the buildbacks to `python` and `NodeJS` in that order.
-6. Configure GitHub integration in the `Deploy` tab.
+6. Configure GitHub integration, choose `main` branch in the `Deploy` tab.
 6. Click `Deploy branch`.
 
 ___
