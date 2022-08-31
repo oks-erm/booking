@@ -1,5 +1,5 @@
 """
-Functions related to statistics report.
+Functions related to statistical report.
 """
 import csv
 from datetime import date, datetime

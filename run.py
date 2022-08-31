@@ -1,5 +1,5 @@
 """
-Main module, includes ...
+Main module.
 """
 import sys
 import os
@@ -11,7 +11,8 @@ from booking_sys import auth
 
 def start_menu(user):
     """
-    Displays start menu after the user is logged in.
+    Takes in a user(dict). Displays start menu after 
+    the user is logged in.
     """
     print(f"\nWhat do you want to do, {user['NAME']}?")
     while True:
