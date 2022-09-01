@@ -19,6 +19,8 @@
   * [Languages](#languages)
   * [Programs, frameworks, libraries](#programs,-frameworks,-libraries)
 
+* [Data Model](#data-model)
+
 * [Deployment](#deployment)
 
 * [Testing](#testing)
@@ -175,6 +177,10 @@ Allows to search for staff members by name or view the complete list if needed.
 
 Allows changing the user's password or a contact phone number to ensure contact information is always up to date.
 
+- **Decorators**
+
+The nature of the app required multiple while loops, to optimise and reuse code I created a while loop decorator that handles basic cases, such as invalid input, "x" to go back to the previous menu and "q" to return to the start menu. 
+
 - **Data Validation**
 
 Date, time, phone, email and number data are validated throughout the app to ensure only correct format valid data is saved to the database.
@@ -208,6 +214,15 @@ ___
 `q` - back 'home' to the start menu
 
 ![flowchart](readme/flowchart.png)
+
+___
+
+# Data Model
+
+Initially, I attempted using classes to build this app, but, during the development, it turned out that the functional programming paradigm suited this project well too, and made the code more compact. The project heavily relies on persisted data from Spreadsheets; it doesn't undergo many manipulations and mostly gets fetched or written to the Spreadsheet.
+
+Instead of initially intended classes, the use of dictionaries (with keys as Spreadsheet column titles and respective values) to represent objects appeared quite reasonable.
+So the organisation of Google Spreadsheet worksheets determines the data organisation. 
 
 ___
 
