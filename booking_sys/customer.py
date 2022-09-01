@@ -120,7 +120,7 @@ def find_customer(*args):
 
 @loop_menu_qx("\t\t",
               "",
-              "Contact number: ",
+              "Contact number (start with 00 or +): ",
               "Invalid input. Please, enter a valid phone number.")
 def new_phone(*args):
     """
